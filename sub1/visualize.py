@@ -11,7 +11,8 @@ def set_config():
     # 폰트, 그래프 색상 설정
     font_list = fm.findSystemFonts(fontpaths=None, fontext="ttf")
     if any(["notosanscjk" in font.lower() for font in font_list]):
-        plt.rcParams["font.family"] = "Noto Sans CJK JP"
+        # plt.rcParams["font.family"] = "Noto Sans CJK JP"
+        plt.rcParams["font.family"] = "AppleGothic" # 제 작업환경이 맥인 관계로 이부분 주석하고 윗부분 주석해제 하시면 됩니다.
     else:
         if not any(["malgun" in font.lower() for font in font_list]):
             raise Exception(
