@@ -51,28 +51,28 @@ def show_store_categories_graph(dataframes, n=100):
     chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
     plt.title("음식점 카테고리 분포")
     plt.show()
-
+    
 
 def show_store_review_distribution_graph(dataframes):
     """
     Req. 1-3-1 전체 음식점의 리뷰 개수 분포를 그래프로 나타냅니다. 
     """
 
-    # stores_reviews = pd.merge(
-    #     dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
-    # )
+    stores_reviews = pd.merge(
+        dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
+    )
 
-    # best_reviews = stores_reviews.groupby(["store", "store_name"]).count()
+    best_reviews = stores_reviews.groupby(["store", "store_name"]).count()
 
-    # print(best_reviews)    
+    print(best_reviews)    
 
-    # # 그래프로 나타냅니다
-    # chart = sns.barplot(x="store", y="count", data=best_reviews)
-    # chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
-    # plt.title("음식점 리뷰 개수 분포")
-    # plt.show()
+    # 그래프로 나타냅니다
+    chart = sns.barplot(x="store", y="count", data=best_reviews)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("음식점 리뷰 개수 분포")
+    plt.show()
 
-    raise NotImplementedError
+    # raise NotImplementedError
 
 def show_store_average_ratings_graph():
     """
@@ -105,8 +105,8 @@ def show_stores_distribution_graph(dataframes):
 def main():
     set_config()
     data = load_dataframes()
-    show_store_categories_graph(data)
-    # show_store_review_distribution_graph(data)
+    # show_store_categories_graph(data)
+    show_store_review_distribution_graph(data)
 
 
 if __name__ == "__main__":
