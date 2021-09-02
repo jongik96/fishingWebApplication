@@ -87,6 +87,5 @@ def main():
         )
     print(f"\n{separater}\n\n")
 
-
 if __name__ == "__main__":
     main()
