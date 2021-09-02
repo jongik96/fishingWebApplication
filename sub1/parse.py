@@ -45,7 +45,7 @@ def import_data(data_path=DATA_FILE):
     """
     Req. 1-1-1 음식점 데이터 파일을 읽어서 Pandas DataFrame 형태로 저장합니다
     """
-
+    
     try:
         with open(data_path, encoding="utf-8") as f:
             data = json.loads(f.read())
