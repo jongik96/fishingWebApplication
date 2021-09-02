@@ -10,9 +10,9 @@ import matplotlib.font_manager as fm
 def set_config():
     # 폰트, 그래프 색상 설정
     font_list = fm.findSystemFonts(fontpaths=None, fontext="ttf")
-    if any(["notosanscjk" in font.lower() for font in font_list]):
-        # plt.rcParams["font.family"] = "Noto Sans CJK JP"
-        plt.rcParams["font.family"] = "AppleGothic" # 제 작업환경이 맥인 관계로 이부분 주석하고 윗부분 주석해제 하시면 됩니다.
+    if any(["notosanscjk-black" in font.lower() for font in font_list]):
+        plt.rcParams["font.family"] = "Noto Sans CJK JP"
+
     else:
         if not any(["malgun" in font.lower() for font in font_list]):
             raise Exception(
@@ -39,7 +39,9 @@ def show_store_categories_graph(dataframes, n=100):
     # 카테고리가 없는 경우 / 상위 카테고리를 추출합니다
     categories = filter(lambda c: c != "", categories)
     categories_count = Counter(list(categories))
+
     best_categories = categories_count.most_common(n=n)
+
     df = pd.DataFrame(best_categories, columns=["category", "count"]).sort_values(
         by=["count"], ascending=False
     )
@@ -51,12 +53,26 @@ def show_store_categories_graph(dataframes, n=100):
     plt.show()
 
 
-def show_store_review_distribution_graph():
+def show_store_review_distribution_graph(dataframes):
     """
     Req. 1-3-1 전체 음식점의 리뷰 개수 분포를 그래프로 나타냅니다. 
     """
-    raise NotImplementedError
 
+    # stores_reviews = pd.merge(
+    #     dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
+    # )
+
+    # best_reviews = stores_reviews.groupby(["store", "store_name"]).count()
+
+    # print(best_reviews)    
+
+    # # 그래프로 나타냅니다
+    # chart = sns.barplot(x="store", y="count", data=best_reviews)
+    # chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    # plt.title("음식점 리뷰 개수 분포")
+    # plt.show()
+
+    raise NotImplementedError
 
 def show_store_average_ratings_graph():
     """
@@ -90,6 +106,7 @@ def main():
     set_config()
     data = load_dataframes()
     show_store_categories_graph(data)
+    # show_store_review_distribution_graph(data)
 
 
 if __name__ == "__main__":
