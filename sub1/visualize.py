@@ -30,7 +30,6 @@ def show_store_categories_graph(dataframes, n=100):
     """
 
     stores = dataframes["stores"]
-    # print(stores)
     # 모든 카테고리를 1차원 리스트에 저장합니다
     categories = stores.category.apply(lambda c: c.split("|"))
     categories = itertools.chain.from_iterable(categories)
@@ -58,11 +57,9 @@ def show_store_review_distribution_graph(dataframes):
     stores_reviews = pd.merge(
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
     )
-    # print(stores_reviews)
     review_group = stores_reviews.groupby(["store"])
     reviews = review_group.count()
     reviews = reviews.sort_values(by="content", ascending=False)
-    # print(reviews)
     review_list = []
     for i, r in reviews.iterrows():
         review_list.append(r["content"])
@@ -90,17 +87,11 @@ def show_store_average_ratings_graph(dataframes):
     )
     scores_group = stores_reviews.groupby(["store", "store_name"])
     scores = scores_group.mean()
-    # print(scores)
-    # 모든 카테고리를 1차원 리스트에 저장합니다
     score_list = []
     for i, r in scores.iterrows():
         score_list.append(round(r["score"], 1))
-    # review_list = list(itertools.chain.from_iterable(reviews))
-    # 카테고리가 없는 경우 / 상위 카테고리를 추출합니다
 
-    # review_list = filter(lambda c: c != " ", review_list)
     scores_count = Counter(score_list)
-    # print(scores_count)
     best_scores = scores_count.most_common()
     df = pd.DataFrame(best_scores, columns=["scores", "count"]).sort_values(
         by=["count"], ascending=False
@@ -124,7 +115,6 @@ def show_user_review_distribution_graph(dataframes):
         reviews_count.append(r["score"])
 
     reviews_count = Counter(reviews_count).most_common()
-
     df = pd.DataFrame(reviews_count, columns=["reviews", "count"]).sort_values(by=["reviews"], ascending=True)
 
      # 그래프로 나타냅니다
