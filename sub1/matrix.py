@@ -57,6 +57,5 @@ def main():
     print(categories_scores_matrix)
     print(f"\n{separater}\n\n")
 
-
 if __name__ == "__main__":
     main()
