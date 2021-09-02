@@ -8,7 +8,6 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
     Req. 1-2-1 각 음식점의 평균 평점을 계산하여 높은 평점의 음식점 순으로 `n`개의 음식점을 정렬하여 리턴합니다
     Req. 1-2-2 리뷰 개수가 `min_reviews` 미만인 음식점은 제외합니다.
     """
-
     # 왼쪽 id, 오른쪽 store 기준으로 공통 된 것 merge
     stores_reviews = pd.merge(
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
@@ -30,38 +29,31 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
 
 
 
-
 def get_most_reviewed_stores(dataframes, n=20):
     """
     Req. 1-2-3 가장 많은 리뷰를 받은 `n`개의 음식점을 정렬하여 리턴합니다
     """
-    
     # 왼쪽 id, 오른쪽 store 기준으로 공통 된 것 merge
     stores_reviews = pd.merge(
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
     )
 
-    # # 가게 id, 가게 이름으로 그룹화
-    # scores_group = stores_reviews.groupby(["store", "store_name"])
+    # 가게 id, 가게 이름으로 그룹화
+    scores_group = stores_reviews.groupby(["store", "store_name"])
 
-    # # 가게 별 리뷰 갯수 카운트
-    # scores = scores_group.count()
+    # 평균
+    scores = scores_group.count()
 
-    # # score 기준 내림 차순
-    # scores = scores.sort_values(by="score", ascending=False)
-
-    # 위 내용 요약
-    scores = stores_reviews.groupby(["store", "store_name"]).count().sort_values(by="score", ascending=False)
+    # score기준 내림차순
+    scores = scores.sort_values(by="score", ascending=False)
 
     return scores.head(n=n).reset_index()
-
 
 
 def get_most_active_users(dataframes, n=20):
     """
     Req. 1-2-4 가장 많은 리뷰를 작성한 `n`명의 유저를 정렬하여 리턴합니다.
     """
-
     reviews_group = dataframes['reviews'].groupby("user").count().sort_values(by="score", ascending=False)
 
     return reviews_group.head(n=n).reset_index()
@@ -85,18 +77,6 @@ def main():
         )
     print(f"\n{separater}\n\n")
 
-
-    stores_most_review = get_most_reviewed_stores(data)
-    print("[리뷰 개수 기준 음식점 정렬]")
-    print(f"{separater}\n")
-    for i, store in stores_most_review.iterrows():
-        print(
-            "{rank}위: {store}(리뷰 {score}개)".format(
-                rank=i + 1, store=store.store_name, score=store.score
-            )
-        )
-    print(f"\n{separater}\n\n")
-
     
     users_most_review = get_most_active_users(data)
     print("[리뷰 개수 기준 유저 정렬]")
@@ -110,6 +90,30 @@ def main():
     print(f"\n{separater}\n\n")
 
 
+
+    most_reviewed_stores = get_most_reviewed_stores(data)
+
+    print("[리뷰 개수 기준 음식점]")
+    print(f"{separater}\n")
+    for i, store in most_reviewed_stores.iterrows():
+        print(
+            "{rank}위: {store}(리뷰 {score}개)".format(
+                rank=i + 1, store=store.store_name, score=store.score
+            )
+        )
+    print(f"\n{separater}\n\n")
+
+    most_active_users = get_most_active_users(data)
+
+    print("[리뷰 개수 기준 유저]")
+    print(f"{separater}\n")
+    for i, store in most_active_users.iterrows():
+        print(
+            "{rank}위: {user}(리뷰 {score}개)".format(
+                rank=i + 1, score=store.score, user=store.user
+            )
+        )
+    print(f"\n{separater}\n\n")
 
 if __name__ == "__main__":
     main()
