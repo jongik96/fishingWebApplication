@@ -58,56 +58,135 @@ def show_store_review_distribution_graph(dataframes):
     Req. 1-3-1 전체 음식점의 리뷰 개수 분포를 그래프로 나타냅니다. 
     """
 
-    # stores_reviews = pd.merge(
-    #     dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
-    # )
+    stores_reviews = pd.merge(
+        dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
+    )
 
-    # best_reviews = stores_reviews.groupby(["store", "store_name"]).count()
+    review_group = stores_reviews.groupby(["store"])
+    reviews = review_group.count()
+    reviews = reviews.sort_values(by="score", ascending=False)
 
-    # print(best_reviews)    
+    review_list = []
+    for i, r in reviews.iterrows():
+        review_list.append(r["score"])
 
-    # # 그래프로 나타냅니다
-    # chart = sns.barplot(x="store", y="count", data=best_reviews)
-    # chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
-    # plt.title("음식점 리뷰 개수 분포")
-    # plt.show()
+    reviews_count = Counter(review_list).most_common()
 
-    raise NotImplementedError
+    df = pd.DataFrame(reviews_count, columns=["reviews", "count"]).sort_values(
+        by=["count"], ascending=False
+    )
 
-def show_store_average_ratings_graph():
+    # 그래프로 나타냅니다
+    chart = sns.barplot(x="reviews", y="count", data=df)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("음식점 리뷰 분포")
+    plt.show()
+
+def show_store_average_ratings_graph(dataframes):
     """
-    Req. 1-3-2 각 음식점의 평균 평점을 그래프로 나타냅니다.
+    Req. 1-3-2 각 음식점의 평균 평점 분포를 그래프로 나타냅니다.
     """
-    raise NotImplementedError
 
+    stores_reviews = pd.merge(
+        dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
+    )
 
+    scores_group = stores_reviews.groupby(["store", "store_name"]).mean()
+
+    avg_scores = []
+    for i, s in scores_group.iterrows():
+        avg_scores.append(round(s["score"], 1))
+
+    scores_count = Counter(avg_scores).most_common()
+
+    df = pd.DataFrame(scores_count, columns=["store_name", "avg_score"])
+
+    # 그래프로 나타냅니다
+    chart = sns.barplot(x="store_name", y="avg_score", data=df)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("음식점의 평균 평점")
+    plt.show()
+
+  
 def show_user_review_distribution_graph(dataframes):
     """
     Req. 1-3-3 전체 유저의 리뷰 개수 분포를 그래프로 나타냅니다.
     """
-    raise NotImplementedError
+
+    reviews_group = dataframes["reviews"].groupby("user").count()
+
+    reviews_count = []
+    for i, r in reviews_group.iterrows():
+        reviews_count.append(r["score"])
+
+    reviews_count = Counter(reviews_count).most_common()
+
+    df = pd.DataFrame(reviews_count, columns=["reviews", "count"]).sort_values(by=["reviews"], ascending=True)
+
+     # 그래프로 나타냅니다
+    chart = sns.barplot(x="reviews", y="count", data=df)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("유저 리뷰 개수 분포")
+    plt.show()
+
+
 
 
 def show_user_age_gender_distribution_graph(dataframes):
     """
     Req. 1-3-4 전체 유저의 성별/나이대 분포를 그래프로 나타냅니다.
     """
-    raise NotImplementedError
+    
+    users = dataframes["users"]
+    users["age"] = users["age"] // 10 * 10
+    man_list, woman_list = [], []
+    for i, u in users.iterrows():
+        if u["gender"] == '남':
+            man_list.append(u["age"])
+        else:
+            woman_list.append(u["age"])
+
+    man_count = Counter(man_list)
+    woman_count = Counter(woman_list)
+    
+    plt.plot([v for v in range(0, 110, 10)], [man_count[v] for v in range(0, 110, 10)], marker="o", label="남성")
+    plt.plot([v for v in range(0, 110, 10)], [woman_count[v] for v in range(0, 110, 10)], marker="o", label="여성")
+    plt.legend(loc=(0.8, 0.8))
+    plt.xlabel('Age')
+    plt.ylabel('Count')
+    plt.title("유저 성별 / 나이대 분포")
+    plt.show()
 
 
 def show_stores_distribution_graph(dataframes):
     """
     Req. 1-3-5 각 음식점의 위치 분포를 지도에 나타냅니다.
     """
-    raise NotImplementedError
+    stores_group = dataframes["stores"].groupby("area")
+    # print(stores_group.groups)
+    
+    area_name = []
+    stores_count = []
+    for i, s in stores_group:
+        area_name.append(i)
+        stores_count.append(len(s))
 
+    df = pd.DataFrame(data=dict(area=area_name, count=stores_count))
+
+    chart = sns.barplot(x="area", y="count", data=df)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("음식점 위치 분포")
+    plt.show()
 
 def main():
     set_config()
     data = load_dataframes()
-    show_store_categories_graph(data)
+    # show_store_categories_graph(data)
     # show_store_review_distribution_graph(data)
-
+    # show_store_average_ratings_graph(data)
+    # show_user_review_distribution_graph(data)
+    show_user_age_gender_distribution_graph(data)
+    # show_stores_distribution_graph(data)
 
 if __name__ == "__main__":
     main()

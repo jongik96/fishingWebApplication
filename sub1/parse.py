@@ -85,12 +85,13 @@ def import_data(data_path=DATA_FILE):
                 [r["id"], d["id"], u["id"], r["score"], r["content"], r["reg_time"]]
             )
 
+        current_year = 2020
         # 리뷰에 글을 단 유저 importing 
         for user in d["review_list"]:
             u = user["writer_info"]
 
             users.append(
-                [u["id"], u["gender"], u["born_year"]]
+                [u["id"], u["gender"], current_year - int(u["born_year"])]
             )
 
         # 메뉴 importing 
