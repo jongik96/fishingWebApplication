@@ -103,8 +103,6 @@ def import_data(data_path=DATA_FILE):
                 ]
             )
 
-            
-
     store_frame = pd.DataFrame(data=stores, columns=store_columns)
     review_frame = pd.DataFrame(data=reviews, columns=review_columns)
 
