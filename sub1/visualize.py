@@ -39,6 +39,7 @@ def show_store_categories_graph(dataframes, n=100):
     categories_count = Counter(list(categories))
     # print(categories_count)
     best_categories = categories_count.most_common(n=n)
+
     df = pd.DataFrame(best_categories, columns=["category", "count"]).sort_values(
         by=["count"], ascending=False
     )
@@ -77,6 +78,21 @@ def show_store_review_distribution_graph(dataframes):
     plt.title("음식점 리뷰 분포")
     plt.show()
 
+    # stores_reviews = pd.merge(
+    #     dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
+    # )
+
+    # best_reviews = stores_reviews.groupby(["store", "store_name"]).count()
+
+    # print(best_reviews)    
+
+    # # 그래프로 나타냅니다
+    # chart = sns.barplot(x="store", y="count", data=best_reviews)
+    # chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    # plt.title("음식점 리뷰 개수 분포")
+    # plt.show()
+
+    raise NotImplementedError
 
 def show_store_average_ratings_graph(dataframes):
     """
