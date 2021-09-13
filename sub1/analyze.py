@@ -8,7 +8,6 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
     Req. 1-2-1 각 음식점의 평균 평점을 계산하여 높은 평점의 음식점 순으로 `n`개의 음식점을 정렬하여 리턴합니다
     Req. 1-2-2 리뷰 개수가 `min_reviews` 미만인 음식점은 제외합니다.
     """
-
     # 왼쪽 id, 오른쪽 store 기준으로 공통 된 것 merge
     stores_reviews = pd.merge(
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
@@ -87,30 +86,6 @@ def main():
         print(
             "{rank}위: {id} (리뷰 : {review}개)".format(
                 rank=i + 1, id=user.id, review=user.content
-            )
-        )
-    print(f"\n{separater}\n\n")
-
-    most_reviewed_stores = get_most_reviewed_stores(data)
-
-    print("[리뷰 개수 기준 음식점]")
-    print(f"{separater}\n")
-    for i, store in most_reviewed_stores.iterrows():
-        print(
-            "{rank}위: {store}(리뷰 {score}개)".format(
-                rank=i + 1, store=store.store_name, score=store.score
-            )
-        )
-    print(f"\n{separater}\n\n")
-
-    most_active_users = get_most_active_users(data)
-
-    print("[리뷰 개수 기준 유저]")
-    print(f"{separater}\n")
-    for i, store in most_active_users.iterrows():
-        print(
-            "{rank}위: {user}(리뷰 {score}개)".format(
-                rank=i + 1, score=store.score, user=store.user
             )
         )
     print(f"\n{separater}\n\n")
