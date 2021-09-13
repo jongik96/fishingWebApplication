@@ -78,18 +78,9 @@ def show_store_review_distribution_graph(dataframes):
     plt.title("음식점 리뷰 분포")
     plt.show()
 
-    # 평균
-    scores = scores_group.count()
+    # best_reviews = stores_reviews.groupby(["store", "store_name"]).count()
 
-    stores_reviews = pd.merge(
-        dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
-    )
-
-<<<<<<< HEAD
-    best_reviews = stores_reviews.groupby(["store", "store_name"]).count()
-=======
     # print(best_reviews)    
->>>>>>> 5cba485b218227db439a813c84d462eeb50913e2
 
     print(best_reviews)    
 
