@@ -1541,6 +1541,11 @@ native-url@0.3.4:
   dependencies:
     querystring "^0.2.0"
 
+next.js@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/next.js/-/next.js-1.0.3.tgz#b7d5a4c6e241c3d914c94007aa4f31d108799fa8"
+  integrity sha1-t9WkxuJBw9kUyUAHqk8x0Qh5n6g=
+
 next@latest:
   version "11.1.2"
   resolved "https://registry.yarnpkg.com/next/-/next-11.1.2.tgz#527475787a9a362f1bc916962b0c0655cc05bc91"
@@ -2406,6 +2411,11 @@ supports-color@^8.0.0:
   integrity sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==
   dependencies:
     has-flag "^4.0.0"
+
+tailwind-scrollbar-hide@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tailwind-scrollbar-hide/-/tailwind-scrollbar-hide-1.0.3.tgz#00d4851659389856bd3185d5e45bdf0462b4f166"
+  integrity sha512-BF+ITR3cJFFF8IP1B6snlZtwSJxwWIB030LX9ZGEITBfWiqn1V4rEJUF44HJH5w6hZBrqSlwJdhILya8OvWefg==
 
 tailwindcss@^2.2.4:
   version "2.2.15"
