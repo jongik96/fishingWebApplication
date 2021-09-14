@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import logo from "../img/logo.png";
-import Dropdown from "./DropdownMenu"
 import {
   SearchIcon,
   GlobeAltIcon,
@@ -12,7 +11,7 @@ import {
 } from "@heroicons/react/solid";
 import { useRouter } from "next/dist/client/router";
 //dropdown menu
-import { useDetectOutsideClick } from "./useDetectOutsideClick";
+import DropdownMenu from "./DropdownMenu";
 
 const Header = ({ placeholder }) => {
   const [searchInput, setSearchInput] = useState("");
@@ -29,9 +28,7 @@ const Header = ({ placeholder }) => {
   };
 
   // dropdown 메뉴
-  const dropdownRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
-  const clickMenu = () => setIsActive(!isActive);
+  
 
   return (
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-2 md:px-12">
@@ -59,12 +56,13 @@ const Header = ({ placeholder }) => {
       </div>
 
       {/* 우측 회원관련 영역 */} 
-      <div className="flex items-center space-x-4 justify-end text-gray-500">
+      <DropdownMenu></DropdownMenu>
+      {/* <div className="flex items-center space-x-4 justify-end text-gray-500">
         <div className="flex items-center border-2 p-1 rounded-full cursor-pointer">
             <MenuIcon className="h-6" />
             <UserCircleIcon className="h-6" />
         </div>
-      </div>
+      </div> */}
 
       {/* 검색창에 입력된 것이 있을때 아래항목 보여주게 */}
       {searchInput && (
