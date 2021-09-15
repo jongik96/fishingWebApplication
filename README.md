@@ -1,5 +1,8 @@
 # SSAFY Bigdata project
 
+### SUB1's default branch is develop branch.
+
+
 ## How to Run
 
 ### Sub1
