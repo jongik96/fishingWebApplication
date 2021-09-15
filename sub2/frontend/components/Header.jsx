@@ -4,9 +4,7 @@ import logo from "../img/logo.png";
 import {
   SearchIcon,
   GlobeAltIcon,
-  UserCircleIcon,
   UsersIcon,
-  MenuIcon,
   UserIcon,
 } from "@heroicons/react/solid";
 import { useRouter } from "next/dist/client/router";
@@ -26,9 +24,6 @@ const Header = ({ placeholder }) => {
       pathname: "/search",
     });
   };
-
-  // dropdown 메뉴
-  
 
   return (
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-2 md:px-12">
@@ -67,7 +62,7 @@ const Header = ({ placeholder }) => {
       {/* 검색창에 입력된 것이 있을때 아래항목 보여주게 */}
       {searchInput && (
         <>
-          <div className="flex flex-col col-span-3 mx-auto  bg-green-400">
+          <div className="flex flex-col col-span-3 mx-auto bg-green-400">
             <p>자동완성 영역sdfadfdafadfdfafdafdafdfdaf</p>
           </div>
         </>
