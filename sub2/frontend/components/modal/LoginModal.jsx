@@ -29,11 +29,11 @@ const LoginModal = ( props ) => {
                   <p className="my-4 text-black-400 text-lg leading-relaxed">
                    E-mail
                   </p>
-                  <input type="text" placeholder="Email" className="border-solid-black" />
+                  <input type="text" placeholder="Email" className="border-2 border-gray-400" />
                   <p className="my-4 text-black-900 text-lg leading-relaxed">
                    Password
                   </p>
-                  <input type="password" placeholder="Password" className="border-1" />
+                  <input type="password" placeholder="Password" className="border-2 border-gray-400" />
 
                   
                 </div>
@@ -43,6 +43,8 @@ const LoginModal = ( props ) => {
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => setShowLoginModal(false)}
+                    // showLoginModal이 true일 경우에 setshowloginmodal 을 false로 
+                    // 
                   >
                     Close
                   </button>

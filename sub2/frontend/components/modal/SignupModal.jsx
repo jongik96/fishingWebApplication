@@ -29,23 +29,23 @@ const SignupModal = ( props ) => {
                 <p className="my-4 text-black-900 text-lg leading-relaxed">
                    E-mail
                   </p>
-                  <input type="text" placeholder="Email" className="border-solid-black" />
+                  <input type="text" placeholder="Email" className="border-2 border-gray-400" />
                   <p className="my-4 text-black-900 text-lg leading-relaxed">
                    Password
                   </p>
-                  <input type="password" placeholder="Password" className="border-black" />
+                  <input type="password" placeholder="Password" className="border-2 border-gray-400" />
                   <p className="my-4 text-black-900 text-lg leading-relaxed">
                    Nickname
                   </p>
-                  <input type="text" placeholder="Email" className="border-solid-black" />
+                  <input type="text" placeholder="Email" className="border-2 border-gray-400" />
                   <p className="my-4 text-black-900 text-lg leading-relaxed">
                    Address
                   </p>
-                  <input type="text" placeholder="Password" className="border-black" />
+                  <input type="text" placeholder="Password" className="border-2 border-gray-400" />
                   <p className="my-4 text-black-900 text-lg leading-relaxed">
                    Phone Number
                   </p>
-                  <input type="number" placeholder="Password" className="appearance-none border-black" />
+                  <input type="number" placeholder="Password" className="border-2 border-gray-400" />
 
                 </div>
                 {/*footer*/}
@@ -58,11 +58,11 @@ const SignupModal = ( props ) => {
                     Close
                   </button>
                   <button
-                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-emerald-500 text-blue-500 active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => setShowSignupModal(false)}
                   >
-                    Save Changes
+                    Sign Up
                   </button>
                 </div>
               </div>
