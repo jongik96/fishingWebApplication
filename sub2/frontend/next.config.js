@@ -7,6 +7,12 @@ module.exports = {
       "c4.wallpaperflare.com",
       "img1.daumcdn.net",
       "www.junggi.co.kr",
+      "highnoonsportfishing.com",
+      "www.williamsonrealty.com",
     ],
+  },
+  env: {
+    map_key:
+      "pk.eyJ1IjoiamFlZGVuaXN0IiwiYSI6ImNrdGhldjUyZjAxcngydW1zejU2bWs1dnMifQ.K3Ijqq6Vi7UKKrZSwWT-uw",
   },
 };
