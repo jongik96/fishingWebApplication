@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { HeartIcon } from "@heroicons/react/outline";
 import { StarIcon } from "@heroicons/react/solid";
+import { useRouter } from "next/dist/client/router";
 
 const ResultCard = ({
   id,
@@ -14,12 +15,33 @@ const ResultCard = ({
   category,
   description,
 }) => {
+  const router = useRouter();
+  const detailPoint = () => {
+    router.push({
+      pathname: "/DetailPoint",
+      query: {
+        id,
+        img,
+        point_name,
+        name,
+        address,
+        rate,
+        reviewCnt,
+        category,
+        dpwt: description.dpwt,
+        fish: description.fish,
+        material: description.material,
+        tide: description.tide,
+      },
+    });
+  };
   return (
     <div
       className="flex py-7 px-2 pr-4 border-b cursor-pointer
     hover:opacity-80 hover:shadow-lg transition duration-200 ease-out
     first:border-t 
     "
+      onClick={detailPoint}
     >
       {/* 사진 부분 */}
       <div className="relative h-24 w-40 md:h-52 md:w-80 flex-shrink-0">
