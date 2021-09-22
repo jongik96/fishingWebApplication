@@ -38,7 +38,7 @@ export default function Home() {
         {/* 카테고리별 둘러보기 (갯바위, 선상) */}
         <section>
           <h2 className="text-2xl font-semibold py-8">장소가 어디든, 당신은 전문 낚시꾼입니다 !</h2>
-          <div className="flex space-x-3 overflow-scroll scrollbar-hide p-3 -ml-3">
+          <div className="flex space-x-3 overflow-scroll scrollbar-hide p-3 -ml-2">
             {categoryData?.map(({ img, title }) => (
               <MediumCard key={img} img={img} title={title} />
             ))}

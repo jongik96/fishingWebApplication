@@ -22,6 +22,9 @@ const Header = ({ placeholder }) => {
   const search = () => {
     router.push({
       pathname: "/search",
+      query: {
+        location: searchInput,
+      },
     });
   };
 
