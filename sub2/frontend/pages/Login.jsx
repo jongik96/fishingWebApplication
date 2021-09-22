@@ -1,18 +1,15 @@
-import React from 'react';
-
-const LoginModal = ( props ) => {
-    // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
-    const { setShowLoginModal } = props;
-
-    return (
-        // 모달이 열릴때 openModal 클래스가 생성된다.
+import React from "react";
+import Header from "../components/Header";
+const Login = () => {
+  return (
         <div>
-            <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+          <Header/>
+          <div
+            className=""
           >
-            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl bg-white">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                   <h3 className="text-3xl font-semibold">
@@ -36,7 +33,7 @@ const LoginModal = ( props ) => {
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowLoginModal(false)}
+                    
                     // showLoginModal이 true일 경우에 setshowloginmodal 을 false로 
                     // 
                   >
@@ -45,14 +42,14 @@ const LoginModal = ( props ) => {
                   <button
                     className="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowLoginModal(false)}
+                    
                   >
                     Log In
                   </button>
                   
                   <button className="text-yellow-500 background-transparent font-bold uppercase px-6 py-2 text-sm  focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
-                  onClick={() => setShowLoginModal(false)}
+                  
                   >
                     Signup
                     </button>
@@ -62,6 +59,8 @@ const LoginModal = ( props ) => {
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </div>
-    )
-}
-export default LoginModal;
+  );
+};
+
+export default Login;
+<h1>로그인화면</h1>;
