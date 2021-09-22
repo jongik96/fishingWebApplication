@@ -14,7 +14,7 @@ const Signup = () => {
         <div
         className=""
         >
-        <div className="relative w-1/2 my-6 mx-auto max-w-3xl">
+        <div className="relative w-1/3 my-6 mx-auto max-w-3xl">
         {/*content*/}
         <div className="border-0 rounded-lg relative flex flex-col w-full">
             {/*header*/}
