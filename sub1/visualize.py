@@ -112,6 +112,7 @@ def show_store_average_ratings_graph(dataframes):
     scores_group = stores_reviews.groupby(["store", "store_name"])
     scores = scores_group.mean()
     score_list = []
+
     for i, r in scores.iterrows():
         score_list.append(round(r["score"], 1))
 
@@ -217,9 +218,9 @@ def main():
     data = load_dataframes()
     # show_store_categories_graph(data)
     # show_store_review_distribution_graph(data)
-    # show_store_average_ratings_graph(data)
+    show_store_average_ratings_graph(data)
     # show_user_review_distribution_graph(data)
-    show_user_age_gender_distribution_graph(data)
+    # show_user_age_gender_distribution_graph(data)
     # show_stores_distribution_graph(data)
 
 if __name__ == "__main__":
