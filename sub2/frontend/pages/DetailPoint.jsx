@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import Image from "next/image";
 import Map from "../components/Map";
 import fishingData from "../dummy/json/fishingDump.json";
-
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import { StarIcon } from "@heroicons/react/solid";
 import { HeartIcon } from "@heroicons/react/outline";
@@ -27,6 +27,28 @@ const DetailPoint = () => {
     tide,
   } = router.query;
   const fishArr = fish.split("·");
+
+  // open api 사용
+  // XRsWF0UdqsOAqAZVJgqPOw==
+  const getInfo = () => {
+    axios({
+      // url: "http://www.khoa.go.kr/oceangrid/grid/api/ObsServiceObj/search.do",
+      // data: {
+      //   ServiceKey: "XRsWF0UdqsOAqAZVJgqPOw==",
+      //   ResultType: "json",
+      // },
+      url: "http://www.khoa.go.kr/oceangrid/grid/api/ObsServiceObj/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&ResultType=json",
+      dataType: "json",
+      method: "GET",
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  getInfo();
   return (
     <div>
       <Header />
