@@ -57,11 +57,11 @@ const Signup = () => {
                 Sign Up
             </button>
             <button
-                className="text-red-500 background-transparent rounded-lg font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                className="text-gray-500 background-transparent rounded-lg font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
                 
             >
-                Close
+                이미 계정이 있습니다.
             </button>
             </div>
         </div>
