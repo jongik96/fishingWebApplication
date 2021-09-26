@@ -1,4 +1,4 @@
-id,userId,fishingId,rating,reviewContent,createdAt
+id,user,fishing,rating,reviewContent,createdAt
 1,640,1141,2,nibh in lectus pellentesque at nulla suspendisse potenti cras in purus,2019-10-01
 2,397,1300,1,duis aliquam convallis nunc proin at turpis a pede posuere nonummy integer non velit donec diam,2020-04-10
 3,579,122,4,sodales scelerisque mauris sit amet eros suspendisse accumsan tortor quis turpis,2019-12-07
@@ -4925,7 +4925,7 @@ id,userId,fishingId,rating,reviewContent,createdAt
 4924,45,319,3,non lectus aliquam sit amet diam in magna bibendum imperdiet nullam,2019-12-25
 4925,142,162,4,convallis duis consequat dui nec nisi volutpat eleifend donec ut dolor morbi vel lectus in quam fringilla rhoncus mauris,2019-03-18
 4926,757,979,4,pretium iaculis justo in hac habitasse platea dictumst etiam faucibus,2019-05-22
-4927,165,1321,5,suspendisse accumsan tortor quis turpis sed ante vivamus tortor duis mattis egestas metus aenean fermentum donec ut,2021-05-13
+4927,165,0,5,suspendisse accumsan tortor quis turpis sed ante vivamus tortor duis mattis egestas metus aenean fermentum donec ut,2021-05-13
 4928,656,1203,1,mattis nibh ligula nec sem duis aliquam convallis nunc proin at turpis a pede,2021-07-01
 4929,367,22,5,mauris non ligula pellentesque ultrices phasellus id sapien in sapien iaculis congue vivamus,2020-07-17
 4930,520,807,2,ullamcorper purus sit amet nulla quisque arcu libero rutrum ac,2020-01-31
