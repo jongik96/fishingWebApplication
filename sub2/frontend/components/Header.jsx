@@ -1,12 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import logo from "../img/logo.png";
-import {
-  SearchIcon,
-  GlobeAltIcon,
-  UsersIcon,
-  UserIcon,
-} from "@heroicons/react/solid";
+import { SearchIcon, GlobeAltIcon, UsersIcon, UserIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/dist/client/router";
 //dropdown menu
 import DropdownMenu from "./DropdownMenu";
@@ -32,7 +27,15 @@ const Header = ({ placeholder }) => {
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-2 md:px-12">
       {/* 왼쪽 로고 영역 */}
       <div className="relative flex items-center h-12 cursor-pointer my-auto">
-        <Image src={logo} layout="fill" objectFit="contain" objectPosition="left" />
+        <Image
+          src={logo}
+          layout="fill"
+          objectFit="contain"
+          objectPosition="left"
+          onClick={() => {
+            router.push("/");
+          }}
+        />
       </div>
 
       {/* 중앙 검색바 영역 */}
@@ -53,7 +56,7 @@ const Header = ({ placeholder }) => {
         />
       </div>
 
-      {/* 우측 회원관련 영역 */} 
+      {/* 우측 회원관련 영역 */}
       <DropdownMenu></DropdownMenu>
       {/* <div className="flex items-center space-x-4 justify-end text-gray-500">
         <div className="flex items-center border-2 p-1 rounded-full cursor-pointer">
