@@ -1,18 +1,16 @@
 import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import logo from "../img/logo.png";
-import {
-  SearchIcon,
-  GlobeAltIcon,
-  UsersIcon,
-  UserIcon,
-} from "@heroicons/react/solid";
+import { SearchIcon, GlobeAltIcon, UsersIcon, UserIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/dist/client/router";
 //dropdown menu
 import DropdownMenu from "./DropdownMenu";
 
 const Header = ({ placeholder }) => {
   const [searchInput, setSearchInput] = useState("");
+  const [locationInfo, setLocationInfo] = useState(null);
+  const [fishInfo, setFishInfo] = useState(null);
+
   const router = useRouter();
 
   const inputHandler = useCallback((e) => {
@@ -32,7 +30,15 @@ const Header = ({ placeholder }) => {
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-2 md:px-12">
       {/* 왼쪽 로고 영역 */}
       <div className="relative flex items-center h-12 cursor-pointer my-auto">
-        <Image src={logo} layout="fill" objectFit="contain" objectPosition="left" />
+        <Image
+          src={logo}
+          layout="fill"
+          objectFit="contain"
+          objectPosition="left"
+          onClick={() => {
+            router.push("/");
+          }}
+        />
       </div>
 
       {/* 중앙 검색바 영역 */}
@@ -53,8 +59,8 @@ const Header = ({ placeholder }) => {
         />
       </div>
 
-      {/* 우측 회원관련 영역 */} 
-      <DropdownMenu></DropdownMenu>
+      {/* 우측 회원관련 영역 */}
+      <DropdownMenu />
       {/* <div className="flex items-center space-x-4 justify-end text-gray-500">
         <div className="flex items-center border-2 p-1 rounded-full cursor-pointer">
             <MenuIcon className="h-6" />
@@ -65,8 +71,23 @@ const Header = ({ placeholder }) => {
       {/* 검색창에 입력된 것이 있을때 아래항목 보여주게 */}
       {searchInput && (
         <>
-          <div className="flex flex-col col-span-3 mx-auto bg-green-400">
-            <p>자동완성 영역sdfadfdafadfdfafdafdafdfdaf</p>
+          <div className="flex flex-col col-span-3 mx-auto w-full lg:w-[550px] mt-2 h-[150px] shadow-md">
+            <div className="grid grid-cols-2 border-b">
+              <div className="flex items-center mx-auto">지역</div>
+              <div className="flex items-center mx-auto">어종</div>
+            </div>
+            <div className="grid grid-cols-2 mt-2 overflow-scroll">
+              <div className="flex">
+                {locationInfo === null ? "지역 정보가 없습니다." : ""}
+                {
+                  locationInfo && locationInfo.map((item, index) => {
+                    return (<div key={index} onClick={(e) => })
+                  })
+                }
+                
+              </div>
+              <div className="flex">어종</div>
+            </div>
           </div>
         </>
       )}
