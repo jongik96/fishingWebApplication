@@ -17,7 +17,7 @@ class User(AbstractUser):
     )
     introduce = models.CharField(max_length=100, blank=True)
     isadmin = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
 # class Scrap(models.Model):
 #     user = models.ForeignKey(User, related_name='userScrap', on_delete=models.CASCADE)

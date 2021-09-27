@@ -8,6 +8,7 @@ from rest_framework import permissions
 from django.http.response import JsonResponse
 from rest_framework.response import Response
 from .models import Fishing, Scrap, Review
+from user.models import User
 from .serializers import FishingSerializer, ReviewSerializer
 from django.db.models import Avg, Q, Sum
 
@@ -46,27 +47,25 @@ class fishingScrap(APIView):
 class ScrapList(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, userId, format=None):
-        scrapList = []
-        scrapFishing = Scrap.objects.filter(user_id = userId).prefetch_related("fishing")
+        scrapQuery = Scrap.objects.filter(user=userId)
+
+        serializered_data = FishingSerializer(scrapQuery, many=True).data
+        for index, data in enumerate(serializered_data):
+            reviewSum = Review.objects.filter(
+                fishing_id=data['id']).aggregate(Sum('rating'))
+            reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
+            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+            data['reviewCnt'] = reviewCnt
+            data['rating'] = rating
+
+            fish = data['fish'].split(',')
+            fish = '·'.join(fish)
+
+            data['fish'] = fish
+
+
+        return Response(serializered_data)
         
-        for fishing in scrapFishing:
-            data = {
-                "id" : fishing.fishing.id,
-                "name" : fishing.fishing.name,
-                "address" : fishing.fishing.address,
-                "tel" : fishing.fishing.tel,
-                "rating" : fishing.fishing.rating,
-                "category" : fishing.fishing.category,
-                "reviewcontentnum" : fishing.fishing.reviewcontentnum,
-                "latitude" : fishing.fishing.latitude,
-                "longitude" : fishing.fishing.longitude,
-                "fishingimg" : fishing.fishing.fishingimg,
-            }
-            scrapList.append(data)
-        return JsonResponse({'scrapList' : scrapList}, status=200)
-
-
-
 class fishingDetail(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, fishingId):
@@ -79,6 +78,10 @@ class fishingDetail(APIView):
         serializer = FishingSerializer(fishing, many=True)
         serializer.data[0].update({'reviewCnt': reviewCnt})
         serializer.data[0].update({'rating': rating})
+
+        fish = serializer.data[0]['fish'].split(',')
+        fish = '·'.join(fish)
+        serializer.data[0].update({'fish': fish})
 
         return Response(serializer.data)
 
@@ -106,11 +109,6 @@ class reviewCRUD(APIView):
         except Review.DoesNotExist:
             raise Http404
 
-    def get(self, request, reviewId, format=None):
-        review = self.get_object(reviewId)
-        serializer = ReviewSerializer(review)
-        return Response(serializer.data)
-
     def put(self, request, reviewId, format=None):
         review = self.get_object(reviewId)
         serializer = ReviewSerializer(review, data=request.data)
@@ -125,7 +123,7 @@ class reviewCRUD(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class reviewList(APIView):
+class reviewFishingIdList(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, fishingId, format=None):
         reviews = Review.objects.filter(fishing_id=fishingId)
@@ -133,5 +131,25 @@ class reviewList(APIView):
         serializer = ReviewSerializer(reviews, many=True)
         return Response(serializer.data)
 
+class searchLoc(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, location):
+        searchQuery = Fishing.objects.filter(address=location)
+
+        serializered_data = FishingSerializer(searchQuery, many=True).data
+        for index, data in enumerate(serializered_data):
+            reviewSum = Review.objects.filter(fishing_id=data['id']).aggregate(Sum('rating'))
+            reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
+            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+            data['reviewCnt'] = reviewCnt
+            data['rating'] = rating
+
+            fish = data['fish'].split(',')
+            fish = '·'.join(fish)
+
+            data['fish'] = fish
+
+        return Response(serializered_data)
 
 

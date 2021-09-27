@@ -1,4 +1,5 @@
 # from backend.backend.text import message
+# from sub2.backend.fishing.serializers import ReviewSerializer
 from django.core.exceptions import ValidationError
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
@@ -12,6 +13,8 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer, UserSerializerWithToken, UserUpdateSerializer, EmailUniqueCheckSerializer, NicknameUniqueCheckSerializer
 from .models import User
 from rest_framework import status
+from fishing.models import Review
+from fishing.serializers import ReviewSerializer
 # from my_settings import EMAIL
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import EmailMessage
@@ -96,6 +99,15 @@ class Scrap(APIView):
 
         return JsonResponse({"FishingScrapCnt": context}, status=200)
 
+
+class reviewUserIdList(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, userId, format=None):
+        reviews = Review.objects.filter(user_id=userId)
+
+        serializer = ReviewSerializer(reviews, many=True)
+        return Response(serializer.data)
 
 # @api_view(['GET'])
 # def validate_jwt_token(request):
