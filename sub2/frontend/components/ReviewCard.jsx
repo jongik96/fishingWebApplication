@@ -3,56 +3,19 @@ import Image from "next/image";
 import { HeartIcon } from "@heroicons/react/outline";
 import { StarIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/dist/client/router";
-
-const ReviewCard = ({
-  id,
-  img,
-  point_name,
-  name,
-  address,
-  rate,
-  reviewCnt,
-  category,
-  description,
-}) => {
+import { Avatar } from "@material-ui/core";
+const ReviewCard = ({ img, nickname, date, desc }) => {
   const router = useRouter();
   return (
-    <div
-      className="flex py-7 px-2 pr-4 border-b cursor-pointer
-    hover:opacity-80 hover:shadow-lg transition duration-200 ease-out
-    first:border-t 
-    "
-    >
-      {/* 사진 부분 */}
-      <div className="relative h-24 w-40 md:h-52 md:w-80 flex-shrink-0">
-        <Image src={img} layout="fill" objectFit="cover" className="rounded-2xl" />
-      </div>
-      {/* 설명 부분 */}
-      <div className="flex flex-col flex-grow pl-5">
-        <div className="flex justify-between">
-          <p>
-            [{name}] {address}
-          </p>
-          <HeartIcon className="h-7 cursor-pointer" />
-        </div>
-        <h4 className="text-xl">
-          {point_name} ({category})
-        </h4>
-        <div className="border-b w-10 pt-2" />
-        <p className="pt-2 text-sm text-gray-500 flex-grow">어종 : {description.fish}</p>
-        <p className="pt-2 text-sm text-gray-500 flex-grow">적정 물때 : {description.tide}</p>
-        <p className="pt-2 text-sm text-gray-500 flex-grow">
-          수심 : {description.dpwt}m / 지면 : {description.material}
+    <div className="my-2 cursor-pointer hover:scale-105 transform transition duration-300 ease-out border-solid border-4 rounded-2xl p-2 h-40 ">
+      <div className="flex flex-row w-[350px] ">
+        <Avatar className="post-avatar" src={img} />
+        <p className="grid-rows-2">
+          <p className="pl-2 text-sm "> {nickname}</p>
+          <p className="pl-2 text-sm ">{date}</p>
         </p>
-
-        <div className="flex justify-between items-end pt-5">
-          <p className="flex items-center">
-            <StarIcon className="h-4 text-red-400" />
-            {rate}
-            <p className="pl-2 text-sm text-gray-500">({reviewCnt}개의 리뷰)</p>
-          </p>
-        </div>
       </div>
+      <p className=" pl-2 text-sm ">{desc}</p>
     </div>
   );
 };
