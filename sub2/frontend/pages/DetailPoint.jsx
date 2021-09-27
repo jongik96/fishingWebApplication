@@ -32,17 +32,15 @@ const DetailPoint = () => {
   // XRsWF0UdqsOAqAZVJgqPOw==
   const getInfo = () => {
     axios({
-      // url: "http://www.khoa.go.kr/oceangrid/grid/api/ObsServiceObj/search.do",
-      // data: {
-      //   ServiceKey: "XRsWF0UdqsOAqAZVJgqPOw==",
-      //   ResultType: "json",
-      // },
-      url: "http://www.khoa.go.kr/oceangrid/grid/api/ObsServiceObj/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&ResultType=json",
+      url: "http://www.khoa.go.kr/oceangrid/grid/api/tideObsPreTab/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&ObsCode=DT_0001&Date=20210927&ResultType=json",
       dataType: "json",
       method: "GET",
     })
       .then((response) => {
         console.log(response);
+        // response.data.result.data.map((value) => {
+        //   console.log(value);
+        // });
       })
       .catch((error) => {
         console.log(error);
@@ -118,6 +116,20 @@ const DetailPoint = () => {
             <Map fishingData={fishingData} />
           </div>
           <h5 className="text-xl font-semibold mt-2 mb-6">{address}</h5>
+          <hr />
+        </section>
+
+        {/* 리뷰 */}
+        <section className="flex-grow pt-14 px-6">
+          <h3 className="text-2xl font-semibold mt-2 mb-6"></h3>
+          {/* 리뷰 컴포넌트*/}
+          <div className=" justify-around pt-5">
+            <p className="flex items-center">
+              <StarIcon className="h-4 text-red-400" />
+              {rate}
+              <p className="pl-2 text-sm ">{reviewCnt}개의 리뷰</p>
+            </p>
+          </div>
           <hr />
         </section>
       </main>
