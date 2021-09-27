@@ -1,1 +1,7 @@
-self.__BUILD_MANIFEST = (function(a){return {__rewrites:{beforeFiles:[],afterFiles:[{source:a,destination:a}],fallback:[]},"/DetailPoint":["static\u002Fchunks\u002Fpages\u002FDetailPoint.js"],"/_error":["static\u002Fchunks\u002Fpages\u002F_error.js"],"/search":["static\u002Fchunks\u002Fpages\u002Fsearch.js"],sortedPages:["\u002FDetailPoint","\u002F_app","\u002F_error","\u002Fsearch"]}}("\u002F:path*"));self.__BUILD_MANIFEST_CB && self.__BUILD_MANIFEST_CB()
+self.__BUILD_MANIFEST = {
+  __rewrites: { beforeFiles: [], afterFiles: [], fallback: [] },
+  "/Signup": ["static\u002Fchunks\u002Fpages\u002FSignup.js"],
+  "/_error": ["static\u002Fchunks\u002Fpages\u002F_error.js"],
+  sortedPages: ["\u002FSignup", "\u002F_app", "\u002F_error"],
+};
+self.__BUILD_MANIFEST_CB && self.__BUILD_MANIFEST_CB();

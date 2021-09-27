@@ -4,12 +4,12 @@ import logo from "../img/logo.png";
 import {
   SearchIcon,
   GlobeAltIcon,
-  UserCircleIcon,
   UsersIcon,
-  MenuIcon,
   UserIcon,
 } from "@heroicons/react/solid";
 import { useRouter } from "next/dist/client/router";
+//dropdown menu
+import DropdownMenu from "./DropdownMenu";
 
 const Header = ({ placeholder }) => {
   const [searchInput, setSearchInput] = useState("");
@@ -27,6 +27,7 @@ const Header = ({ placeholder }) => {
       },
     });
   };
+
   return (
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-2 md:px-12">
       {/* 왼쪽 로고 영역 */}
@@ -52,18 +53,19 @@ const Header = ({ placeholder }) => {
         />
       </div>
 
-      {/* 우측 회원관련 영역 */}
-      <div className="flex items-center space-x-4 justify-end text-gray-500">
+      {/* 우측 회원관련 영역 */} 
+      <DropdownMenu></DropdownMenu>
+      {/* <div className="flex items-center space-x-4 justify-end text-gray-500">
         <div className="flex items-center border-2 p-1 rounded-full cursor-pointer">
-          <MenuIcon className="h-6" />
-          <UserCircleIcon className="h-6" />
+            <MenuIcon className="h-6" />
+            <UserCircleIcon className="h-6" />
         </div>
-      </div>
+      </div> */}
 
       {/* 검색창에 입력된 것이 있을때 아래항목 보여주게 */}
       {searchInput && (
         <>
-          <div className="flex flex-col col-span-3 mx-auto  bg-green-400">
+          <div className="flex flex-col col-span-3 mx-auto bg-green-400">
             <p>자동완성 영역sdfadfdafadfdfafdafdafdfdaf</p>
           </div>
         </>

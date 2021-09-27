@@ -82,13 +82,15 @@ def show_store_review_distribution_graph(dataframes):
 
     # print(best_reviews)    
 
-    # # 그래프로 나타냅니다
-    # chart = sns.barplot(x="store", y="count", data=best_reviews)
-    # chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
-    # plt.title("음식점 리뷰 개수 분포")
-    # plt.show()
+    print(best_reviews)    
 
-    raise NotImplementedError
+    # 그래프로 나타냅니다
+    chart = sns.barplot(x="store", y="count", data=best_reviews)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("음식점 리뷰 개수 분포")
+    plt.show()
+
+    # raise NotImplementedError
 
 def show_store_average_ratings_graph(dataframes):
     """
