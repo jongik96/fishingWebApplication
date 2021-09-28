@@ -15,7 +15,9 @@ def users_stores_matrix(dataframes):
         data.append(review["score"])
 
     csr_mat = sparse.coo_matrix((data, (row_pos, col_pos)))
-    return csr_mat
+    res = csr_mat.toarray()
+    # return csr_mat
+    return res
 
 
 def users_categories_matrix(dataframes):
