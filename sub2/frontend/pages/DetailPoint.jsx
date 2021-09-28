@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ReviewCard from "../components/ReviewCard";
@@ -35,15 +36,12 @@ const DetailPoint = () => {
   // XRsWF0UdqsOAqAZVJgqPOw==
   const getInfo = () => {
     axios({
-      url: "http://www.khoa.go.kr/oceangrid/grid/api/tideObsPreTab/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&ObsCode=DT_0001&Date=20210927&ResultType=json",
+      url: "http://www.khoa.go.kr/oceangrid/grid/api/fcIndexOfType/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&Type=SF&ResultType=json",
       dataType: "json",
       method: "GET",
     })
       .then((response) => {
         console.log(response);
-        // response.data.result.data.map((value) => {
-        //   console.log(value);
-        // });
       })
       .catch((error) => {
         console.log(error);
@@ -59,7 +57,7 @@ const DetailPoint = () => {
   function closeModal() {
     setIsOpen(false);
   }
-
+  const scroll = useRef(null);
   function openModal() {
     setIsOpen(true);
   }
@@ -154,14 +152,20 @@ const DetailPoint = () => {
             </div>
           </div>
           <div
-            className="my-3 p-3 border-solid border-2 rounded-xl w-max cursor-pointer hover:scale-105 transform transition duration-300 ease-out"
+            className="my-3 p-3 border-solid border-2 rounded-xl w-max cursor-pointer hover:scale-105 transform transition duration-300 ease-out "
             onClick={openModal}
           >
             <p>{reviewCnt}개의 리뷰 모두 보기</p>
           </div>
+
           <Transition appear show={isOpen} as={Fragment}>
-            <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeModal}>
-              <div className="min-h-screen px-4 text-center">
+            <Dialog
+              as="div"
+              className="fixed inset-y-0 left-1/2 -translate-x-1/2 z-10 "
+              onClose={closeModal}
+              initialFocus={scroll}
+            >
+              <div className="max-h-3/4 text-center mt-20 w-max bg-white shadow-xl rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -171,7 +175,7 @@ const DetailPoint = () => {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Dialog.Overlay className="fixed inset-0" />
+                  <Dialog.Overlay className="fixed inset-0 " />
                 </Transition.Child>
 
                 {/* This element is to trick the browser into centering the modal contents. */}
@@ -187,7 +191,7 @@ const DetailPoint = () => {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                  <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform ">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                       전체 리뷰 보기
                     </Dialog.Title>
@@ -210,6 +214,7 @@ const DetailPoint = () => {
                         type="button"
                         className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                         onClick={closeModal}
+                        ref={scroll}
                       >
                         창 닫기
                       </button>
@@ -219,6 +224,7 @@ const DetailPoint = () => {
               </div>
             </Dialog>
           </Transition>
+
           <hr />
         </section>
       </main>
