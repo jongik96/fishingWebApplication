@@ -54190,7 +54190,7 @@
         "model": "fishing.review",
         "fields": {
             "user": 165,
-            "fishing": 0,
+            "fishing": 1001,
             "rating": 5,
             "reviewContent": "suspendisse accumsan tortor quis turpis sed ante vivamus tortor duis mattis egestas metus aenean fermentum donec ut",
             "createdAt": "2021-05-13"
