@@ -78,13 +78,6 @@ const Header = ({ placeholder }) => {
             </div>
             <div className="grid grid-cols-2 mt-2 overflow-scroll">
               <div className="flex">
-                {locationInfo === null ? "지역 정보가 없습니다." : ""}
-                {
-                  locationInfo && locationInfo.map((item, index) => {
-                    return (<div key={index} onClick={(e) => })
-                  })
-                }
-                
               </div>
               <div className="flex">어종</div>
             </div>
