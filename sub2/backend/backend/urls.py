@@ -46,6 +46,7 @@ urlpatterns = [
     # django 앱 
     path('user/', include('user.urls')),
     path('fishing/', include('fishing.urls')),
+    path('recommend/', include('recommend.urls')),
 ]
 urlpatterns += \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
