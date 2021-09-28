@@ -3,5 +3,9 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
+<<<<<<< HEAD
   "/Login": "pages/Login.js"
+=======
+  "/search": "pages/search.js"
+>>>>>>> 3a0b11da98431fe43fd76221729aba5effcffb59
 }

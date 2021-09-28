@@ -52,5 +52,95 @@
       "dpwt": "0.1 ~ 1.7",
       "material": "펄"
     }
+  },
+  {
+    "id": 4,
+    "img": "https://highnoonsportfishing.com/images/back.jpg",
+    "point_name": "합포마을 남측",
+    "name": "진해항 부근",
+    "address": "경상남도 창원시",
+    "rate": "3.3",
+    "long": 128.6961678,
+    "lat": 35.0973736108878,
+    "reviewCnt": 15,
+    "category": "선상",
+    "description": {
+      "fish": "도다리 · 노래미 · 볼락 · 감성돔 · 갑오징어",
+      "tide": "초들물 ~ 중날물",
+      "dpwt": "0.1 ~ 1.7",
+      "material": "펄"
+    }
+  },
+  {
+    "id": 5,
+    "img": "https://highnoonsportfishing.com/images/back.jpg",
+    "point_name": "합포마을 남측",
+    "name": "진해항 부근",
+    "address": "경상남도 창원시",
+    "rate": "3.3",
+    "long": 128.6961678,
+    "lat": 35.0973736108878,
+    "reviewCnt": 15,
+    "category": "선상",
+    "description": {
+      "fish": "도다리 · 노래미 · 볼락 · 감성돔 · 갑오징어",
+      "tide": "초들물 ~ 중날물",
+      "dpwt": "0.1 ~ 1.7",
+      "material": "펄"
+    }
+  },
+  {
+    "id": 6,
+    "img": "https://highnoonsportfishing.com/images/back.jpg",
+    "point_name": "합포마을 남측",
+    "name": "진해항 부근",
+    "address": "경상남도 창원시",
+    "rate": "3.3",
+    "long": 128.6961678,
+    "lat": 35.0973736108878,
+    "reviewCnt": 15,
+    "category": "선상",
+    "description": {
+      "fish": "도다리 · 노래미 · 볼락 · 감성돔 · 갑오징어",
+      "tide": "초들물 ~ 중날물",
+      "dpwt": "0.1 ~ 1.7",
+      "material": "펄"
+    }
+  },
+  {
+    "id": 7,
+    "img": "https://highnoonsportfishing.com/images/back.jpg",
+    "point_name": "합포마을 남측",
+    "name": "진해항 부근",
+    "address": "경상남도 창원시",
+    "rate": "3.3",
+    "long": 128.6961678,
+    "lat": 35.0973736108878,
+    "reviewCnt": 15,
+    "category": "선상",
+    "description": {
+      "fish": "도다리 · 노래미 · 볼락 · 감성돔 · 갑오징어",
+      "tide": "초들물 ~ 중날물",
+      "dpwt": "0.1 ~ 1.7",
+      "material": "펄"
+    }
+  },
+  {
+    "id": 8,
+    "img": "https://highnoonsportfishing.com/images/back.jpg",
+    "point_name": "합포마을 남측",
+    "name": "진해항 부근",
+    "address": "경상남도 창원시",
+    "rate": "3.3",
+    "long": 128.6961678,
+    "lat": 35.0973736108878,
+    "reviewCnt": 15,
+    "category": "선상",
+    "description": {
+      "fish": "도다리 · 노래미 · 볼락 · 감성돔 · 갑오징어",
+      "tide": "초들물 ~ 중날물",
+      "dpwt": "0.1 ~ 1.7",
+      "material": "펄"
+    }
   }
 ]
