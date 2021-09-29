@@ -15,19 +15,20 @@ pipeline {
 			agent {
 				docker {
 					image 'maven:3-alpine'
-					args '-v /root/.m2:/root/.m2'
+					args '-v /$HOME/.m2:/root/.m2'
 				}
 			}
 			options { skipDefaultCheckout(false) }
 			steps {
-				sh 'mvn -B -DskipTests -f <your-pom.xml-directory> clean package'
+				sh 'mvn -B -DskipTests -f ./ISEAU/backend clean package'
 			}
 		}
 		stage('Docker build') {
 			agent any
 			steps {
 				// sh 'docker build -t <front-image-name>:latest <front dockerfile path>'
-				sh 'docker build -t backend:latest ./backend'
+				sh 'docker build -t backend:latest ./ISEAU/backend'
+				sh 'docker build -t frontend:latest ./ISEAU/frontend'
 			}
 		}
 		stage('Docker run') {
@@ -35,29 +36,24 @@ pipeline {
 			steps {
 				// 현재 동작중인 컨테이너 중 <front-image-name>의 이름을 가진
 				// 컨테이너를 stop 한다
-				// sh 'docker ps -f name=<front-image-name> -q \
-					// | xargs --no-run-if-empty docker container stop'
-				// 현재 동작중인 컨테이너 중 <back-image-name>의 이름을 가진
-				// 컨테이너를 stop 한다
-				sh 'docker ps -f name=backimg -q \
-					| xargs --no-run-if-empty docker container stop'
-				// <front-image-name>의 이름을 가진 컨테이너를 삭제한다.
-				// sh 'docker container ls -a -f name=<front-image-name> -q \
-					// | xargs -r docker container rm'
-				// <back-image-name>의 이름을 가진 컨테이너를 삭제한다.
-				sh 'docker container ls -a -f name=backend -q \
-					| xargs -r docker container rm'
+				sh 'docker ps -f name=frontend -q | xargs --no-run-if-empty docker container stop'
+
+				sh 'docker ps -f name=backimg -q | xargs --no-run-if-empty docker container stop'
+
+				sh 'docker container ls -a -f name=frontend -q | xargs -r docker container rm'
+
+				sh 'docker container ls -a -f name=backend -q | xargs -r docker container rm'
+
 				// docker image build 시 기존에 존재하던 이미지는
 				// dangling 상태가 되기 때문에 이미지를 일괄 삭제
-				sh 'docker images -f "dangling=true" -q \
-					| xargs -r docker rmi'
+				sh 'docker images -f "dangling=true" -q | xargs -r docker rmi'
 				// docker container 실행
 				// sh 'docker run -d --name <front-image-name> -p 80:80 <front-image-name>:latest'
-				sh 'docker run -d --name backend \
-                -p 8000:8000 \
-                -v /docker/jenkins-data/workspace/ICU/backend/src/main/resources/dist/upload:/var/www/html/upload \
-                --network our-net \
-                backend:latest'
+                sh 'docker run -d --name backend -v /home/ubuntu/img:/home/img --network ISEAU -p 8080:8080 backend:latest'    
+
+                sh 'docker run -d --name frontend -v /home/ubuntu/img:/home/img -v /home/ubuntu/key:/home/key --network ISEAU -p 80:80 -p 443:443 frontend:latest'     
+
+
 			}
 		}
 	}
