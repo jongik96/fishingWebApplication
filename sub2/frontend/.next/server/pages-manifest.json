@@ -3,10 +3,15 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
 <<<<<<< HEAD
+<<<<<<< HEAD
   "/search": "pages/search.js",
   "/": "pages/index.js"
 =======
   "/": "pages/index.js",
   "/DetailPoint": "pages/DetailPoint.js"
 >>>>>>> d53fc7e2ddd5c234f4b0d6c4e03c7740fc497284
+=======
+  "/Login": "pages/Login.js",
+  "/Signup": "pages/Signup.js"
+>>>>>>> 0982405d26ca6018a7fe6ef0dbad58ce738ad38d
 }
