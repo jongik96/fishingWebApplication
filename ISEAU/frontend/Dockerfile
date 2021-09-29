@@ -9,7 +9,7 @@ COPY ./package*.json ./
 
 RUN npm install 
 COPY . . 
-RUN npm run dev 
+RUN npm run build 
 
 # 빌드한 프론트 결과물을 nginx 이미지에 옮겨서 실행하는 과정 
 ### 필요없는 기존 conf 문서를 삭제하고, nginx에 설정하기 위한 conf를 복사 
@@ -20,4 +20,4 @@ FROM nginx:latest as production-stage
 COPY ./app.conf /etc/nginx/conf.d/app.conf
 COPY --from=build-stage ./app/build /usr/share/nginx/html/app
 EXPOSE 80 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "start:prod"]
