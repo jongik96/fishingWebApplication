@@ -23,6 +23,7 @@ const Login = () => {
     });
   }; 
   
+  // 이메일 유효성검사
   const isEmail = (Email) =>{
     const emailRegex =
     /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -30,6 +31,7 @@ const Login = () => {
     return emailRegex.test(Email);
   }
 
+  // signup 페이지로 이동
   const router = useRouter();
   const Signup = () =>{
     router.push({
@@ -59,14 +61,14 @@ const Login = () => {
                    E-mail
                   </p>
                   <input type="text" name="Email" value={Email} onChange = {onChange} placeholder=" Email" className="text-lg w-full rounded-lg border-2 border-gray-400" />
-                  { ((Email.length!=0) && !isEmail(Email)) && (<p className="text-gray-500">not valid Email</p>)}
+                  { ((Email.length!=0) && !isEmail(Email)) && (<p className="text-red-500">잘못된 이메일 형식입니다.</p>)}
 
                   <p className="my-4 text-black-900 text-lg leading-relaxed">
                    Password
                   </p>
                   <input type="password" name="Password" value={Password} onChange = {onChange} placeholder=" Password" className="text-lg w-full rounded-lg border-2 border-gray-400" />
                   { (Password.length!=0) && (Password.length<10 || Password.length>20) &&
-                    (<p className="text-gray-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
+                    (<p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
                    )}
 
                 </div>

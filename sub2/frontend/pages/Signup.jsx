@@ -26,22 +26,24 @@ const Signup = () => {
       isEmail(Email) && (Password.length>=10 || Password.length<21) &&
        (Nickname.length<2 || Nickname.length>6) &&
        (Address.length>0) && (PhoneNumber.length>0 && isNumber)
-        ? setLoginBtn(true) : setLoginBtn(false);
+        ? setSignupBtn(true) : setSignupBtn(false);
     }
 
+    // 이메일 유효성검사
     const isEmail = (Email) =>{
         const emailRegex =
         /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     
         return emailRegex.test(Email);
     }
-
+    // 전화번호 유효성검사  무조건 숫자만 들어갈수있도록
     const isNumber = (PhoneNumber) => {
         const numberRegex = 
         /^[0-9]{1,100}$/g;
         return numberRegex.test(PhoneNumber);
     }
 
+    // 로그인페이지로 이동
     const router = useRouter();
     const Login = () =>{
         router.push({
@@ -70,14 +72,14 @@ const Signup = () => {
             E-mail
             </p>
             <input type="text" name="Email" onChange = {onChange} placeholder=" Email" className="text-lg w-full rounded-lg border-2 border-gray-400" />
-            {(Email.length!=0) && !isEmail(Email) && (<p className="text-gray-500">not valid Email</p>)}
+            {(Email.length!=0) && !isEmail(Email) && (<p className="text-red-500">잘못된 이메일 형식입니다.</p>)}
             {/*Password*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Password
             </p>
             <input type="password" name="Password" onChange = {onChange} placeholder=" Password" className="text-lg w-full rounded-lg border-2 border-gray-400" />
             {(Password.length!=0)&&(Password.length<10 || Password.length>20) &&
-             (<p className="text-gray-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>)}
+             (<p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>)}
             {/*Nickname*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Nickname
@@ -85,7 +87,7 @@ const Signup = () => {
             <input type="text" name="Nickname" value={Nickname} onChange = {onChange} placeholder=" Nickname" className="text-lg w-full rounded-lg border-2 border-gray-400" />
             {   (Nickname.length!=0) &&
                 (Nickname.length<2 || Nickname.length>6) && 
-                (<p className="text-gray-500">Nickname은 2자이상 6자 이하여야합니다</p>
+                (<p className="text-red-500">Nickname은 2자이상 6자 이하여야합니다</p>
             )}
             {/*Address*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
@@ -97,7 +99,7 @@ const Signup = () => {
             Phone Number
             </p>
             <input type="text" name="PhoneNumber" value={PhoneNumber} onChange = {onChange} placeholder=" 010XXXXXXXX" className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400" />
-            { (PhoneNumber.length!=0) && !isNumber(PhoneNumber) && (<p className="text-gray-500">숫자만 입력해주세요</p>)}
+            { (PhoneNumber.length!=0) && !isNumber(PhoneNumber) && (<p className="text-red-500">숫자만 입력해주세요</p>)}
             </div>
             {/*footer*/}
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

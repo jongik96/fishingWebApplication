@@ -23,18 +23,13 @@ const Signup = () => {
     
     const [SignupBtn, setSignupBtn] = useState(false);
     const changeBtn = () => {
-      isEmail(Email) && (Password.length>=10 || Password.length<21) &&
+      (Password.length>=10 || Password.length<21) &&
        (Nickname.length<2 || Nickname.length>6) &&
        (Address.length>0) && (PhoneNumber.length>0 && isNumber)
-        ? setLoginBtn(true) : setLoginBtn(false);
+        ? setSignupBtn(true) : setSignupBtn(false);
     }
 
-    const isEmail = (Email) =>{
-        const emailRegex =
-        /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    
-        return emailRegex.test(Email);
-    }
+
 
     const isNumber = (PhoneNumber) => {
         const numberRegex = 
@@ -70,7 +65,7 @@ const Signup = () => {
             E-mail
             </p>
             <input type="text" disabled name="Email" onChange = {onChange} placeholder=" Email" className="text-lg w-full rounded-lg border-2 border-gray-400" />
-            {(Email.length!=0) && !isEmail(Email) && (<p className="text-gray-500">not valid Email</p>)}
+            {(Email.length!=0) && (<p className="text-gray-500">not valid Email</p>)}
             {/*Password*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Password
