@@ -10,7 +10,7 @@ import matplotlib.font_manager as fm
 def set_config():
     # 폰트, 그래프 색상 설정
     font_list = fm.findSystemFonts(fontpaths=None, fontext="ttf")
-    if any(["notosanscjk" in font.lower() for font in font_list]):
+    if any(["notosanscjk-black" in font.lower() for font in font_list]):
         plt.rcParams["font.family"] = "Noto Sans CJK JP"
     else:
         if not any(["malgun" in font.lower() for font in font_list]):
@@ -78,23 +78,33 @@ def show_store_review_distribution_graph(dataframes):
     plt.title("음식점 리뷰 분포")
     plt.show()
 
-    # best_reviews = stores_reviews.groupby(["store", "store_name"]).count()
+    stores_reviews = pd.merge(
+        dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
+    )
 
-    # print(best_reviews)    
+    review_group = stores_reviews.groupby(["store"])
+    reviews = review_group.count()
+    reviews = reviews.sort_values(by="score", ascending=False)
 
-    print(best_reviews)    
+    review_list = []
+    for i, r in reviews.iterrows():
+        review_list.append(r["score"])
+
+    reviews_count = Counter(review_list).most_common()
+
+    df = pd.DataFrame(reviews_count, columns=["reviews", "count"]).sort_values(
+        by=["count"], ascending=False
+    )
 
     # 그래프로 나타냅니다
-    chart = sns.barplot(x="store", y="count", data=best_reviews)
+    chart = sns.barplot(x="reviews", y="count", data=df)
     chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
-    plt.title("음식점 리뷰 개수 분포")
+    plt.title("음식점 리뷰 분포")
     plt.show()
-
-    # raise NotImplementedError
 
 def show_store_average_ratings_graph(dataframes):
     """
-    Req. 1-3-2 각 음식점의 평균 평점을 그래프로 나타냅니다.
+    Req. 1-3-2 각 음식점의 평균 평점 분포를 그래프로 나타냅니다.
     """
     stores_reviews = pd.merge(
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
@@ -102,6 +112,7 @@ def show_store_average_ratings_graph(dataframes):
     scores_group = stores_reviews.groupby(["store", "store_name"])
     scores = scores_group.mean()
     score_list = []
+
     for i, r in scores.iterrows():
         score_list.append(round(r["score"], 1))
 
@@ -117,7 +128,27 @@ def show_store_average_ratings_graph(dataframes):
     plt.title("음식점 평균 평점 분포")
     plt.show()
 
+    stores_reviews = pd.merge(
+        dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
+    )
 
+    scores_group = stores_reviews.groupby(["store", "store_name"]).mean()
+
+    avg_scores = []
+    for i, s in scores_group.iterrows():
+        avg_scores.append(round(s["score"], 1))
+
+    scores_count = Counter(avg_scores).most_common()
+
+    df = pd.DataFrame(scores_count, columns=["store_name", "avg_score"])
+
+    # 그래프로 나타냅니다
+    chart = sns.barplot(x="store_name", y="avg_score", data=df)
+    chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
+    plt.title("음식점의 평균 평점")
+    plt.show()
+
+  
 def show_user_review_distribution_graph(dataframes):
     """
     Req. 1-3-3 전체 유저의 리뷰 개수 분포를 그래프로 나타냅니다.
@@ -187,9 +218,9 @@ def main():
     data = load_dataframes()
     # show_store_categories_graph(data)
     # show_store_review_distribution_graph(data)
-    # show_store_average_ratings_graph(data)
+    show_store_average_ratings_graph(data)
     # show_user_review_distribution_graph(data)
-    show_user_age_gender_distribution_graph(data)
+    # show_user_age_gender_distribution_graph(data)
     # show_stores_distribution_graph(data)
 
 if __name__ == "__main__":
