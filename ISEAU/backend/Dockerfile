@@ -6,9 +6,9 @@ COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 
 # RUN mkdir /backend
-WORKDIR ..
+# WORKDIR ..
 # COPY ./backend /backend
 
-CMD ["python3", "backend/manage.py", "runserver", "0:8000"]
-
+# CMD ["python3", "manage.py", "runserver", "0:8000"]
+CMD ["PWD" ]
 EXPOSE 8000
