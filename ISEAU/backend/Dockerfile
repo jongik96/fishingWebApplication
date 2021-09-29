@@ -10,5 +10,5 @@ RUN pip install -r /requirements.txt
 # COPY ./backend /backend
 
 # CMD ["python3", "manage.py", "runserver", "0:8000"]
-CMD ["PWD" ]
+CMD ["ls" ]
 EXPOSE 8000
