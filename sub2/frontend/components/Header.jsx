@@ -1,15 +1,35 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "../img/logo.png";
 import { SearchIcon, GlobeAltIcon, UsersIcon, UserIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/dist/client/router";
 //dropdown menu
 import DropdownMenu from "./DropdownMenu";
-
+import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
+import fishingData from "../dummy/json/fishingDump.json";
+import fishDump from "../dummy/json/fishDump.json";
+import { Tab } from "@headlessui/react";
+import { data } from "autoprefixer";
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 const Header = ({ placeholder }) => {
   const [searchInput, setSearchInput] = useState("");
   const [locationInfo, setLocationInfo] = useState(null);
   const [fishInfo, setFishInfo] = useState(null);
+  const [locationSelected, setLocationSelected] = useState(true);
+  const [fishSelected, setFishSelected] = useState(false);
+
+  useEffect(() => {
+    const data = {
+      text: searchInput,
+    };
+    var locationResult = fishingData.filter((data) => data.address.includes(searchInput));
+    var fishResult = fishDump.filter((data) => data.fname.toLowerCase().includes(searchInput));
+    setLocationInfo(locationResult);
+
+    setFishInfo(fishResult);
+  }, [searchInput, fishSelected, locationSelected, fishSelected]);
 
   const router = useRouter();
 
@@ -25,6 +45,20 @@ const Header = ({ placeholder }) => {
       },
     });
   };
+
+  const HandleLocation = () => {
+    setLocationSelected(true);
+    setFishSelected(false);
+    console.log(locationSelected);
+  };
+
+  const HandleFish = () => {
+    setLocationSelected(false);
+    setFishSelected(true);
+    console.log(fishSelected);
+  };
+
+  const toDetail = () => {};
 
   return (
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-2 md:px-12">
@@ -72,15 +106,78 @@ const Header = ({ placeholder }) => {
       {searchInput && (
         <>
           <div className="flex flex-col col-span-3 mx-auto w-full lg:w-[550px] mt-2 h-[150px] shadow-md">
-            <div className="grid grid-cols-2 border-b">
-              <div className="flex items-center mx-auto">지역</div>
-              <div className="flex items-center mx-auto">어종</div>
-            </div>
-            <div className="grid grid-cols-2 mt-2 overflow-scroll">
-              <div className="flex">
-              </div>
-              <div className="flex">어종</div>
-            </div>
+            <Tab.Group>
+              <Tab.List className="flex p-1 space-x-1 bg-blue900/20 rounded-xl">
+                <Tab
+                  className={({ selected }) =>
+                    classNames(
+                      "w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-lg",
+                      "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60",
+                      selected
+                        ? "bg-white shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-blue-400"
+                    )
+                  }
+                >
+                  지역
+                </Tab>
+                <Tab
+                  className={({ selected }) =>
+                    classNames(
+                      "w-full py-2.5 text-sm leading-5 font-medium text-blue-700 rounded-lg",
+                      "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60",
+                      selected
+                        ? "bg-white shadow"
+                        : "text-blue-100 hover:bg-white/[0.12] hover:text-blue-400"
+                    )
+                  }
+                >
+                  어종
+                </Tab>
+              </Tab.List>
+              <Tab.Panels className="mt-2 overflow-scroll">
+                <Tab.Panel>
+                  <div>
+                    {locationInfo.map(({ id, point_name, address, rate }) => {
+                      return (
+                        <div className="flex justify-between overflow-scroll">
+                          <p
+                            className="cursor-pointer text-lg ml-5"
+                            onClick={() => {
+                              setSearchInput(address);
+                            }}
+                          >
+                            📌 {address} [{point_name}]
+                          </p>
+                          <p className="flex items-center cursor-pointer pr-5" onClick={() => {}}>
+                            <ChevronDoubleRightIcon className="h-5" />
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </Tab.Panel>
+                <Tab.Panel>
+                  {fishInfo.map(({ id, fname }) => {
+                    return (
+                      <div className="flex justify-between">
+                        <p
+                          className="cursor-pointer text-lg ml-5"
+                          onClick={() => {
+                            setSearchInput(fname);
+                          }}
+                        >
+                          🐳 {fname}
+                        </p>
+                        <p className="flex items-center cursor-pointer pr-5" onClick={() => {}}>
+                          <ChevronDoubleRightIcon className="h-5" />
+                        </p>
+                      </div>
+                    );
+                  })}
+                </Tab.Panel>
+              </Tab.Panels>
+            </Tab.Group>
           </div>
         </>
       )}
