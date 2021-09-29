@@ -9,6 +9,6 @@ RUN mkdir /backend
 WORKDIR /backend
 COPY ./backend /backend
 
-CMD ["python3", "manage.py", "runserver", "0:8000"]
+CMD ["python3", "../manage.py", "runserver", "0:8000"]
 
 EXPOSE 8000
