@@ -45,7 +45,7 @@ def import_data(data_path=DATA_FILE):
     """
     Req. 1-1-1 음식점 데이터 파일을 읽어서 Pandas DataFrame 형태로 저장합니다
     """
-
+    
     try:
         with open(data_path, encoding="utf-8") as f:
             data = json.loads(f.read())
@@ -85,12 +85,13 @@ def import_data(data_path=DATA_FILE):
                 [r["id"], d["id"], u["id"], r["score"], r["content"], r["reg_time"]]
             )
 
+        current_year = 2020
         # 리뷰에 글을 단 유저 importing 
         for user in d["review_list"]:
             u = user["writer_info"]
 
             users.append(
-                [u["id"], u["gender"], u["born_year"]]
+                [u["id"], u["gender"], current_year - int(u["born_year"])]
             )
 
         # 메뉴 importing 
@@ -102,8 +103,6 @@ def import_data(data_path=DATA_FILE):
                     d["id"], m, p
                 ]
             )
-
-            
 
     store_frame = pd.DataFrame(data=stores, columns=store_columns)
     review_frame = pd.DataFrame(data=reviews, columns=review_columns)
