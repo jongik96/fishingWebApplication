@@ -90,29 +90,5 @@ def main():
         )
     print(f"\n{separater}\n\n")
 
-    most_reviewed_stores = get_most_reviewed_stores(data)
-
-    print("[리뷰 개수 기준 음식점]")
-    print(f"{separater}\n")
-    for i, store in most_reviewed_stores.iterrows():
-        print(
-            "{rank}위: {store}(리뷰 {score}개)".format(
-                rank=i + 1, store=store.store_name, score=store.score
-            )
-        )
-    print(f"\n{separater}\n\n")
-
-    most_active_users = get_most_active_users(data)
-
-    print("[리뷰 개수 기준 유저]")
-    print(f"{separater}\n")
-    for i, store in most_active_users.iterrows():
-        print(
-            "{rank}위: {user}(리뷰 {score}개)".format(
-                rank=i + 1, score=store.score, user=store.user
-            )
-        )
-    print(f"\n{separater}\n\n")
-
 if __name__ == "__main__":
     main()
