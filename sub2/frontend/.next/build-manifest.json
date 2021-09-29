@@ -14,20 +14,15 @@
     "static/development/_ssgManifest.js"
   ],
   "pages": {
-    "/Login": [
+    "/": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/Login.js"
+      "static/chunks/pages/index.js"
     ],
-    "/Signup": [
+    "/RecommendCategory": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/Signup.js"
-    ],
-    "/DetailPoint": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/DetailPoint.js"
+      "static/chunks/pages/RecommendCategory.js"
     ],
     "/_app": [
       "static/chunks/webpack.js",

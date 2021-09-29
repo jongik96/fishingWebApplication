@@ -106,7 +106,6 @@ const Header = ({ placeholder }) => {
       {searchInput && (
         <>
           <div className="flex flex-col col-span-3 mx-auto w-full lg:w-[550px] mt-2 h-[150px] shadow-md">
-<<<<<<< HEAD
             <Tab.Group>
               <Tab.List className="flex p-1 space-x-1 bg-blue900/20 rounded-xl">
                 <Tab
@@ -179,24 +178,6 @@ const Header = ({ placeholder }) => {
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
-=======
-            <div className="grid grid-cols-2 border-b">
-              <div className="flex items-center mx-auto">지역</div>
-              <div className="flex items-center mx-auto">어종</div>
-            </div>
-            <div className="grid grid-cols-2 mt-2 overflow-scroll">
-              {/* <div className="flex">
-                {locationInfo === null ? "지역 정보가 없습니다." : ""}
-                {
-                  locationInfo && locationInfo.map((item, index) => {
-                    return (<div key={index} onClick={(e) => })
-                  })
-                }
-                
-              </div> */}
-              <div className="flex">어종</div>
-            </div>
->>>>>>> d53fc7e2ddd5c234f4b0d6c4e03c7740fc497284
           </div>
         </>
       )}
