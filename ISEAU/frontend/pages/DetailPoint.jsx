@@ -32,7 +32,7 @@ const DetailPoint = () => {
     material,
     tide,
   } = router.query;
-  const fishArr = fish.split("·");
+  // const fishArr = fish.split("·");
 
   const getToday = () => {
     const today = new Date();
@@ -134,12 +134,12 @@ const DetailPoint = () => {
           <h3 className="text-2xl font-semibold mt-2 mb-6">{tide}</h3>
           {/* 물고기 정보*/}
           <div className="grid grid-flow-row grid-cols-2 justify-around pt-5">
-            {fishArr.map((value, index) => (
+            {/* {fishArr.map((value, index) => (
               <p className="flex items-center " key={index}>
                 <HeartIcon className="h-4 text-red-400" />
                 {value}
               </p>
-            ))}
+            ))} */}
           </div>
           <hr />
         </section>
