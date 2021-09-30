@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import { getCenter } from "geolib";
 
-const DetailMap = ({ fishingData, nowWidth }) => {
+const DetailMap = ({ fishingData }) => {
   const [clickedLocation, setClickedLocation] = useState({});
   function getWindowDimensions() {
     if (typeof window !== "undefined") {
@@ -10,6 +10,12 @@ const DetailMap = ({ fishingData, nowWidth }) => {
       return {
         width,
         height,
+      };
+    }else
+    {
+      return {
+        width=0,
+        height=0,
       };
     }
   }
@@ -29,9 +35,9 @@ const DetailMap = ({ fishingData, nowWidth }) => {
 
     return windowDimensions;
   }
-  if (typeof window !== "undefined") {
-    const { height, width } = useWindowDimensions();
-  }
+
+  const { height, width } = useWindowDimensions();
+
   useEffect(() => {
     setViewport((state) => ({
       ...state,
