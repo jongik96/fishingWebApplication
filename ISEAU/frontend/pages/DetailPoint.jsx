@@ -9,14 +9,16 @@ import Map from "../components/Map";
 import reviewData from "../dummy/json/reviewDump.json";
 import fishingData from "../dummy/json/fishingDump.json";
 import axios from "axios";
+import DatePicker from "react-datepicker";
 import { useRouter } from "next/dist/client/router";
 import { StarIcon } from "@heroicons/react/solid";
 import { HeartIcon } from "@heroicons/react/outline";
-
+import "react-datepicker/dist/react-datepicker.css";
 const DetailPoint = () => {
   const router = useRouter();
   const [obs_code, setObs_code] = useState("DT_0001");
   const [tideArr, setTideArr] = useState();
+  const [selectedDate, setSelectedDate] = useState(new Date());
   let [isOpen, setIsOpen] = useState(false);
   const {
     id,
@@ -32,10 +34,9 @@ const DetailPoint = () => {
     material,
     tide,
   } = router.query;
-  // const fishArr = fish.split("·");
 
   const getToday = () => {
-    const today = new Date();
+    const today = new Date(selectedDate);
     const year = today.getFullYear();
     const month = ("0" + (today.getMonth() + 1)).slice(-2);
     const day = ("0" + today.getDate()).slice(-2);
@@ -66,7 +67,7 @@ const DetailPoint = () => {
   useEffect(() => {
     getTideInfo();
     return () => {};
-  }, []);
+  }, [selectedDate]);
   // 5개의 데이터만 보여주기
   let topReview = Object.assign([], reviewData);
   topReview.length = 5;
@@ -78,6 +79,7 @@ const DetailPoint = () => {
   const scroll = useRef(null);
   function openModal() {
     setIsOpen(true);
+    if (scroll.current != null) scroll.current.scrollTop = 0;
   }
   return (
     <div>
@@ -94,7 +96,7 @@ const DetailPoint = () => {
               {rate}
               <p className="pl-2 text-sm text-gray-500">({reviewCnt}개의 리뷰)</p>
             </p>
-            <p className="flex items-center">
+            <p className="flex items-center hover:underline cursor-pointer">
               <HeartIcon className="h-4 text-red-400" />
               저장
             </p>
@@ -112,18 +114,35 @@ const DetailPoint = () => {
                 <Image src={img} layout="fill" objectFit="cover" className="rounded-2xl" />
               </div>
             </div>
-            <div className="grid items-center">
-              {/* {tideArr?.tideArr[0].tph_time} */}
-              {tideArr ? tideArr[0].tph_time : ""}
-              <div className="grid grid-cols-2 gap-4 ">
+            {/* 조위 예측 부분 */}
+            <div className="text-center text-2xl mt-3">
+              {tideArr ? tideArr[0].tph_time.slice(0, 10) : ""}
+              <div className="grid grid-cols-2">
                 {tideArr?.map((value) => (
-                  <div className="h-24 w-52 md:h-36 py-3">
-                    <p className="border-black border-2 rounded-md h-1/3">{value.tph_time}</p>
-                    <p className="border-black border-2 rounded-md h-1/3">{value.hl_code}</p>
-                    <p className="border-black border-2 rounded-md h-1/3">{value.tph_level}</p>
+                  <div className="flex flex-row my-10 mx-5">
+                    <p className="flex justify-center items-center m-1">
+                      {value.tph_time.slice(10, 16)}
+                    </p>
+                    <p
+                      className={
+                        "w-10 h-10 rounded-full flex justify-center items-center font-bold text-white mx-1 " +
+                        (value.hl_code === "저조" ? "bg-red-600" : "bg-blue-600")
+                      }
+                    >
+                      {value.hl_code.slice(0, 1)}
+                    </p>
+                    <p className="flex justify-center items-center m-1">{value.tph_level}cm</p>
                   </div>
                 ))}
               </div>
+            </div>
+            {/* 달력 부분 */}
+            <div className="mt-5 mx-10">
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+                inline
+              />
             </div>
           </div>
           <hr />
@@ -179,6 +198,7 @@ const DetailPoint = () => {
               ))}
             </div>
           </div>
+          {/* 리뷰 모두 보기 */}
           <div
             className="my-3 p-3 border-solid border-2 rounded-xl w-max cursor-pointer hover:scale-105 transform transition duration-300 ease-out "
             onClick={openModal}
@@ -186,6 +206,7 @@ const DetailPoint = () => {
             <p>{reviewCnt}개의 리뷰 모두 보기</p>
           </div>
 
+          {/* 리뷰 모달 다이얼로그 */}
           <Transition appear show={isOpen} as={Fragment}>
             <Dialog
               as="div"
