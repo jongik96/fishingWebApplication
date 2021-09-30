@@ -30,12 +30,33 @@ const Signup = () => {
     }
 
 
-
+    // 전화번호 유효성검사
     const isNumber = (PhoneNumber) => {
         const numberRegex = 
         /^[0-9]{1,100}$/g;
         return numberRegex.test(PhoneNumber);
     }
+
+    // modify Request
+    const Modify = () => {
+        axios({
+            method: "put",
+            url: 'http://j5d204.p.ssafy.io:8000/user/modify',
+            data: {
+                email: inputs.Email,
+                password : inputs.Password,
+                Nickname : inputs.Nickname,
+                Address : inputs.Address,
+                PhoneNumber : inputs.PhoneNumber,
+                username : inputs.Username,
+            }
+        }).then((res) =>{
+            console.log("email: ")
+            console.log(res.data)
+        }).catch((error)=> {
+            console.log(error)
+        })
+    }    
 
     const router = useRouter();
     const Login = () =>{
@@ -64,8 +85,8 @@ const Signup = () => {
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             E-mail
             </p>
-            <input type="text" disabled name="Email" onChange = {onChange} placeholder=" Email" className="text-lg w-full rounded-lg border-2 border-gray-400" />
-            {(Email.length!=0) && (<p className="text-gray-500">not valid Email</p>)}
+            <input type="text" disabled name="Email" onChange = {onChange} placeholder={Email} className="text-lg w-full rounded-lg border-2 border-gray-400" />
+            
             {/*Password*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Password
@@ -108,8 +129,8 @@ const Signup = () => {
                     <button
                         className="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-blue-300 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
-                        onClick={Signup}
-                        disabled={!SignupBtn}
+                        onClick={Modify}
+                        
                     >
                         변경
                     </button>

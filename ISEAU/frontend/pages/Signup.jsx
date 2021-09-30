@@ -59,7 +59,6 @@ const Signup = () => {
                 username : inputs.Username,
             }
         }).then((res) =>{
-            console.log("email: ")
             console.log(res.data)
         }).catch((error)=> {
             console.log(error)
