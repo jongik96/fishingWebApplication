@@ -113,7 +113,8 @@ const DetailPoint = () => {
               </div>
             </div>
             <div className="grid items-center">
-              {/* {!tideArr?.tideArr[0].tph_time} */}
+              {/* {tideArr?.tideArr[0].tph_time} */}
+              {tideArr ? tideArr[0].tph_time : ""}
               <div className="grid grid-cols-2 gap-4 ">
                 {tideArr?.map((value) => (
                   <div className="h-24 w-52 md:h-36 py-3">
