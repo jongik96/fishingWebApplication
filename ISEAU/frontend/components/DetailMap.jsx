@@ -62,10 +62,7 @@ const DetailMap = ({ fishingData }) => {
     latitude: center.latitude,
     zoom: 10,
   });
-  useEffect(() => {
-    let newViewport = Object.assign({}, viewport);
-    newViewport.width = nowWidth;
-  }, []);
+
   return (
     <ReactMapGL
       mapStyle="mapbox://styles/jaedenist/cktspge5j5d5418opcln0d1jx"
