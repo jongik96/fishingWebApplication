@@ -29,8 +29,9 @@ const DetailMap = ({ fishingData, nowWidth }) => {
 
     return windowDimensions;
   }
-
-  const { height, width } = useWindowDimensions();
+  if (typeof window !== "undefined") {
+    const { height, width } = useWindowDimensions();
+  }
   useEffect(() => {
     setViewport((state) => ({
       ...state,
