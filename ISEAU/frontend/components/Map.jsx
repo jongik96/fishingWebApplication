@@ -5,7 +5,6 @@ import { getCenter } from "geolib";
 const Map = ({ fishingData }) => {
   const [clickedLocation, setClickedLocation] = useState({});
 
-  console.log(fishingData);
   // 검색된 위치의 결과 객체를 {위도: ~~~ , 경도 : ~~~ } 처럼 바꾸는 작업
 
   const changing = fishingData.map((res) => ({
@@ -13,12 +12,9 @@ const Map = ({ fishingData }) => {
     longitude: res.long,
   }));
 
-  console.log(changing);
-
   //   지도 중심부위 (처음 보여주는 곳) {위도, 경도} 객체로 변환
   //   지도 중심부위는 해당 지역의 모든 포인트들의 중심부라고 생각하면 됨.
   const center = getCenter(changing);
-  console.log(center);
 
   const [viewport, setViewport] = useState({
     width: "110%",
@@ -27,7 +23,6 @@ const Map = ({ fishingData }) => {
     latitude: center.latitude,
     zoom: 10,
   });
-  console.log(viewport);
   return (
     <ReactMapGL
       mapStyle="mapbox://styles/jaedenist/cktspge5j5d5418opcln0d1jx"

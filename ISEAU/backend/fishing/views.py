@@ -58,12 +58,6 @@ class ScrapList(APIView):
             data['reviewCnt'] = reviewCnt
             data['rating'] = rating
 
-            fish = data['fish'].split(',')
-            fish = '·'.join(fish)
-
-            data['fish'] = fish
-
-
         return Response(serializered_data)
         
 class fishingDetail(APIView):
@@ -78,10 +72,6 @@ class fishingDetail(APIView):
         serializer = FishingSerializer(fishing, many=True)
         serializer.data[0].update({'reviewCnt': reviewCnt})
         serializer.data[0].update({'rating': rating})
-
-        fish = serializer.data[0]['fish'].split(',')
-        fish = '·'.join(fish)
-        serializer.data[0].update({'fish': fish})
 
         return Response(serializer.data)
 
@@ -145,11 +135,7 @@ class searchLoc(APIView):
             data['reviewCnt'] = reviewCnt
             data['rating'] = rating
 
-            fish = data['fish'].split(',')
-            fish = '·'.join(fish)
-
-            data['fish'] = fish
-
+  
         return Response(serializered_data)
 
 

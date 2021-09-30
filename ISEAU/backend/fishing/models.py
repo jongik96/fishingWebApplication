@@ -27,10 +27,8 @@ class Fishing(models.Model):
         options={"quality": 60},
         default="fishingdefault.png",
     )
-    # fish = models.ManyToManyField(Fish)
-    fish = models.CharField(max_length=100)
-    # reviewCnt = models.IntegerField()
-    # rating = models.FloatField()
+    obsCode = models.CharField(max_length=100)
+    obsPostId = models.CharField(max_length=100)
 
 class Scrap(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
