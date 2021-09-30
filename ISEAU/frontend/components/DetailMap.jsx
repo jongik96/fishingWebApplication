@@ -8,7 +8,7 @@ const DetailMap = ({ fishingData }) => {
     if (typeof window !== "undefined") {
       const { innerWidth: width, innerHeight: height } = window;
       return {
-        width,
+        width: (width / 100) * 90,
         height,
       };
     } else {
