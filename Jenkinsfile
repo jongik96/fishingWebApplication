@@ -54,7 +54,7 @@ pipeline {
 				// sh 'docker run -d --name <front-image-name> -p 80:80 <front-image-name>:latest'
                 sh 'docker run -d --name backend -p 8080:8080 backend:latest'    
 
-                sh 'docker run -d --name frontend  -p 80:80 -p 443:443 frontend:latest'     
+                sh 'docker run -d --name frontend  -p 80:80 -p 443:443 -p 3000:3000 frontend:latest'     
 
 
 			}
