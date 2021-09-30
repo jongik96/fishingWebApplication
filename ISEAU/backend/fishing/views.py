@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
 # import json
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from rest_framework import status
 from json.decoder import JSONDecodeError
 from rest_framework import permissions
@@ -118,24 +118,58 @@ class reviewFishingIdList(APIView):
     def get(self, request, fishingId, format=None):
         reviews = Review.objects.filter(fishing_id=fishingId)
       
-        serializer = ReviewSerializer(reviews, many=True)
-        return Response(serializer.data)
+        if reviews:
+            serializer = ReviewSerializer(reviews, many=True)
+            return Response(serializer.data)
+        else:
+            return HttpResponse(status=204)
 
 class searchLoc(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, location):
         searchQuery = Fishing.objects.filter(address=location)
+        if searchQuery:
+            serializered_data = FishingSerializer(searchQuery, many=True).data
 
-        serializered_data = FishingSerializer(searchQuery, many=True).data
-        for index, data in enumerate(serializered_data):
-            reviewSum = Review.objects.filter(fishing_id=data['id']).aggregate(Sum('rating'))
-            reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
-            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-            data['reviewCnt'] = reviewCnt
-            data['rating'] = rating
+            for index, data in enumerate(serializered_data):
+                reviewSum = Review.objects.filter(
+                    fishing_id=data['id']).aggregate(Sum('rating'))
+                if Review.objects.filter(fishing_id=data['id']).count():
+                    reviewCnt = Review.objects.filter(
+                        fishing_id=data['id']).count()
+                    rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+                    data['reviewCnt'] = reviewCnt
+                    data['rating'] = rating
+                else:
+                    data['reviewCnt'] = 0
+                    data['rating'] = 0
 
-  
-        return Response(serializered_data)
+            return Response(serializered_data)
+        else:
+            return HttpResponse(status=204)
+
+class autoLoc(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, location):
+        searchQuery = Fishing.objects.filter(address__icontains=location)
+        if searchQuery:
+            serializered_data = FishingSerializer(searchQuery, many=True).data
+
+            for index, data in enumerate(serializered_data):
+                reviewSum = Review.objects.filter(fishing_id=data['id']).aggregate(Sum('rating'))
+                if Review.objects.filter(fishing_id=data['id']).count():
+                    reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
+                    rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+                    data['reviewCnt'] = reviewCnt
+                    data['rating'] = rating
+                else:
+                    data['reviewCnt'] = 0
+                    data['rating'] = 0
+
+            return Response(serializered_data)
+        else:
+            return HttpResponse(status=204)
 
 
