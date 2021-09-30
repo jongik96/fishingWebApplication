@@ -114,7 +114,7 @@ DATABASES = {
         'NAME': 'iseau',
         'USER': 'iseau',
         'PASSWORD': 'j5d204',            # asd
-        'HOST': 'j5d204.p.ssafy.io',    # ec2 서버
+        'HOST': '172.26.10.219',    # ec2 서버
         'PORT': '3306',
     }
 }

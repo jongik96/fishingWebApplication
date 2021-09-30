@@ -17,3 +17,6 @@ ENTRYPOINT ["python3", "manage.py", "loaddata", "fishing/fixtures/reviewdata.jso
 CMD ["python3", "manage.py", "runserver", "0:8000"]
 
 EXPOSE 8000
+
+
+INSERT INTO mysql.user (Host, User, Password) VALUES ('%', 'ssafy', password('ssafy12345'));
