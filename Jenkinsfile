@@ -52,9 +52,9 @@ pipeline {
 				sh 'docker images -f "dangling=true" -q | xargs -r docker rmi'
 				// docker container 실행
 				// sh 'docker run -d --name <front-image-name> -p 80:80 <front-image-name>:latest'
-                sh 'docker run -d --name backend -p 8080:8080 backend:latest'    
+                sh 'docker run -d --name backend -p 8000:8000 backend:latest'    
 
-                sh 'docker run -d --name frontend  -p 80:80 -p 443:443 -p 3000:80 frontend:latest'     
+                sh 'docker run -d --name frontend  -p 80:80 -p 443:443 -p 80:3000 frontend:latest'     
 
 
 			}
