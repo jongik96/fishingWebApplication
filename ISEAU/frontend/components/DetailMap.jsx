@@ -11,11 +11,10 @@ const DetailMap = ({ fishingData }) => {
         width,
         height,
       };
-    }else
-    {
+    } else {
       return {
-        width=0,
-        height=0,
+        width: 0,
+        height: 0,
       };
     }
   }
