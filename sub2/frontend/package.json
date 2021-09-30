@@ -9,6 +9,7 @@
     "@badrap/bar-of-progress": "^0.1.2",
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
+    "axios": "^0.21.4",
     "geolib": "^3.3.1",
     "next": "latest",
     "next.js": "^1.0.3",

@@ -1,6 +1,7 @@
 import { useRouter } from "next/dist/client/router";
 import React, {useState} from "react";
 import Header from "../components/Header";
+import axios from 'axios'
 const Signup = () => {
 
     const [inputs, setInputs] = useState({
@@ -9,9 +10,10 @@ const Signup = () => {
         Nickname: '',
         Address: '',
         PhoneNumber: '',
+        Username: '',
     })
 
-    const { Email, Password, Nickname, Address, PhoneNumber } = inputs; // 비구조화 할당을 통해 값 추출
+    const { Email, Password, Nickname, Address, PhoneNumber, Username } = inputs; // 비구조화 할당을 통해 값 추출
     
     const onChange = (e) => {
         const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -41,6 +43,27 @@ const Signup = () => {
         const numberRegex = 
         /^[0-9]{1,100}$/g;
         return numberRegex.test(PhoneNumber);
+    }
+
+    // Signup
+    const Signup = () => {
+        axios({
+            method: "post",
+            url: 'http://127.0.0.1:8000/user/signup',
+            data: {
+                Email: Email,
+                password : Password,
+                Nickname : Nickname,
+                Address : Address,
+                PhoneNumber : PhoneNumber,
+                username : Username,
+            }
+        }).then((res) =>{
+            console.log("email: ")
+            console.log(res.data)
+        }).catch((error)=> {
+            console.log(error)
+        })
     }
 
     // 로그인페이지로 이동
@@ -89,6 +112,11 @@ const Signup = () => {
                 (Nickname.length<2 || Nickname.length>6) && 
                 (<p className="text-red-500">Nickname은 2자이상 6자 이하여야합니다</p>
             )}
+            {/*Username*/}
+            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            Username
+            </p>
+            <input type="text" name="Username" value={Username} onChange = {onChange} placeholder=" Username" className="text-lg w-full rounded-lg border-2 border-gray-400" />
             {/*Address*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Address
@@ -116,7 +144,7 @@ const Signup = () => {
                         className="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-blue-300 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={Signup}
-                        disabled={!SignupBtn}
+                        
                     >
                         Sign Up
                     </button>
