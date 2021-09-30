@@ -1,23 +1,17 @@
-import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState, useRef, useEffect } from "react";
-import ReactDOM from "react-dom";
+import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import ReviewCard from "../components/ReviewCard";
 import Image from "next/image";
 import Map from "../components/Map";
-import reviewData from "../dummy/json/reviewDump.json";
 import fishingData from "../dummy/json/fishingDump.json";
-import axios from "axios";
+
 import { useRouter } from "next/dist/client/router";
 import { StarIcon } from "@heroicons/react/solid";
 import { HeartIcon } from "@heroicons/react/outline";
 
 const DetailPoint = () => {
   const router = useRouter();
-  const [obs_code, setObs_code] = useState("DT_0001");
-  const [tideArr, setTideArr] = useState();
-  let [isOpen, setIsOpen] = useState(false);
+
   const {
     id,
     img,
@@ -32,53 +26,7 @@ const DetailPoint = () => {
     material,
     tide,
   } = router.query;
-  // const fishArr = fish.split("·");
-
-  const getToday = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = ("0" + (today.getMonth() + 1)).slice(-2);
-    const day = ("0" + today.getDate()).slice(-2);
-    const dateString = year + "" + month + "" + day;
-    return dateString;
-  };
-  // open api 사용
-  // XRsWF0UdqsOAqAZVJgqPOw==
-  const getTideInfo = () => {
-    axios({
-      url:
-        "http://www.khoa.go.kr/oceangrid/grid/api/tideObsPreTab/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&ObsCode=" +
-        obs_code +
-        "&Date=" +
-        getToday() +
-        "&ResultType=json",
-      dataType: "json",
-      method: "GET",
-    })
-      .then((response) => {
-        setTideArr(response.data.result.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    getTideInfo();
-    return () => {};
-  }, []);
-  // 5개의 데이터만 보여주기
-  let topReview = Object.assign([], reviewData);
-  topReview.length = 5;
-  // 모달
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-  const scroll = useRef(null);
-  function openModal() {
-    setIsOpen(true);
-  }
+  const fishArr = fish.split("·");
   return (
     <div>
       <Header />
@@ -112,17 +60,8 @@ const DetailPoint = () => {
                 <Image src={img} layout="fill" objectFit="cover" className="rounded-2xl" />
               </div>
             </div>
-            <div className="grid items-center">
-              {/* {!tideArr?.tideArr[0].tph_time} */}
-              <div className="grid grid-cols-2 gap-4 ">
-                {tideArr?.map((value) => (
-                  <div className="h-24 w-52 md:h-36 py-3">
-                    <p className="border-black border-2 rounded-md h-1/3">{value.tph_time}</p>
-                    <p className="border-black border-2 rounded-md h-1/3">{value.hl_code}</p>
-                    <p className="border-black border-2 rounded-md h-1/3">{value.tph_level}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="relative h-24 w-40 md:h-72 md:w-96 flex-shrink-0 m-1">
+              <Image src={img} layout="fill" objectFit="cover" className="rounded-2xl" />
             </div>
           </div>
           <hr />
@@ -132,12 +71,12 @@ const DetailPoint = () => {
           <h3 className="text-2xl font-semibold mt-2 mb-6">{tide}</h3>
           {/* 물고기 정보*/}
           <div className="grid grid-flow-row grid-cols-2 justify-around pt-5">
-            {/* {fishArr.map((value, index) => (
+            {fishArr.map((value, index) => (
               <p className="flex items-center " key={index}>
                 <HeartIcon className="h-4 text-red-400" />
                 {value}
               </p>
-            ))} */}
+            ))}
           </div>
           <hr />
         </section>
@@ -157,101 +96,6 @@ const DetailPoint = () => {
             <Map fishingData={fishingData} />
           </div>
           <h5 className="text-xl font-semibold mt-2 mb-6">{address}</h5>
-          <hr />
-        </section>
-
-        {/* 리뷰 */}
-        <section className="flex-grow pt-14 px-6">
-          <h3 className="text-2xl font-semibold mt-2 mb-6 flex flex-row">
-            <p className="flex items-center">
-              <StarIcon className="h-4 text-red-400" />
-              {rate + `  `}
-              {reviewCnt}개의 리뷰
-            </p>
-          </h3>
-          {/* 리뷰 컴포넌트*/}
-          <div className=" justify-around pt-5">
-            <p className="flex items-center"></p>
-            <div className="flex space-x-3 overflow-scroll scrollbar-hide ">
-              {topReview.map(({ img, nickname, date, desc }, index) => (
-                <ReviewCard key={index} img={img} nickname={nickname} date={date} desc={desc} />
-              ))}
-            </div>
-          </div>
-          <div
-            className="my-3 p-3 border-solid border-2 rounded-xl w-max cursor-pointer hover:scale-105 transform transition duration-300 ease-out "
-            onClick={openModal}
-          >
-            <p>{reviewCnt}개의 리뷰 모두 보기</p>
-          </div>
-
-          <Transition appear show={isOpen} as={Fragment}>
-            <Dialog
-              as="div"
-              className="fixed inset-y-0 left-1/2 -translate-x-1/2 z-10 "
-              onClose={closeModal}
-              initialFocus={scroll}
-            >
-              <div className="max-h-3/4 text-center mt-20 w-max bg-white shadow-xl rounded-2xl border-solid border-4 border-gray-500 overflow-auto scrollbar-hide">
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <Dialog.Overlay className="fixed inset-0 " />
-                </Transition.Child>
-
-                {/* This element is to trick the browser into centering the modal contents. */}
-                <span className="inline-block h-screen align-middle" aria-hidden="true">
-                  &#8203;
-                </span>
-                <Transition.Child
-                  as={Fragment}
-                  enter="ease-out duration-300"
-                  enterFrom="opacity-0 scale-95"
-                  enterTo="opacity-100 scale-100"
-                  leave="ease-in duration-200"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="opacity-0 scale-95"
-                >
-                  <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform ">
-                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                      전체 리뷰 보기
-                    </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        {reviewData.map(({ img, nickname, date, desc }, index) => (
-                          <ReviewCard
-                            key={index}
-                            img={img}
-                            nickname={nickname}
-                            date={date}
-                            desc={desc}
-                          />
-                        ))}
-                      </p>
-                    </div>
-
-                    <div className="mt-4">
-                      <button
-                        type="button"
-                        className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                        onClick={closeModal}
-                        ref={scroll}
-                      >
-                        창 닫기
-                      </button>
-                    </div>
-                  </div>
-                </Transition.Child>
-              </div>
-            </Dialog>
-          </Transition>
-
           <hr />
         </section>
       </main>
