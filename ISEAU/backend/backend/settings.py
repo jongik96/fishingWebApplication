@@ -112,9 +112,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'iseau',
-        'USER': 'iseau',
+        'USER': 'root',
         'PASSWORD': 'j5d204',            # asd
-        'HOST': 'j5d204.p.ssafy.io',    # ec2 서버
+        'HOST': 'j5D204.p.ssafy.io',    # ec2 서버
         'PORT': '3306',
     }
 }
