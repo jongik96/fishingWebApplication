@@ -15,7 +15,9 @@ import { HeartIcon } from "@heroicons/react/outline";
 
 const DetailPoint = () => {
   const router = useRouter();
-
+  const [obs_code, setObs_code] = useState("DT_0001");
+  const [tideArr, setTideArr] = useState();
+  let [isOpen, setIsOpen] = useState(false);
   const {
     id,
     img,
@@ -30,29 +32,45 @@ const DetailPoint = () => {
     material,
     tide,
   } = router.query;
-  const fishArr = fish.split("·");
+  // const fishArr = fish.split("·");
 
+  const getToday = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const day = ("0" + today.getDate()).slice(-2);
+    const dateString = year + "" + month + "" + day;
+    return dateString;
+  };
   // open api 사용
   // XRsWF0UdqsOAqAZVJgqPOw==
-  const getInfo = () => {
+  const getTideInfo = () => {
     axios({
-      url: "http://www.khoa.go.kr/oceangrid/grid/api/fcIndexOfType/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&Type=SF&ResultType=json",
+      url:
+        "http://www.khoa.go.kr/oceangrid/grid/api/tideObsPreTab/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&ObsCode=" +
+        obs_code +
+        "&Date=" +
+        getToday() +
+        "&ResultType=json",
       dataType: "json",
       method: "GET",
     })
       .then((response) => {
-        console.log(response);
+        setTideArr(response.data.result.data);
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  getInfo();
+
+  useEffect(() => {
+    getTideInfo();
+    return () => {};
+  }, []);
   // 5개의 데이터만 보여주기
   let topReview = Object.assign([], reviewData);
   topReview.length = 5;
   // 모달
-  let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
@@ -94,8 +112,17 @@ const DetailPoint = () => {
                 <Image src={img} layout="fill" objectFit="cover" className="rounded-2xl" />
               </div>
             </div>
-            <div className="relative h-24 w-40 md:h-72 md:w-96 flex-shrink-0 m-1">
-              <Image src={img} layout="fill" objectFit="cover" className="rounded-2xl" />
+            <div className="grid items-center">
+              {/* {!tideArr?.tideArr[0].tph_time} */}
+              <div className="grid grid-cols-2 gap-4 ">
+                {tideArr?.map((value) => (
+                  <div className="h-24 w-52 md:h-36 py-3">
+                    <p className="border-black border-2 rounded-md h-1/3">{value.tph_time}</p>
+                    <p className="border-black border-2 rounded-md h-1/3">{value.hl_code}</p>
+                    <p className="border-black border-2 rounded-md h-1/3">{value.tph_level}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <hr />
@@ -105,12 +132,12 @@ const DetailPoint = () => {
           <h3 className="text-2xl font-semibold mt-2 mb-6">{tide}</h3>
           {/* 물고기 정보*/}
           <div className="grid grid-flow-row grid-cols-2 justify-around pt-5">
-            {fishArr.map((value, index) => (
+            {/* {fishArr.map((value, index) => (
               <p className="flex items-center " key={index}>
                 <HeartIcon className="h-4 text-red-400" />
                 {value}
               </p>
-            ))}
+            ))} */}
           </div>
           <hr />
         </section>

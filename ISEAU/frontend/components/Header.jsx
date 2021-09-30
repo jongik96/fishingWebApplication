@@ -46,20 +46,6 @@ const Header = ({ placeholder }) => {
     });
   };
 
-  const HandleLocation = () => {
-    setLocationSelected(true);
-    setFishSelected(false);
-    console.log(locationSelected);
-  };
-
-  const HandleFish = () => {
-    setLocationSelected(false);
-    setFishSelected(true);
-    console.log(fishSelected);
-  };
-
-  const toDetail = () => {};
-
   return (
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-2 md:px-12">
       {/* 왼쪽 로고 영역 */}
