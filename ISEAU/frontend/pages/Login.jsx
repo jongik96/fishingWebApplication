@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Header from "../components/Header";
 import { useRouter } from "next/dist/client/router";
+import axios from 'axios'
 
 const Login = () => {
 
@@ -30,6 +31,25 @@ const Login = () => {
 
     return emailRegex.test(Email);
   }
+
+  // login Request
+  const Login = () => {
+    console.log("Email: "+inputs.Email)
+    console.log("Password: "+inputs.Password)
+    axios({
+        method: "post",
+        url: 'http://j5d204.p.ssafy.io:8000/user/login',
+        data: {
+            email: inputs.Email,
+            password : inputs.Password,
+        }
+    }).then((res) =>{
+        console.log("email: ")
+        console.log(res.data)
+    }).catch((error)=> {
+        console.log(error)
+    })
+}
 
   // signup 페이지로 이동
   const router = useRouter();
@@ -76,9 +96,9 @@ const Login = () => {
                 <div className="mt-3 flex flex-col items-center justify-end border-t border-solid border-blueGray-200 rounded-b">
                   <button
                     className="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-blue-300 focus:outline-none mt-5 mr-1 mb-1 ease-linear transition-all duration-150"
-                    
+                    onClick={Login}
                     type="button"
-                    disabled={!loginBtn}
+
                   >
                     Log In
                   </button>

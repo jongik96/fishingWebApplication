@@ -49,14 +49,14 @@ const Signup = () => {
     const Signup = () => {
         axios({
             method: "post",
-            url: 'http://127.0.0.1:8000/user/signup',
+            url: 'http://j5d204.p.ssafy.io:8000/user/signup',
             data: {
-                Email: Email,
-                password : Password,
-                Nickname : Nickname,
-                Address : Address,
-                PhoneNumber : PhoneNumber,
-                username : Username,
+                email: inputs.Email,
+                password : inputs.Password,
+                Nickname : inputs.Nickname,
+                Address : inputs.Address,
+                PhoneNumber : inputs.PhoneNumber,
+                username : inputs.Username,
             }
         }).then((res) =>{
             console.log("email: ")
