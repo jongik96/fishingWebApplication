@@ -175,7 +175,7 @@ const DetailPoint = () => {
         {/* 지도 부분 */}
         <section className=" flex-grow pt-14 px-6 ">
           <h3 className="text-2xl font-semibold mt-2 mb-6">포인트 지역</h3>
-          <div className={"h-[500px] pr-10"}>
+          <div className={"h-[500px] "}>
             <DetailMap fishingData={fishingData} />
           </div>
           <h5 className="text-xl font-semibold mt-2 mb-6">{address}</h5>
