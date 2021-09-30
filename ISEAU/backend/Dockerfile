@@ -9,6 +9,7 @@ RUN mkdir /backend
 WORKDIR /backend
 COPY . /backend
 
+CMD ["python3", "manage.py", "makemigrations"]
 CMD ["python3", "manage.py", "migrate"]
 ENTRYPOINT ["python3", "manage.py", "loaddata", "user/fixtures/Userdata.json"]
 ENTRYPOINT ["python3", "manage.py", "loaddata", "fishing/fixtures/fishing.json"]
