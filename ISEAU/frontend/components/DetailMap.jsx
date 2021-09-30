@@ -5,11 +5,13 @@ import { getCenter } from "geolib";
 const DetailMap = ({ fishingData, nowWidth }) => {
   const [clickedLocation, setClickedLocation] = useState({});
   function getWindowDimensions() {
-    const { innerWidth: width, innerHeight: height } = window;
-    return {
-      width,
-      height,
-    };
+    if (typeof window !== "undefined") {
+      const { innerWidth: width, innerHeight: height } = window;
+      return {
+        width,
+        height,
+      };
+    }
   }
 
   function useWindowDimensions() {
@@ -19,13 +21,15 @@ const DetailMap = ({ fishingData, nowWidth }) => {
       function handleResize() {
         setWindowDimensions(getWindowDimensions());
       }
-
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
+      if (typeof window !== "undefined") {
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+      }
     }, []);
 
     return windowDimensions;
   }
+
   const { height, width } = useWindowDimensions();
   useEffect(() => {
     setViewport((state) => ({
