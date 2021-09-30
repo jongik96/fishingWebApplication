@@ -49,7 +49,7 @@ pipeline {
 
 				// docker image build 시 기존에 존재하던 이미지는
 				// dangling 상태가 되기 때문에 이미지를 일괄 삭제
-				///sh 'docker images -f "dangling=true" -q | xargs -r docker rmi'
+				/sh 'docker images -f "dangling=true" -q | xargs -r docker rmi'
 				// docker container 실행
 				// sh 'docker run -d --name <front-image-name> -p 80:80 <front-image-name>:latest'
                 sh 'docker run -d --name backend -p 8080:8080 backend:latest'    

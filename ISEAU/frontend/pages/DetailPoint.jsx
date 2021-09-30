@@ -65,9 +65,7 @@ const DetailPoint = () => {
 
   useEffect(() => {
     getTideInfo();
-    return () => {
-      console.log("컴포넌트가 화면에서 사라짐");
-    };
+    return () => {};
   }, []);
   // 5개의 데이터만 보여주기
   let topReview = Object.assign([], reviewData);
