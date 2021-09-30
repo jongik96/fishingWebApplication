@@ -15,7 +15,7 @@ class User(AbstractUser):
         options={"quality": 60},
         default="default_profile.png",
     )
-    introduce = models.CharField(max_length=100, blank=True)
+    introduce = models.CharField(max_length=500, blank=True)
     isadmin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
