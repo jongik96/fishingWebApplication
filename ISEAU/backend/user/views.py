@@ -3,9 +3,8 @@
 from django.core.exceptions import ValidationError
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
-
 # Create your views here.
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from rest_framework import permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -106,8 +105,11 @@ class reviewUserIdList(APIView):
     def get(self, request, userId, format=None):
         reviews = Review.objects.filter(user_id=userId)
 
-        serializer = ReviewSerializer(reviews, many=True)
-        return Response(serializer.data)
+        if reviews:
+            serializer = ReviewSerializer(reviews, many=True)
+            return Response(serializer.data)
+        else:
+            return HttpResponse(status=204)
 
 # @api_view(['GET'])
 # def validate_jwt_token(request):

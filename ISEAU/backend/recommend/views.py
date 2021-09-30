@@ -70,6 +70,8 @@ class recommendList(APIView):
 
             return result[:n]
 
+
+
         reviewList = Review.objects.filter(user_id=userId)
         reviewRatingUser = []
         for i in range(len(reviewList)):

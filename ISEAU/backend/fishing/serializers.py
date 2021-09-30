@@ -22,4 +22,4 @@ class ReviewSerializer(serializers.ModelSerializer):
             "rating",
             "createdAt",
         )
-        
+
