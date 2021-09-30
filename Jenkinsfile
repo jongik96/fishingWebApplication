@@ -14,19 +14,22 @@ pipeline {
 			// docker image에 명시된 image를 활용하여 steps 수행
 			agent {
 				docker {
-					image 'python3'
+					image 'python:3.8.7'
 					args '-v /$HOME/.m2:/root/.m2'
 				}
 			}
 			options { skipDefaultCheckout(false) }
 			steps {
-				sh 'mvn -B -DskipTests -f ./ISEAU/backend clean package'
+				//sh 'python ./ISEAU/backend/ test ./ISEAU'
+				sh 'python --version'
 			}
 		}
 		stage('Docker build') {
 			agent any
 			steps {
 				// sh 'docker build -t <front-image-name>:latest <front dockerfile path>'
+				//sh 'docker build -t backend:latest ../S05P21D204/ISEAU/backend'
+				// sh 'docker build -t frontend:latest /var/jenkins_home/workspace/ISEAU/frontend'
 				sh 'docker build -t backend:latest ./ISEAU/backend'
 				sh 'docker build -t frontend:latest ./ISEAU/frontend'
 			}
@@ -46,12 +49,12 @@ pipeline {
 
 				// docker image build 시 기존에 존재하던 이미지는
 				// dangling 상태가 되기 때문에 이미지를 일괄 삭제
-				sh 'docker images -f "dangling=true" -q | xargs -r docker rmi'
+				///sh 'docker images -f "dangling=true" -q | xargs -r docker rmi'
 				// docker container 실행
 				// sh 'docker run -d --name <front-image-name> -p 80:80 <front-image-name>:latest'
-                sh 'docker run -d --name backend -v /home/ubuntu/img:/home/img --network ISEAU -p 8080:8080 backend:latest'    
+                sh 'docker run -d --name backend -p 8080:8080 backend:latest'    
 
-                sh 'docker run -d --name frontend -v /home/ubuntu/img:/home/img -v /home/ubuntu/key:/home/key --network ISEAU -p 80:80 -p 443:443 frontend:latest'     
+                sh 'docker run -d --name frontend  -p 80:80 -p 443:443 frontend:latest'     
 
 
 			}
