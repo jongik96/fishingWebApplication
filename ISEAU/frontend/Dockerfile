@@ -66,4 +66,4 @@ EXPOSE 3000
 # ENV NEXT_TELEMETRY_DISABLED 1
 
 CMD ["next", "build"]
-CMD ["yarn", "dev"]
+CMD ["yarn", "start"]
