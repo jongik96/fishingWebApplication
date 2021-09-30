@@ -41,7 +41,7 @@ pipeline {
 				// 컨테이너를 stop 한다
 				sh 'docker ps -f name=frontend -q | xargs --no-run-if-empty docker container stop'
 
-				sh 'docker ps -f name=backimg -q | xargs --no-run-if-empty docker container stop'
+				sh 'docker ps -f name=backend -q | xargs --no-run-if-empty docker container stop'
 
 				sh 'docker container ls -a -f name=frontend -q | xargs -r docker container rm'
 
