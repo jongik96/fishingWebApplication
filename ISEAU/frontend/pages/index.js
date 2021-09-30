@@ -7,8 +7,15 @@ import categoryData from "../dummy/json/categoryDump.json";
 import MediumCard from "../components/MediumCard";
 import LargeCard from "../components/LargeCard";
 import Footer from "../components/Footer";
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log("lat : ", position.coords.latitude);
+      console.log("long : ", position.coords.longitude);
+    });
+  });
   return (
     <div className="">
       <Head>
