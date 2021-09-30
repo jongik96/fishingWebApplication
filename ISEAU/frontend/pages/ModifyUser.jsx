@@ -1,7 +1,6 @@
 import { useRouter } from "next/dist/client/router";
 import React, {useState} from "react";
 import Header from "../components/Header";
-import axios from 'axios'
 const Signup = () => {
 
     const [inputs, setInputs] = useState({
@@ -10,10 +9,9 @@ const Signup = () => {
         Nickname: '',
         Address: '',
         PhoneNumber: '',
-        Username: '',
     })
 
-    const { Email, Password, Nickname, Address, PhoneNumber, Username } = inputs; // 비구조화 할당을 통해 값 추출
+    const { Email, Password, Nickname, Address, PhoneNumber } = inputs; // 비구조화 할당을 통해 값 추출
     
     const onChange = (e) => {
         const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -25,48 +23,20 @@ const Signup = () => {
     
     const [SignupBtn, setSignupBtn] = useState(false);
     const changeBtn = () => {
-      isEmail(Email) && (Password.length>=10 || Password.length<21) &&
+      (Password.length>=10 || Password.length<21) &&
        (Nickname.length<2 || Nickname.length>6) &&
        (Address.length>0) && (PhoneNumber.length>0 && isNumber)
         ? setSignupBtn(true) : setSignupBtn(false);
     }
 
-    // 이메일 유효성검사
-    const isEmail = (Email) =>{
-        const emailRegex =
-        /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    
-        return emailRegex.test(Email);
-    }
-    // 전화번호 유효성검사  무조건 숫자만 들어갈수있도록
+
+
     const isNumber = (PhoneNumber) => {
         const numberRegex = 
         /^[0-9]{1,100}$/g;
         return numberRegex.test(PhoneNumber);
     }
 
-    // Signup
-    const Signup = () => {
-        axios({
-            method: "post",
-            url: 'http://127.0.0.1:8000/user/signup',
-            data: {
-                Email: Email,
-                password : Password,
-                Nickname : Nickname,
-                Address : Address,
-                PhoneNumber : PhoneNumber,
-                username : Username,
-            }
-        }).then((res) =>{
-            console.log("email: ")
-            console.log(res.data)
-        }).catch((error)=> {
-            console.log(error)
-        })
-    }
-
-    // 로그인페이지로 이동
     const router = useRouter();
     const Login = () =>{
         router.push({
@@ -79,7 +49,7 @@ const Signup = () => {
         <div
         className=""
         >
-        <div className="relative md:w-2/5 w-full my-6 mx-auto max-w-3xl">
+        <div className="relative w-2/5 my-6 mx-auto max-w-3xl">
         {/*content*/}
         <div className="border-0 rounded-lg relative flex flex-col w-full">
             {/*header*/}
@@ -94,15 +64,15 @@ const Signup = () => {
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             E-mail
             </p>
-            <input type="text" name="Email" onChange = {onChange} placeholder=" Email" className="text-lg w-full rounded-lg border-2 border-gray-400" />
-            {(Email.length!=0) && !isEmail(Email) && (<p className="text-red-500">잘못된 이메일 형식입니다.</p>)}
+            <input type="text" disabled name="Email" onChange = {onChange} placeholder=" Email" className="text-lg w-full rounded-lg border-2 border-gray-400" />
+            {(Email.length!=0) && (<p className="text-gray-500">not valid Email</p>)}
             {/*Password*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Password
             </p>
             <input type="password" name="Password" onChange = {onChange} placeholder=" Password" className="text-lg w-full rounded-lg border-2 border-gray-400" />
             {(Password.length!=0)&&(Password.length<10 || Password.length>20) &&
-             (<p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>)}
+             (<p className="text-gray-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>)}
             {/*Nickname*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Nickname
@@ -110,13 +80,8 @@ const Signup = () => {
             <input type="text" name="Nickname" value={Nickname} onChange = {onChange} placeholder=" Nickname" className="text-lg w-full rounded-lg border-2 border-gray-400" />
             {   (Nickname.length!=0) &&
                 (Nickname.length<2 || Nickname.length>6) && 
-                (<p className="text-red-500">Nickname은 2자이상 6자 이하여야합니다</p>
+                (<p className="text-gray-500">Nickname은 2자이상 6자 이하여야합니다</p>
             )}
-            {/*Username*/}
-            <p className="my-2 text-black-900 text-lg leading-relaxed">
-            Username
-            </p>
-            <input type="text" name="Username" value={Username} onChange = {onChange} placeholder=" Username" className="text-lg w-full rounded-lg border-2 border-gray-400" />
             {/*Address*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Address
@@ -127,7 +92,7 @@ const Signup = () => {
             Phone Number
             </p>
             <input type="text" name="PhoneNumber" value={PhoneNumber} onChange = {onChange} placeholder=" 010XXXXXXXX" className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400" />
-            { (PhoneNumber.length!=0) && !isNumber(PhoneNumber) && (<p className="text-red-500">숫자만 입력해주세요</p>)}
+            { (PhoneNumber.length!=0) && !isNumber(PhoneNumber) && (<p className="text-gray-500">숫자만 입력해주세요</p>)}
             </div>
             {/*footer*/}
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -136,7 +101,7 @@ const Signup = () => {
                         className="text-gray-500 background-transparent rounded-lg font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={Login}                    >
-                        이미 계정이 있으신가요?
+                        취소
                     </button>
                 </div>
                 <div className="mt-2">
@@ -144,9 +109,9 @@ const Signup = () => {
                         className="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-blue-300 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={Signup}
-                        
+                        disabled={!SignupBtn}
                     >
-                        Sign Up
+                        변경
                     </button>
                 </div>
             </div>
