@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ReviewCard from "../components/ReviewCard";
 import Image from "next/image";
-import Map from "../components/Map";
+import DetailMap from "../components/DetailMap";
 import reviewData from "../dummy/json/reviewDump.json";
 import fishingData from "../dummy/json/fishingDump.json";
 import axios from "axios";
@@ -20,6 +20,7 @@ const DetailPoint = () => {
   const [tideArr, setTideArr] = useState();
   const [selectedDate, setSelectedDate] = useState(new Date());
   let [isOpen, setIsOpen] = useState(false);
+
   const {
     id,
     img,
@@ -68,6 +69,7 @@ const DetailPoint = () => {
     getTideInfo();
     return () => {};
   }, [selectedDate]);
+
   // 5개의 데이터만 보여주기
   let topReview = Object.assign([], reviewData);
   topReview.length = 5;
@@ -137,7 +139,7 @@ const DetailPoint = () => {
               </div>
             </div>
             {/* 달력 부분 */}
-            <div className="mt-5 mx-10">
+            <div className="mt-5 mx-10 ">
               <DatePicker
                 selected={selectedDate}
                 onChange={(date) => setSelectedDate(date)}
@@ -171,10 +173,10 @@ const DetailPoint = () => {
         </section>
 
         {/* 지도 부분 */}
-        <section className=" flex-grow pt-14 px-6 w-max">
+        <section className=" flex-grow pt-14 px-6 ">
           <h3 className="text-2xl font-semibold mt-2 mb-6">포인트 지역</h3>
-          <div className="h-[500px] w-[1200px]">
-            <Map fishingData={fishingData} />
+          <div className={"h-[500px] "}>
+            <DetailMap fishingData={fishingData} />
           </div>
           <h5 className="text-xl font-semibold mt-2 mb-6">{address}</h5>
           <hr />
@@ -194,7 +196,7 @@ const DetailPoint = () => {
             <p className="flex items-center"></p>
             <div className="flex space-x-3 overflow-scroll scrollbar-hide ">
               {topReview.map(({ img, nickname, date, desc }, index) => (
-                <ReviewCard key={index} img={img} nickname={nickname} date={date} desc={desc} />
+                <ReviewCard key={nickname} img={img} nickname={nickname} date={date} desc={desc} />
               ))}
             </div>
           </div>
@@ -246,9 +248,9 @@ const DetailPoint = () => {
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        {reviewData.map(({ img, nickname, date, desc }, index) => (
+                        {reviewData.map(({ img, nickname, date, desc }) => (
                           <ReviewCard
-                            key={index}
+                            key={nickname}
                             img={img}
                             nickname={nickname}
                             date={date}
