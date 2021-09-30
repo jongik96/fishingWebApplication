@@ -80,25 +80,6 @@ class NicknameUniqueCheck(generics.CreateAPIView):
             detail['detail'] = serializer.errors['nickname']
             return Response(data=detail, status=status.HTTP_400_BAD_REQUEST)
 
-
-class Scrap(APIView):
-    permission_classes = (permissions.AllowAny,)
-    def get(self, request, user_pk, fishing_pk):
-        scrap = get_object_or_404(Scrap, pk=fishing_pk)
-        user = request.user
-
-        if scrap.scrap_user.filter(id=user_pk).exists():
-            scrap.scrap_user.remove(user)
-            message = '스크랩 취소'
-        else:
-            scrap.scrap_user.add(user)
-            message = '스크랩'
-
-        context = {'likes_count':scrap.count_likes_user(), 'message': message}
-
-        return JsonResponse({"FishingScrapCnt": context}, status=200)
-
-
 class reviewUserIdList(APIView):
     permission_classes = (permissions.AllowAny,)
 

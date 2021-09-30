@@ -23,3 +23,9 @@ class ReviewSerializer(serializers.ModelSerializer):
             "createdAt",
         )
 
+
+# class ScrapSerializer(serializers.ModelSerializer):
+
+#     class Meta:
+#         model = Scrap
+#         fields = "__all__"
