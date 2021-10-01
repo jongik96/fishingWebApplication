@@ -1,7 +1,7 @@
 import { useRouter } from "next/dist/client/router";
 import React, {useState} from "react";
 import Header from "../components/Header";
-const Signup = () => {
+const ModifyUser = () => {
 
     const [inputs, setInputs] = useState({
         Email: '',
@@ -76,11 +76,24 @@ const Signup = () => {
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
             <h3 className="text-3xl font-semibold">
-                Sign Up
+                Modify
             </h3>
             </div>
             {/*body*/}
             <div className="relative p-6 flex-auto">
+            {/*profileImage*/}
+            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            Profile Image
+            </p>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              className=""
+            />
+            <button type="submit" className="">
+            프로필이미지로 지정하기
+            </button>
             {/*Email*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             E-mail
@@ -143,5 +156,5 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ModifyUser;
 

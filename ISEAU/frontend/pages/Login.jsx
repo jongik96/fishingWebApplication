@@ -8,15 +8,13 @@ const Login = () => {
   const [inputs, setInputs] = useState({
     Email: '',
     Password: '',
-    Username: ''
   });
-  const { Email, Password, Username } = inputs; // 비구조화 할당을 통해 값 추출
+  const { Email, Password } = inputs; // 비구조화 할당을 통해 값 추출
 
   const [isRight, setIsRight] = useState(false);
   useEffect(()=> {
    {isEmail(Email) &&
-    (Password.length>=10 && Password.length<21) &&
-    (Username.length >= 2 || Username.length < 6)
+    (Password.length>=10 && Password.length<21) 
      ? setIsRight(true) : setIsRight(false);
    }
   },[inputs, isRight]);
@@ -39,23 +37,22 @@ const Login = () => {
 
   // login Request
   const Login = () => {
-    console.log("Email: "+inputs.Email)
-    console.log("Password: "+inputs.Password)
+    console.log(inputs.Email+"   "+inputs.Password)
     axios({
         method: "post",
         url: 'http://j5d204.p.ssafy.io:8000/user/login',
         data: {
-            email: inputs.Email,
+            username: inputs.Email,
             password : inputs.Password,
-            username: inputs.Username
         }
     }).then((res) =>{
-        
         console.log(res.data)
+        const accessToken = res.data.token;
+        sessionStorage.setItem('is_login',`${accessToken}`)
     }).catch((error)=> {
         console.log(error)
     })
-}
+  }
 
   // signup 페이지로 이동
   const router = useRouter();
@@ -96,14 +93,7 @@ const Login = () => {
                   { (Password.length!=0) && (Password.length<10 || Password.length>20) &&
                     (<p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
                    )}
-
-                  <p className="my-4 text-black-400 text-lg leading-relaxed">
-                   Username
-                  </p>
-                  <input type="text" name="Username" value={Username} onChange = {onChange} placeholder=" Username" className="text-lg w-full rounded-lg border-2 border-gray-400" />
-                  {Username.length != 0 && (Username.length < 2 || Username.length > 5) && (
-                    <p className="text-red-500">Username은 2자이상 5자 이하여야합니다</p>
-                  )}
+                  
                 </div>
                 {/*footer*/}
                 <div className="mt-3 flex flex-col items-center justify-end border-t border-solid border-blueGray-200 rounded-b">

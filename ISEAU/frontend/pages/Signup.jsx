@@ -10,12 +10,11 @@ const Signup = () => {
     Nickname: "",
     Address: "",
     PhoneNumber: "",
-    Username: "",
   });
-
+  const router = useRouter();
   const [isRight, setIsRight] = useState(false);
 
-  const { Email, Password, PasswordConfirm, Nickname, Address, PhoneNumber, Username } = inputs; // 비구조화 할당을 통해 값 추출
+  const { Email, Password, PasswordConfirm, Nickname, Address, PhoneNumber } = inputs; // 비구조화 할당을 통해 값 추출
 
   const onChange = (e) => {
     const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -44,7 +43,6 @@ const Signup = () => {
       (Password.length >= 10 || Password.length < 21) &&
       (Password == PasswordConfirm) &&
       (Nickname.length >= 2 || Nickname.length < 11) &&
-      (Username.length >= 2 || Username.length < 6) &&
       Address.length > 0 &&
       (PhoneNumber.length == 11) &&
       isNumber
@@ -57,19 +55,19 @@ const Signup = () => {
   const Signup = () => {
     axios({
       method: "post",
-      url: "http://j5d204.p.ssafy.io/:8000/user/signup",
+      url: "http://j5d204.p.ssafy.io:8000/user/signup",
       data: {
-        Email: Email,
+        username: inputs.Email,
         password: inputs.Password,
         Nickname: inputs.Nickname,
         Address: inputs.Address,
         PhoneNumber: inputs.PhoneNumber,
-        username: inputs.Username,
       },
     })
       .then((res) => {
-        
         console.log(res.data);
+        alert("회원가입 완료!")
+        document.location.href = "/Login";
       })
       .catch((error) => {
         console.log(error);
@@ -77,7 +75,7 @@ const Signup = () => {
   };
 
   // 로그인페이지로 이동
-  const router = useRouter();
+
   const Login = () => {
     router.push({
       pathname: "/Login",
@@ -131,19 +129,6 @@ const Signup = () => {
               />
               {(Password != PasswordConfirm) && (
                 <p className="text-red-500">비밀번호와 동일하게 입력해주세요.</p>
-              )}
-              {/*Username*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Username</p>
-              <input
-                type="text"
-                name="Username"
-                value={Username}
-                onChange={onChange}
-                placeholder=" Username"
-                className="text-lg w-full rounded-lg border-2 border-gray-400"
-              />
-              {Username.length != 0 && (Username.length < 2 || Username.length > 5) && (
-                <p className="text-red-500">Username은 2자이상 5자 이하여야합니다</p>
               )}
               {/*Nickname*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Nickname</p>
