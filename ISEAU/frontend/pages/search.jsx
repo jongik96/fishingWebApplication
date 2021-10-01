@@ -29,6 +29,7 @@ const Search = () => {
               ({ id, img, point_name, name, address, rate, reviewCnt, category, description }) => (
                 <ResultCard
                   key={id}
+                  id={id}
                   img={img}
                   point_name={point_name}
                   name={name}
