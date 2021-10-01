@@ -13,7 +13,7 @@ const Login = () => {
 
   const [loginBtn, setLoginBtn] = useState(false);
   const changeBtn = () => {
-   (Email.length!=0) && (Password.length!=0) && isEmail(Email) && (Password.length>=10 || Password.length<21) ? setLoginBtn(true) : setLoginBtn(false);
+   (Password.length!=0) && isEmail(Email) && (Password.length>=10 || Password.length<21) ? setLoginBtn(true) : setLoginBtn(false);
   }
 
   const onChange = (e) => {

@@ -11,9 +11,16 @@ from .models import Fishing, Scrap, Review
 from user.models import User
 from .serializers import FishingSerializer, ReviewSerializer
 from django.db.models import Avg, Q, Sum
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
+
+#  Create your views here.
+# @authentication_classes([JSONWebTokenAuthentication])
 class fishingScrap(APIView):
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = (permissions.AllowAny,)
     def post(self, request, fishingId):
         try :
@@ -55,7 +62,7 @@ class ScrapList(APIView):
             data['rating'] = rating
 
         return Response(serializered_data)
-        
+
 class fishingDetail(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, fishingId):
