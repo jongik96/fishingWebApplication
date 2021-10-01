@@ -63,14 +63,19 @@ class ScrapList(APIView):
 
         return Response(serializered_data)
 
+
 class fishingDetail(APIView):
     permission_classes = (permissions.AllowAny,)
-    def get(self, request, fishingId):
-        reviewSum = Review.objects.filter(fishing_id=fishingId).aggregate(Sum('rating'))
-        reviewCnt = Review.objects.filter(fishing_id=fishingId).count()
-        rating = round(reviewSum['rating__sum']/reviewCnt, 1)
 
+    def get(self, request, fishingId):
+        reviewSum = Review.objects.filter(
+            fishing_id=fishingId).aggregate(Sum('rating'))
+        reviewCnt = Review.objects.filter(fishing_id=fishingId).count()
         fishing = Fishing.objects.filter(id=fishingId)
+        if reviewCnt:
+            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+        else:
+            rating = 0
 
         serializer = FishingSerializer(fishing, many=True)
         serializer.data[0].update({'reviewCnt': reviewCnt})
