@@ -2,6 +2,7 @@ import "tailwindcss/tailwind.css";
 import "../styles/global.css";
 import Router from "next/router";
 import ProgressBar from "@badrap/bar-of-progress";
+import { wrapper } from "../store";
 
 const progress = new ProgressBar({
   size: 4,
@@ -18,4 +19,4 @@ function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />;
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);
