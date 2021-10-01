@@ -11,9 +11,16 @@ from .models import Fishing, Scrap, Review
 from user.models import User
 from .serializers import FishingSerializer, ReviewSerializer
 from django.db.models import Avg, Q, Sum
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
+
+#  Create your views here.
+# @authentication_classes([JSONWebTokenAuthentication])
 class fishingScrap(APIView):
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = (permissions.AllowAny,)
     def post(self, request, fishingId):
         try :
@@ -26,18 +33,14 @@ class fishingScrap(APIView):
             if not Fishing.objects.filter(id=fishing_id).exists():
                 return JsonResponse({'message':"FISHING_DOES_NOT_EXIST"}, status=404)
             
-            fishing = Fishing.objects.get(id=fishing_id)
 
-            if Scrap.objects.filter(user=user, fishing=fishing).exists():
-                Scrap.objects.filter(user=user, fishing=fishing).delete()
-                scrap_count = Scrap.objects.filter(fishing=fishing).count()
+            if Scrap.objects.filter(user_id=user.id, fishing_id=fishing_id).exists():
+                Scrap.objects.filter(user_id=user.id, fishing_id=fishing_id).delete()
+                scrap_count = Scrap.objects.filter(fishing_id=fishing_id).count()
                 return JsonResponse({'message': 'SUCCESS', 'scrap_count':scrap_count}, status=200)
 
-            Scrap.objects.create(
-                user    = user,
-                fishing = fishing
-            )
-            scrap_count = Scrap.objects.filter(fishing=fishing).count()
+            Scrap.objects.create(user_id=user.id, fishing_id=fishing_id)
+            scrap_count = Scrap.objects.filter(fishing_id=fishing_id).count()
             return JsonResponse({'message': 'SUCCESS', 'scrap_count': scrap_count}, status=200)
 
         except JSONDecodeError:
@@ -59,7 +62,7 @@ class ScrapList(APIView):
             data['rating'] = rating
 
         return Response(serializered_data)
-        
+
 class fishingDetail(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, fishingId):

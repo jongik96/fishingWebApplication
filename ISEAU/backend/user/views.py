@@ -45,12 +45,21 @@ class ProfileUpdateAPI(generics.UpdateAPIView):
 
 
 
+# class Delete(APIView):
+#     permission_classes = (permissions.AllowAny,)
+#     def delete(request, user_pk):
+#         user = get_object_or_404(User, id=user_pk)
+#         print(user)
+#         user.delete()
+#         return Response(user, {'id': user_pk})
+
 class Delete(APIView):
     permission_classes = (permissions.AllowAny,)
-    def delete(request, user_pk):
-        user = get_object_or_404(User, pk=user_pk)
+
+    def delete(self, request, user_pk):
+        user = get_object_or_404(User, id=user_pk)
         user.delete()
-        return Response(user, {'id': user_pk})
+        return Response({'id': user_pk, 'message': '삭제되었습니다'})
 
 
 class EmailUniqueCheck(generics.CreateAPIView):
@@ -80,25 +89,6 @@ class NicknameUniqueCheck(generics.CreateAPIView):
             detail['detail'] = serializer.errors['nickname']
             return Response(data=detail, status=status.HTTP_400_BAD_REQUEST)
 
-
-class Scrap(APIView):
-    permission_classes = (permissions.AllowAny,)
-    def get(self, request, user_pk, fishing_pk):
-        scrap = get_object_or_404(Scrap, pk=fishing_pk)
-        user = request.user
-
-        if scrap.scrap_user.filter(id=user_pk).exists():
-            scrap.scrap_user.remove(user)
-            message = '스크랩 취소'
-        else:
-            scrap.scrap_user.add(user)
-            message = '스크랩'
-
-        context = {'likes_count':scrap.count_likes_user(), 'message': message}
-
-        return JsonResponse({"FishingScrapCnt": context}, status=200)
-
-
 class reviewUserIdList(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -111,14 +101,4 @@ class reviewUserIdList(APIView):
         else:
             return HttpResponse(status=204)
 
-# @api_view(['GET'])
-# def validate_jwt_token(request):
 
-#     try:
-#         token = request.META['HTTP_AUTHORIZATION']
-#         data = {'token': token.split()[1]}
-#         valid_data = VerifyJSONWebTokenSerializer().validate(data)
-#     except Exception as e:
-#         return Response(e)
-
-#     return Response(status=status.HTTP_200_OK)

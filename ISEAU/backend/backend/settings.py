@@ -41,11 +41,15 @@ REST_FRAMEWORK = { # 추가
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',  #인증된 회원만 액세스 허용
         'rest_framework.permissions.AllowAny',         #모든 회원 액세스 허용
+        
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': ( #api가 실행됬을 때 인증할 클래스를 정의해주는데 우리는 JWT를 쓰기로 했으니
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication', #이와 같이 추가해준 모습이다.
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
 }
+
 
 JWT_AUTH = { # 추가
    'JWT_SECRET_KEY': SECRET_KEY,
@@ -112,9 +116,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'iseau',
-        'USER': 'iseau',
+        'USER': 'root',
         'PASSWORD': 'j5d204',            # asd
-        'HOST': 'j5d204.p.ssafy.io',    # ec2 서버
+        'HOST': 'j5D204.p.ssafy.io',    # ec2 서버
         'PORT': '3306',
     }
 }
