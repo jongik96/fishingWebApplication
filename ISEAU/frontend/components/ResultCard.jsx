@@ -1,8 +1,11 @@
-import React from "react";
+import React,{ useEffect, useCallback } from "react";
 import Image from "next/image";
 import { HeartIcon } from "@heroicons/react/outline";
 import { StarIcon } from "@heroicons/react/solid";
 import { useRouter } from "next/dist/client/router";
+import { useSelector, useDispatch } from "react-redux";
+import * as detailPointActions from "../store/modules/detailPoint";
+import axios from "axios";
 
 const ResultCard = ({
   id,
@@ -15,26 +18,32 @@ const ResultCard = ({
   category,
   description,
 }) => {
+  console.log(id);
   const router = useRouter();
   const detailPoint = () => {
+      axios({
+      url: "http://j5d204.p.ssafy.io:8000/fishing/" + id,
+      method: "GET",
+    })
+      .then((response) => {
+        setDetailPoint(response.data[0]);
+        console.log(response.data[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     router.push({
       pathname: "/DetailPoint",
-      query: {
-        id,
-        img,
-        point_name,
-        name,
-        address,
-        rate,
-        reviewCnt,
-        category,
-        dpwt: description.dpwt,
-        fish: description.fish,
-        material: description.material,
-        tide: description.tide,
-      },
     });
   };
+  // id값으로 detailpoint 상태값 저장
+   const dispatch = useDispatch();
+  const setDetailPoint = useCallback(
+    (value) => {
+      dispatch(detailPointActions.setDetailPoint(value));
+    },
+    [dispatch]
+  );
   return (
     <div
       className="flex py-7 px-2 pr-4 border-b cursor-pointer
