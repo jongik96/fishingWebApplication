@@ -1,5 +1,6 @@
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Map from "../components/Map";
@@ -7,9 +8,16 @@ import ResultCard from "../components/ResultCard";
 import fishingData from "../dummy/json/fishingDump.json";
 
 const Search = () => {
+  const [searchData, setSearchData] = useState(null);
   const router = useRouter();
 
   const { location } = router.query;
+
+  useEffect(async () => {
+    const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/search/" + location);
+    setSearchData(response.data);
+    console.log(response);
+  }, []);
 
   return (
     <div>
@@ -25,21 +33,9 @@ const Search = () => {
           </div>
 
           <div className="flex flex-col">
-            {fishingData.map(
-              ({ id, img, point_name, name, address, rate, reviewCnt, category, description }) => (
-                <ResultCard
-                  key={id}
-                  img={img}
-                  point_name={point_name}
-                  name={name}
-                  address={address}
-                  rate={rate}
-                  reviewCnt={reviewCnt}
-                  category={category}
-                  description={description}
-                />
-              )
-            )}
+            {searchData.map(({ id }) => (
+              <ResultCard key={id} id={id} />
+            ))}
           </div>
         </section>
         {/* 우측 지도 부분 */}

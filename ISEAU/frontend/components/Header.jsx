@@ -6,7 +6,6 @@ import { useRouter } from "next/dist/client/router";
 //dropdown menu
 import DropdownMenu from "./DropdownMenu";
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
-import fishingData from "../dummy/json/fishingDump.json";
 import fishDump from "../dummy/json/fishDump.json";
 import { Tab } from "@headlessui/react";
 import { data } from "autoprefixer";
@@ -20,6 +19,7 @@ const Header = ({ placeholder }) => {
   const [fishInfo, setFishInfo] = useState(null);
   const [locationSelected, setLocationSelected] = useState(true);
   const [fishSelected, setFishSelected] = useState(false);
+  const [searchData, setSearchData] = useState(null);
 
   useEffect(() => {
     const keyWord = async () => {
@@ -28,26 +28,23 @@ const Header = ({ placeholder }) => {
           setLocationInfo(null);
           setFishInfo(null);
         } else {
-          const data = {
-            text: searchInput,
-          };
           const response = await axios.get(
-            "http://j5d204.p.ssafy.io:8000/fishing/search/auto/" + searchInput + "/"
+            "http://j5d204.p.ssafy.io:8000/fishing/search/auto/" + searchInput
           );
-          console.log("userdata : ", response);
+
+          var locationResult = response.data.filter((data) => data.address.includes(searchInput));
+          var fishResult = fishDump.filter((data) =>
+            data.fname.toLowerCase().includes(searchInput)
+          );
+          setLocationInfo(locationResult);
+          setFishInfo(fishResult);
         }
       } catch (error) {
         console.log(error);
       }
     };
 
-    var locationResult = fishingData.filter((data) => data.address.includes(searchInput));
-    var fishResult = fishDump.filter((data) => data.fname.toLowerCase().includes(searchInput));
-    setLocationInfo(locationResult);
-    setFishInfo(fishResult);
-
     keyWord();
-    console.log(searchInput);
   }, [searchInput, fishSelected, locationSelected, fishSelected]);
 
   const router = useRouter();
@@ -144,7 +141,7 @@ const Header = ({ placeholder }) => {
                 <Tab.Panel>
                   {locationInfo && (
                     <div>
-                      {locationInfo.map(({ id, point_name, address, rate }) => {
+                      {locationInfo.map(({ id, pointName, address, rate }) => {
                         return (
                           <div className="flex justify-between overflow-scroll">
                             <p
@@ -153,7 +150,7 @@ const Header = ({ placeholder }) => {
                                 setSearchInput(address);
                               }}
                             >
-                              📌 {address} [{point_name}]
+                              📌 {address} [{pointName}]
                             </p>
                             <p className="flex items-center cursor-pointer pr-5" onClick={() => {}}>
                               <ChevronDoubleRightIcon className="h-5" />
