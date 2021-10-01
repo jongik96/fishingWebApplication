@@ -50,32 +50,35 @@ class fishingScrap(APIView):
 class ScrapList(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, userId, format=None):
-        scrapQuery = Scrap.objects.filter(user=userId)
+        scrapQuery = Scrap.objects.filter(user_id=userId).values()
+        fishing_ids = []
+        for i in scrapQuery:
+            fishing_ids.append(i["fishing_id"])
+        
+        fishings = Fishing.objects.filter(id__in=fishing_ids)
+        print(fishings)
+        if fishings:
+            serializered_data = FishingSerializer(fishings, many=True).data
+            for index, data in enumerate(serializered_data):
+                reviewSum = Review.objects.filter(
+                    fishing_id=data['id']).aggregate(Sum('rating'))
+                reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
+                rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+                data['reviewCnt'] = reviewCnt
+                data['rating'] = rating
 
-        serializered_data = FishingSerializer(scrapQuery, many=True).data
-        for index, data in enumerate(serializered_data):
-            reviewSum = Review.objects.filter(
-                fishing_id=data['id']).aggregate(Sum('rating'))
-            reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
-            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-            data['reviewCnt'] = reviewCnt
-            data['rating'] = rating
-
-        return Response(serializered_data)
-
+            return Response(serializered_data)
+        else:
+            return Response({'message': '해당 유저의 Scrap이 없습니다.'}, status=204)
 
 class fishingDetail(APIView):
     permission_classes = (permissions.AllowAny,)
-
     def get(self, request, fishingId):
-        reviewSum = Review.objects.filter(
-            fishing_id=fishingId).aggregate(Sum('rating'))
+        reviewSum = Review.objects.filter(fishing_id=fishingId).aggregate(Sum('rating'))
         reviewCnt = Review.objects.filter(fishing_id=fishingId).count()
+        rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+
         fishing = Fishing.objects.filter(id=fishingId)
-        if reviewCnt:
-            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-        else:
-            rating = 0
 
         serializer = FishingSerializer(fishing, many=True)
         serializer.data[0].update({'reviewCnt': reviewCnt})
@@ -107,18 +110,20 @@ class reviewCRUD(APIView):
         except Review.DoesNotExist:
             raise Http404
 
-    def put(self, request, reviewId, format=None):
+    def put(self, request, fishingId, reviewId, format=None):
         review = self.get_object(reviewId)
+        request.data["fishing"] = fishingId
+        request.data["user"] = request.user.id
         serializer = ReviewSerializer(review, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, reviewId, format=None):
+    def delete(self, request, fishingId, reviewId, format=None):
         review = self.get_object(reviewId)
         review.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'deleted reviewId' : reviewId}, status=status.HTTP_204_NO_CONTENT)
 
 
 class reviewFishingIdList(APIView):
@@ -179,5 +184,3 @@ class autoLoc(APIView):
             return Response(serializered_data)
         else:
             return HttpResponse(status=204)
-
-
