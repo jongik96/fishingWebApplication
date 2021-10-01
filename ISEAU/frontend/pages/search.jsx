@@ -13,10 +13,13 @@ const Search = () => {
 
   const { location } = router.query;
 
-  useEffect(async () => {
-    const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/search/" + location);
-    setSearchData(response.data);
-    console.log(response);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/search/" + location);
+      setSearchData(response.data);
+      console.log("response : ", response);
+    };
+    fetchData();
   }, []);
 
   return (
@@ -33,14 +36,14 @@ const Search = () => {
           </div>
 
           <div className="flex flex-col">
-            {searchData.map(({ id }) => (
+            {searchData?.map(({ id }) => (
               <ResultCard key={id} id={id} />
             ))}
           </div>
         </section>
         {/* 우측 지도 부분 */}
         <section className="hidden xl:inline-flex xl:min-w-[800px] ">
-          <Map fishingData={fishingData} />
+          <Map searchData={searchData} />
         </section>
       </main>
       <Footer />
