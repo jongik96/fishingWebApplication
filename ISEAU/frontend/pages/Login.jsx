@@ -7,14 +7,19 @@ const Login = () => {
 
   const [inputs, setInputs] = useState({
     Email: '',
-    Password: ''
+    Password: '',
+    Username: ''
   });
-  const { Email, Password } = inputs; // 비구조화 할당을 통해 값 추출
+  const { Email, Password, Username } = inputs; // 비구조화 할당을 통해 값 추출
 
-  const [loginBtn, setLoginBtn] = useState(false);
-  const changeBtn = () => {
-   (Password.length!=0) && isEmail(Email) && (Password.length>=10 || Password.length<21) ? setLoginBtn(true) : setLoginBtn(false);
-  }
+  const [isRight, setIsRight] = useState(false);
+  useEffect(()=> {
+   {isEmail(Email) &&
+    (Password.length>=10 && Password.length<21) &&
+    (Username.length >= 2 || Username.length < 6)
+     ? setIsRight(true) : setIsRight(false);
+   }
+  },[inputs, isRight]);
 
   const onChange = (e) => {
     const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -42,9 +47,10 @@ const Login = () => {
         data: {
             email: inputs.Email,
             password : inputs.Password,
+            username: inputs.Username
         }
     }).then((res) =>{
-        console.log("email: ")
+        
         console.log(res.data)
     }).catch((error)=> {
         console.log(error)
@@ -91,14 +97,20 @@ const Login = () => {
                     (<p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
                    )}
 
+                  <p className="my-4 text-black-400 text-lg leading-relaxed">
+                   Username
+                  </p>
+                  <input type="text" name="Username" value={Username} onChange = {onChange} placeholder=" Username" className="text-lg w-full rounded-lg border-2 border-gray-400" />
+                  {Username.length != 0 && (Username.length < 2 || Username.length > 5) && (
+                    <p className="text-red-500">Username은 2자이상 5자 이하여야합니다</p>
+                  )}
                 </div>
                 {/*footer*/}
                 <div className="mt-3 flex flex-col items-center justify-end border-t border-solid border-blueGray-200 rounded-b">
                   <button
-                    className="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-blue-300 focus:outline-none mt-5 mr-1 mb-1 ease-linear transition-all duration-150"
+                    className={isRight ? `button_active` : `button_unactive`}
                     onClick={Login}
                     type="button"
-
                   >
                     Log In
                   </button>

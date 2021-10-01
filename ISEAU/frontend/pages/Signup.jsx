@@ -6,6 +6,7 @@ const Signup = () => {
   const [inputs, setInputs] = useState({
     Email: "",
     Password: "",
+    PasswordConfirm: "",
     Nickname: "",
     Address: "",
     PhoneNumber: "",
@@ -14,7 +15,7 @@ const Signup = () => {
 
   const [isRight, setIsRight] = useState(false);
 
-  const { Email, Password, Nickname, Address, PhoneNumber, Username } = inputs; // 비구조화 할당을 통해 값 추출
+  const { Email, Password, PasswordConfirm, Nickname, Address, PhoneNumber, Username } = inputs; // 비구조화 할당을 통해 값 추출
 
   const onChange = (e) => {
     const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -41,33 +42,33 @@ const Signup = () => {
     {
       isEmail(Email) &&
       (Password.length >= 10 || Password.length < 21) &&
-      (Nickname.length >= 2 || Nickname.length < 6) &&
+      (Password == PasswordConfirm) &&
+      (Nickname.length >= 2 || Nickname.length < 11) &&
+      (Username.length >= 2 || Username.length < 6) &&
       Address.length > 0 &&
-      PhoneNumber.length > 0 &&
+      (PhoneNumber.length == 11) &&
       isNumber
         ? setIsRight(true)
         : setIsRight(false);
     }
-
-    console.log(isRight);
   }, [inputs, isRight]);
 
   // Signup
   const Signup = () => {
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/user/signup",
+      url: "http://j5d204.p.ssafy.io/:8000/user/signup",
       data: {
         Email: Email,
-        password: Password,
-        Nickname: Nickname,
-        Address: Address,
-        PhoneNumber: PhoneNumber,
-        username: Username,
+        password: inputs.Password,
+        Nickname: inputs.Nickname,
+        Address: inputs.Address,
+        PhoneNumber: inputs.PhoneNumber,
+        username: inputs.Username,
       },
     })
       .then((res) => {
-        console.log("email: ");
+        
         console.log(res.data);
       })
       .catch((error) => {
@@ -119,18 +120,17 @@ const Signup = () => {
               {Password.length != 0 && (Password.length < 10 || Password.length > 20) && (
                 <p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
               )}
-              {/*Nickname*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Nickname</p>
+              {/*Confirm Password*/}
+              <p className="my-2 text-black-900 text-lg leading-relaxed">Password</p>
               <input
-                type="text"
-                name="Nickname"
-                value={Nickname}
+                type="password"
+                name="PasswordConfirm"
                 onChange={onChange}
-                placeholder=" Nickname"
+                placeholder=" PasswordConfirm"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {Nickname.length != 0 && (Nickname.length < 2 || Nickname.length > 6) && (
-                <p className="text-red-500">Nickname은 2자이상 6자 이하여야합니다</p>
+              {(Password != PasswordConfirm) && (
+                <p className="text-red-500">비밀번호와 동일하게 입력해주세요.</p>
               )}
               {/*Username*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Username</p>
@@ -142,6 +142,22 @@ const Signup = () => {
                 placeholder=" Username"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
+              {Username.length != 0 && (Username.length < 2 || Username.length > 5) && (
+                <p className="text-red-500">Username은 2자이상 5자 이하여야합니다</p>
+              )}
+              {/*Nickname*/}
+              <p className="my-2 text-black-900 text-lg leading-relaxed">Nickname</p>
+              <input
+                type="text"
+                name="Nickname"
+                value={Nickname}
+                onChange={onChange}
+                placeholder=" Nickname"
+                className="text-lg w-full rounded-lg border-2 border-gray-400"
+              />
+              {Nickname.length != 0 && (Nickname.length < 2 || Nickname.length > 11) && (
+                <p className="text-red-500">Nickname은 2자이상 10자 이하여야합니다</p>
+              )}
               {/*Address*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Address</p>
               <input
@@ -162,7 +178,7 @@ const Signup = () => {
                 placeholder=" 010XXXXXXXX"
                 className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {PhoneNumber.length != 0 && !isNumber(PhoneNumber) && (
+              {(PhoneNumber.length !=0) && !isNumber(PhoneNumber) && (
                 <p className="text-red-500">숫자만 입력해주세요</p>
               )}
             </div>
