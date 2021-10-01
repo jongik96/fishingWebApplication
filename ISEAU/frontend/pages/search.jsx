@@ -43,7 +43,7 @@ const Search = () => {
         </section>
         {/* 우측 지도 부분 */}
         <section className="hidden xl:inline-flex xl:min-w-[800px] ">
-          <Map searchData={searchData} />
+          {searchData && <Map searchData={searchData} />}
         </section>
       </main>
       <Footer />

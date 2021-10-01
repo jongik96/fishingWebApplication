@@ -17,7 +17,6 @@ const ResultCard = ({ id }) => {
   useEffect(async () => {
     const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
     setResultObj(response.data[0]);
-    console.log(resultObj);
     // axios({
     //   url: "http://j5d204.p.ssafy.io:8000/fishing/" + id,
     //   method: "GET",
