@@ -45,12 +45,21 @@ class ProfileUpdateAPI(generics.UpdateAPIView):
 
 
 
+# class Delete(APIView):
+#     permission_classes = (permissions.AllowAny,)
+#     def delete(request, user_pk):
+#         user = get_object_or_404(User, id=user_pk)
+#         print(user)
+#         user.delete()
+#         return Response(user, {'id': user_pk})
+
 class Delete(APIView):
     permission_classes = (permissions.AllowAny,)
-    def delete(request, user_pk):
-        user = get_object_or_404(User, pk=user_pk)
+
+    def delete(self, request, user_pk):
+        user = get_object_or_404(User, id=user_pk)
         user.delete()
-        return Response(user, {'id': user_pk})
+        return Response({'id': user_pk, 'message': '삭제되었습니다'})
 
 
 class EmailUniqueCheck(generics.CreateAPIView):
@@ -92,14 +101,4 @@ class reviewUserIdList(APIView):
         else:
             return HttpResponse(status=204)
 
-# @api_view(['GET'])
-# def validate_jwt_token(request):
 
-#     try:
-#         token = request.META['HTTP_AUTHORIZATION']
-#         data = {'token': token.split()[1]}
-#         valid_data = VerifyJSONWebTokenSerializer().validate(data)
-#     except Exception as e:
-#         return Response(e)
-
-#     return Response(status=status.HTTP_200_OK)

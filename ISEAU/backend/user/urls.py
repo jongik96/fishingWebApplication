@@ -13,5 +13,5 @@ urlpatterns = [
     path("delete/<int:user_pk>", Delete.as_view()),
     path("email/uniquecheck", EmailUniqueCheck.as_view()),
     path("nickname/uniquecheck", NicknameUniqueCheck.as_view()),
-    path("<int:userId>/review/", reviewUserIdList.as_view()),
+    path("<int:userId>/review", reviewUserIdList.as_view()),
 ]
