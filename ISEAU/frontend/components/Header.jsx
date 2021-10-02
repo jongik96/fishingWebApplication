@@ -6,10 +6,10 @@ import { useRouter } from "next/dist/client/router";
 //dropdown menu
 import DropdownMenu from "./DropdownMenu";
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
-import fishingData from "../dummy/json/fishingDump.json";
 import fishDump from "../dummy/json/fishDump.json";
 import { Tab } from "@headlessui/react";
 import { data } from "autoprefixer";
+import axios from "axios";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -19,16 +19,32 @@ const Header = ({ placeholder }) => {
   const [fishInfo, setFishInfo] = useState(null);
   const [locationSelected, setLocationSelected] = useState(true);
   const [fishSelected, setFishSelected] = useState(false);
+  const [searchData, setSearchData] = useState(null);
 
   useEffect(() => {
-    const data = {
-      text: searchInput,
-    };
-    var locationResult = fishingData.filter((data) => data.address.includes(searchInput));
-    var fishResult = fishDump.filter((data) => data.fname.toLowerCase().includes(searchInput));
-    setLocationInfo(locationResult);
+    const keyWord = async () => {
+      try {
+        if (searchInput === "") {
+          setLocationInfo(null);
+          setFishInfo(null);
+        } else {
+          const response = await axios.get(
+            "http://j5d204.p.ssafy.io:8000/fishing/search/auto/" + searchInput
+          );
 
-    setFishInfo(fishResult);
+          var locationResult = response.data.filter((data) => data.address.includes(searchInput));
+          var fishResult = fishDump.filter((data) =>
+            data.fname.toLowerCase().includes(searchInput)
+          );
+          setLocationInfo(locationResult);
+          setFishInfo(fishResult);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    keyWord();
   }, [searchInput, fishSelected, locationSelected, fishSelected]);
 
   const router = useRouter();
@@ -123,44 +139,50 @@ const Header = ({ placeholder }) => {
               </Tab.List>
               <Tab.Panels className="mt-2 overflow-scroll">
                 <Tab.Panel>
-                  <div>
-                    {locationInfo.map(({ id, point_name, address, rate }) => {
-                      return (
-                        <div className="flex justify-between overflow-scroll">
-                          <p
-                            className="cursor-pointer text-lg ml-5"
-                            onClick={() => {
-                              setSearchInput(address);
-                            }}
-                          >
-                            📌 {address} [{point_name}]
-                          </p>
-                          <p className="flex items-center cursor-pointer pr-5" onClick={() => {}}>
-                            <ChevronDoubleRightIcon className="h-5" />
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  {locationInfo && (
+                    <div>
+                      {locationInfo.map(({ id, pointName, address, rate }) => {
+                        return (
+                          <div className="flex justify-between overflow-scroll">
+                            <p
+                              className="cursor-pointer text-lg ml-5"
+                              onClick={() => {
+                                setSearchInput(address);
+                              }}
+                            >
+                              📌 {address} [{pointName}]
+                            </p>
+                            <p className="flex items-center cursor-pointer pr-5" onClick={() => {}}>
+                              <ChevronDoubleRightIcon className="h-5" />
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </Tab.Panel>
                 <Tab.Panel>
-                  {fishInfo.map(({ id, fname }) => {
-                    return (
-                      <div className="flex justify-between">
-                        <p
-                          className="cursor-pointer text-lg ml-5"
-                          onClick={() => {
-                            setSearchInput(fname);
-                          }}
-                        >
-                          🐳 {fname}
-                        </p>
-                        <p className="flex items-center cursor-pointer pr-5" onClick={() => {}}>
-                          <ChevronDoubleRightIcon className="h-5" />
-                        </p>
-                      </div>
-                    );
-                  })}
+                  {fishInfo && (
+                    <>
+                      {fishInfo.map(({ id, fname }) => {
+                        return (
+                          <div className="flex justify-between">
+                            <p
+                              className="cursor-pointer text-lg ml-5"
+                              onClick={() => {
+                                setSearchInput(fname);
+                              }}
+                            >
+                              🐳 {fname}
+                            </p>
+                            <p className="flex items-center cursor-pointer pr-5" onClick={() => {}}>
+                              <ChevronDoubleRightIcon className="h-5" />
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
