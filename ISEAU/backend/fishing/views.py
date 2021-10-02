@@ -89,17 +89,20 @@ class fishingDetail(APIView):
 
 class reviewCreate(APIView):
     permission_classes = (permissions.AllowAny,)
+
     def post(self, request, fishingId):
-        # request.data["fishing"] = fishingId
-        # print(request.user)
-        # request.data["user"] = request.user
-        fishing = get_object_or_404(Fishing, id=fishingId)
-        serializer = ReviewSerializer(data=request.data)
-        print(request.user)
-        if serializer.is_valid(raise_exception=True):  # 유효성 검사
-            serializer.save(fishing=fishing, user=request.user)  # 저장
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        review = Review.objects.filter(
+            fishing_id=fishingId, user_id=request.user)
+        if review:
+            return Response({'message': '이미 생성된 Review가 있습니다!'}, status=400)
+        else:
+            fishing = get_object_or_404(Fishing, id=fishingId)
+            serializer = ReviewSerializer(data=request.data)
+            print(request.user)
+            if serializer.is_valid(raise_exception=True):  # 유효성 검사
+                serializer.save(fishing=fishing, user=request.user)  # 저장
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class reviewCRUD(APIView):
