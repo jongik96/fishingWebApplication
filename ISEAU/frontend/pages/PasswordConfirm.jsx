@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useRouter } from "next/dist/client/router";
 import Header from "../components/Header";
-
+import axios from 'axios'
 
 const PasswordConfirm = () => {
 
@@ -11,6 +11,7 @@ const PasswordConfirm = () => {
     }
 
   const [isRight, setIsRight] = useState(false);
+
   useEffect(()=> {
    {
     (Password.length>=10 && Password.length<21) 
@@ -18,31 +19,30 @@ const PasswordConfirm = () => {
    }
   },[Password, isRight]);
 
-
-  // Confirm Request
-//   const Login = () => {
-//     console.log(inputs.Email+"   "+inputs.Password)
-//     axios({
-//         method: "post",
-//         url: 'http://j5d204.p.ssafy.io:8000/user/login',
-//         data: {
-//             username: inputs.Email,
-//             password : inputs.Password,
-//         }
-//     }).then((res) =>{
-//         console.log(res.data)
-//         const accessToken = res.data.token;
-//         sessionStorage.setItem('is_login',`${accessToken}`)
-//     }).catch((error)=> {
-//         console.log(error)
-//     })
-//   }
+  const router = useRouter();
 
   // signup 페이지로 이동
-  const router = useRouter();
-  const Confirm = () =>{
-    router.push({
-      pathname:"/ModifyUser"
+  const Confirm = () => {
+    const token = 'Bearer '+sessionStorage.getItem('is_login')
+    const id = Number(sessionStorage.getItem('userid'))
+    console.log(token)
+    console.log(id)
+    console.log(typeof(id))
+    console.log(Password)
+    axios({
+        method: "get",
+        url: 'http://j5d204.p.ssafy.io:8000/user/check/password/'+id,
+        headers: token,
+        data: {
+            password : Password,
+        }
+    }).then((res) =>{
+        console.log(res.data)
+        router.push({
+            pathname: "/ModifyUser"
+        })
+    }).catch((error)=> {
+        console.log(error)
     })
   }
 
@@ -57,7 +57,7 @@ const PasswordConfirm = () => {
               <form className="border-0 rounded-lg shadow-lg relative flex flex-col w-full">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">
+                  <h3 className="text-2xl font-semibold">
                     비밀번호를 입력해주세요.
                   </h3>
                   
@@ -81,7 +81,7 @@ const PasswordConfirm = () => {
                     onClick={Confirm}
                     type="button"
                   >
-                    Log In
+                    확인
                   </button>              
                 </div>
               </form>

@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import {   UserCircleIcon, MenuIcon, } from '@heroicons/react/solid'
 import React, { useState } from 'react';
@@ -24,6 +24,24 @@ const DropdownMenu=() => {
       pathname: "/Signup",
     });
   };
+  const Modify = () => {
+    router.push({
+      pathname: "/PasswordConfirm"
+    })
+  }
+  const Logout = () => {
+    sessionStorage.removeItem('is_login')
+    document.location.href='/'
+  }
+
+
+
+  //로그인 되어있는지 아닌지
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() =>{
+    sessionStorage.getItem('is_login')===null ? setIsLogin(false) : setIsLogin(true);
+  },[isLogin])
+  
   // const [showSignupModal, setShowSignupModal] = useState(false);
   return (
     <Menu as="div" className="flex items-center space-x-6 justify-end text-gray-500">
@@ -44,6 +62,9 @@ const DropdownMenu=() => {
       >
         <Menu.Items className="origin-top-right absolute right-0 mt-24 w-33 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none">
           <div className="py-1">
+            {/* 로그인안했을때 */}
+            {!isLogin && (
+              <>
             <Menu.Item>
               {({ active }) => (
                 <button
@@ -72,6 +93,40 @@ const DropdownMenu=() => {
                 </button>
               )}
             </Menu.Item>
+            </>)}
+{/*               로그인했을때 */}
+            {isLogin && (
+              <>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  // onClick={()=> setShowLoginModal(true)}
+                  onClick={Modify}
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  회원정보수정
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  //onClick={()=> setShowSignupModal(true)}
+                  onClick={Logout}
+                  className={classNames(
+                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  로그아웃
+                </button>
+              )}
+            </Menu.Item>
+            </>)}
+
           </div>
           <div className="py-1">
             <Menu.Item>

@@ -37,7 +37,7 @@ const Login = () => {
 
   // login Request
   const Login = () => {
-    console.log(inputs.Email+"   "+inputs.Password)
+    
     axios({
         method: "post",
         url: 'http://j5d204.p.ssafy.io:8000/user/login',
@@ -47,8 +47,13 @@ const Login = () => {
         }
     }).then((res) =>{
         console.log(res.data)
+        console.log(res.data.user.id)
+        sessionStorage.setItem('userid',res.data.user.id)
         const accessToken = res.data.token;
         sessionStorage.setItem('is_login',`${accessToken}`)
+        router.push({
+          pathname:"/"
+        })
     }).catch((error)=> {
         console.log(error)
     })

@@ -1,9 +1,12 @@
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../components/Header";
+
 const ModifyUser = () => {
 
     const [inputs, setInputs] = useState({
+        image: '',
         Email: '',
         Password: '',
         Nickname: '',
@@ -11,7 +14,7 @@ const ModifyUser = () => {
         PhoneNumber: '',
     })
 
-    const { Email, Password, Nickname, Address, PhoneNumber } = inputs; // 비구조화 할당을 통해 값 추출
+    const { image, Email, Password, Nickname, Address, PhoneNumber } = inputs; // 비구조화 할당을 통해 값 추출
     
     const onChange = (e) => {
         const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -21,13 +24,20 @@ const ModifyUser = () => {
         });
     };
     
-    const [SignupBtn, setSignupBtn] = useState(false);
-    const changeBtn = () => {
-      (Password.length>=10 || Password.length<21) &&
-       (Nickname.length<2 || Nickname.length>6) &&
-       (Address.length>0) && (PhoneNumber.length>0 && isNumber)
-        ? setSignupBtn(true) : setSignupBtn(false);
-    }
+    
+    useEffect(()=>{
+        const token = 'Bearer '+ sessionStorage.getItem('is_login')
+        const id = sessionStorage.getItem('userid')
+        axios({
+            method:'get',
+            url:'http://j5d204.p.ssafy.io:8000/user/modify/'+id,
+            headers: token,
+        }).then((res)=>{
+            console.log(res.data)
+        }).catch((err)=>{
+            console.log(err)
+        })
+    })
 
 
     // 전화번호 유효성검사
@@ -43,6 +53,7 @@ const ModifyUser = () => {
             method: "put",
             url: 'http://j5d204.p.ssafy.io:8000/user/modify',
             data: {
+                profileImg: inputs.image,
                 email: inputs.Email,
                 password : inputs.Password,
                 Nickname : inputs.Nickname,
@@ -91,9 +102,6 @@ const ModifyUser = () => {
               id="image"
               className=""
             />
-            <button type="submit" className="">
-            프로필이미지로 지정하기
-            </button>
             {/*Email*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             E-mail
