@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState, useRef, useEffect, useCallback } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -8,10 +8,8 @@ import FullReviewCard from "../components/FullReviewCard";
 import Image from "next/image";
 import DetailMap from "../components/DetailMap";
 import reviewData from "../dummy/json/reviewDump.json";
-import fishingData from "../dummy/json/fishingDump.json";
 import axios from "axios";
 import DatePicker from "react-datepicker";
-import { useRouter } from "next/dist/client/router";
 import { StarIcon } from "@heroicons/react/solid";
 import { HeartIcon } from "@heroicons/react/outline";
 import "react-datepicker/dist/react-datepicker.css";
@@ -192,7 +190,7 @@ const DetailPoint = () => {
         <section className=" flex-grow pt-14 px-6 ">
           <h3 className="text-2xl font-semibold mt-2 mb-6">포인트 지역</h3>
           <div className={"h-[500px] "}>
-            <DetailMap fishingData={fishingData} />
+            <DetailMap />
           </div>
           <h5 className="text-xl font-semibold mt-2 mb-6">{point.address}</h5>
           <hr />
