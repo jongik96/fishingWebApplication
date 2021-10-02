@@ -19,14 +19,11 @@ import { useSelector } from "react-redux";
 import fisherman from "../img/fisherman.jpg";
 import ReviewWriteCard from "../components/ReviewWriteCard";
 const DetailPoint = () => {
-  const router = useRouter();
-  const [obs_code, setObs_code] = useState("DT_0001");
   const [tideArr, setTideArr] = useState();
   const [selectedDate, setSelectedDate] = useState(new Date());
   let [isOpen, setIsOpen] = useState(false);
 
   const point = useSelector(({ detailPoint }) => detailPoint);
-
   const getToday = () => {
     const today = new Date(selectedDate);
     const year = today.getFullYear();
@@ -41,7 +38,7 @@ const DetailPoint = () => {
     axios({
       url:
         "http://www.khoa.go.kr/oceangrid/grid/api/tideObsPreTab/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&ObsCode=" +
-        obs_code +
+        point.obsCode +
         "&Date=" +
         getToday() +
         "&ResultType=json",
@@ -74,24 +71,32 @@ const DetailPoint = () => {
     setIsOpen(true);
     if (scroll.current != null) scroll.current.scrollTop = 0;
   }
+
+  // 스크랩 기능 백엔드 통신
+  const setScrap = () => {
+    // 스크랩 돼있는지 체크
+    // 스크랩 돼있으면 스크랩 해제
+    //스크랩 안돼있으면 스크랩하기
+  };
   return (
     <div>
       <Header />
 
       <main className="">
         <section className="flex-grow pt-14 px-6">
-          <h1 className="text-3xl font-semibold mt-2 mb-6">{point.pointName}</h1>
-
+          <div className="flex flex-rows space-x-3">
+            <h1 className="text-3xl font-semibold mt-2 mb-6">{point.pointName}</h1>
+            <p className="flex items-center hover:underline cursor-pointer" onClick={setScrap}>
+              <HeartIcon className="h-4 text-red-400" />
+              저장
+            </p>
+          </div>
           {/* 평점, 저장*/}
           <div className="flex justify-between items-end pt-5">
             <p className="flex items-center">
               <StarIcon className="h-4 text-red-400" />
               {point.rating}
               <p className="pl-2 text-sm text-gray-500">({point.reviewCnt}개의 리뷰)</p>
-            </p>
-            <p className="flex items-center hover:underline cursor-pointer">
-              <HeartIcon className="h-4 text-red-400" />
-              저장
             </p>
           </div>
           {/* 사진 부분 */}
