@@ -1,9 +1,13 @@
 import React, {useState, useEffect} from "react";
+import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import { useRouter } from "next/dist/client/router";
-import axios from 'axios'
+import * as userAction from "../store/modules/user";
+import axios from 'axios';
 
 const Login = () => {
+
+  const dispatch = useDispatch();
 
   const [inputs, setInputs] = useState({
     Email: '',
@@ -46,11 +50,10 @@ const Login = () => {
             password : inputs.Password,
         }
     }).then((res) =>{
-        console.log(res.data)
-        console.log(res.data.user.id)
-        sessionStorage.setItem('userid',res.data.user.id)
         const accessToken = res.data.token;
         sessionStorage.setItem('is_login',`${accessToken}`)
+        // redux 보내기
+        dispatch(userAction.setLoginState(res.data.user))
         router.push({
           pathname:"/"
         })

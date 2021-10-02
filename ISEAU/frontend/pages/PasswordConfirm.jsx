@@ -25,12 +25,10 @@ const PasswordConfirm = () => {
   const Confirm = () => {
     const token = sessionStorage.getItem('is_login')
     const id = Number(sessionStorage.getItem('userid'))
-    console.log(token)
-    console.log(id)
-    console.log(Password)
     axios({
-        method: "get",
-        url: 'http://j5d204.p.ssafy.io:8000/user/check/password/'+id,
+        method: "post",
+        // url: 'http://j5d204.p.ssafy.io:8000/user/check/password/'+id,
+        url: 'http://127.0.0.1:8000/user/check/password/'+id,
         headers: {
             Authorization: `Bearer ${token}`
         },         

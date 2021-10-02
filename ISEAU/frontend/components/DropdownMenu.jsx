@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 // import LoginModal from './modal/LoginModal';
 // import SignupModal from './modal/SignupModal';
 import { useRouter } from 'next/dist/client/router';
+import { useSelector } from "react-redux";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -34,12 +35,13 @@ const DropdownMenu=() => {
     document.location.href='/'
   }
 
-
-
+  // 로그인 상태관리
+  const id = useSelector(state => state.user.id);
+  console.log("store 현재 저장된 id값: " +id)
   //로그인 되어있는지 아닌지
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() =>{
-    sessionStorage.getItem('is_login')===null ? setIsLogin(false) : setIsLogin(true);
+    id==-1 ? setIsLogin(false) : setIsLogin(true);
   },[isLogin])
   
   // const [showSignupModal, setShowSignupModal] = useState(false);
