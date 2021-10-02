@@ -8,9 +8,9 @@ const Map = ({ searchData }) => {
 
   // 검색된 위치의 결과 객체를 {위도: ~~~ , 경도 : ~~~ } 처럼 바꾸는 작업
 
-  const changing = searchData?.map((res) => ({
-    latitude: Number(res.latitude),
-    longitude: Number(res.longitude),
+  const changing = searchData.point.map((res) => ({
+    latitude: Number(parseFloat(res.latitude)),
+    longitude: Number(parseFloat(res.longitude)),
   }));
 
   //   지도 중심부위 (처음 보여주는 곳) {위도, 경도} 객체로 변환
@@ -19,10 +19,10 @@ const Map = ({ searchData }) => {
 
   const [viewport, setViewport] = useState({
     width: "110%",
-    height: "100%",
-    longitude: Number(center.longitude),
-    latitude: Number(center.latitude),
-    zoom: 11,
+    height: "1500px",
+    latitude: center.latitude,
+    longitude: center.longitude,
+    zoom: 9.5,
   });
   return (
     <ReactMapGL
@@ -33,7 +33,7 @@ const Map = ({ searchData }) => {
         setViewport(nextView);
       }}
     >
-      {searchData?.map((res) => (
+      {searchData.point.map((res) => (
         <div key={Number(res.longitude)}>
           <Marker longitude={Number(res.longitude)} latitude={Number(res.latitude)}>
             <p
@@ -47,7 +47,8 @@ const Map = ({ searchData }) => {
           </Marker>
 
           {/* 지도에서 포인트 클릭할 때 띄워주는 것들 */}
-          {Number(clickedLocation.longitude) === Number(res.longitude) ? (
+
+          {clickedLocation.longitude === Number(res.longitude) ? (
             <Popup
               className="z-50"
               closeOnClick={true}

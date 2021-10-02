@@ -8,7 +8,9 @@ import ResultCard from "../components/ResultCard";
 import fishingData from "../dummy/json/fishingDump.json";
 
 const Search = () => {
-  const [searchData, setSearchData] = useState(null);
+  const [searchData, setSearchData] = useState({
+    point: [],
+  });
   const router = useRouter();
 
   const { location } = router.query;
@@ -16,7 +18,9 @@ const Search = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/search/" + location);
-      setSearchData(response.data);
+      setSearchData({
+        point: response.data,
+      });
       console.log("response : ", response);
     };
     fetchData();
@@ -36,13 +40,13 @@ const Search = () => {
           </div>
 
           <div className="flex flex-col">
-            {searchData?.map(({ id }) => (
+            {searchData.point.map(({ id }) => (
               <ResultCard key={id} id={id} />
             ))}
           </div>
         </section>
         {/* 우측 지도 부분 */}
-        <section className="hidden xl:inline-flex xl:min-w-[800px] ">
+        <section className="hidden xl:inline-flex xl:min-w-[800px]">
           {searchData && <Map searchData={searchData} />}
         </section>
       </main>
