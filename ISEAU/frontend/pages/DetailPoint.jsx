@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ReviewCard from "../components/ReviewCard";
+import FullReviewCard from "../components/FullReviewCard";
 import Image from "next/image";
 import DetailMap from "../components/DetailMap";
 import reviewData from "../dummy/json/reviewDump.json";
@@ -14,9 +15,9 @@ import { useRouter } from "next/dist/client/router";
 import { StarIcon } from "@heroicons/react/solid";
 import { HeartIcon } from "@heroicons/react/outline";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSelector, useDispatch } from "react-redux";
-import * as detailPointActions from "../store/modules/detailPoint";
-
+import { useSelector } from "react-redux";
+import fisherman from "../img/fisherman.jpg";
+import ReviewWriteCard from "../components/ReviewWriteCard";
 const DetailPoint = () => {
   const router = useRouter();
   const [obs_code, setObs_code] = useState("DT_0001");
@@ -94,24 +95,44 @@ const DetailPoint = () => {
             </p>
           </div>
           {/* 사진 부분 */}
-          <div className="flex flex-row ">
-            <div className="relative h-24 w-40 md:h-72 md:w-96 flex-shrink-0 m-1">
-              <Image src={point.fishingimg} layout="fill" objectFit="cover" className="rounded-2xl" />
-            </div>
-            <div className="grid-rows-2">
-              <div className="relative h-24 w-40 md:h-36 md:w-52 flex-shrink-0 mx-1 my-0.5">
-                <Image src={point.fishingimg} layout="fill" objectFit="cover" className="rounded-2xl" />
+          <div className="flex lg:flex-row flex-col">
+            <div className="flex flex-row lg:w-2/5 space-x-1 mb-1 h-[500px] lg:h-auto">
+              <div className="relative w-2/3 flex-shrink-0 ">
+                <Image
+                  // src={point.fishingimg}
+                  src={fisherman}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-2xl"
+                />
               </div>
-              <div className="relative h-24 w-40 md:h-36 md:w-52 flex-shrink-0 mx-1 my-0.5">
-                <Image src={point.fishingimg} layout="fill" objectFit="cover" className="rounded-2xl" />
+              <div className="grid-rows-2 w-1/3 h-max ">
+                <div className="relative w-full h-1/2 ">
+                  <Image
+                    // src={point.fishingimg}
+                    src={fisherman}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-2xl scale-y-99"
+                  />
+                </div>
+                <div className="relative w-full h-1/2">
+                  <Image
+                    // src={point.fishingimg}
+                    src={fisherman}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-2xl scale-y-99 "
+                  />
+                </div>
               </div>
             </div>
             {/* 조위 예측 부분 */}
-            <div className="text-center text-2xl mt-3">
+            <div className="w-full  text-center items-center text-lg lg:text-2xl mt-3 lg:w-2/5">
               {tideArr ? tideArr[0].tph_time.slice(0, 10) : ""}
-              <div className="grid grid-cols-2">
+              <div className="w-full  lg:w-full grid grid-cols-2 justify-items-center">
                 {tideArr?.map((value) => (
-                  <div className="flex flex-row my-10 mx-5">
+                  <div className="flex flex-row my-10">
                     <p className="flex justify-center items-center m-1">
                       {value.tph_time.slice(10, 16)}
                     </p>
@@ -129,7 +150,7 @@ const DetailPoint = () => {
               </div>
             </div>
             {/* 달력 부분 */}
-            <div className="mt-5 mx-10 ">
+            <div className="mt-5 lg:w-1/5 text-center ">
               <DatePicker
                 selected={selectedDate}
                 onChange={(date) => setSelectedDate(date)}
@@ -184,7 +205,7 @@ const DetailPoint = () => {
           {/* 리뷰 컴포넌트*/}
           <div className=" justify-around pt-5">
             <p className="flex items-center"></p>
-            <div className="flex space-x-3 overflow-scroll scrollbar-hide ">
+            <div className="flex space-x-3  overflow-scroll scrollbar-hide h-40 ">
               {topReview.map(({ img, nickname, date, desc }, index) => (
                 <ReviewCard key={nickname} img={img} nickname={nickname} date={date} desc={desc} />
               ))}
@@ -232,14 +253,22 @@ const DetailPoint = () => {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <div className="inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform ">
+                  <div className="inline-block w-full max-w-sm lg:max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform ">
+                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                      리뷰 쓰기
+                    </Dialog.Title>
+                    <div className="mb-10">
+                      <p className="text-sm text-gray-500">
+                        <ReviewWriteCard />
+                      </p>
+                    </div>
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                       전체 리뷰 보기
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
                         {reviewData.map(({ img, nickname, date, desc }) => (
-                          <ReviewCard
+                          <FullReviewCard
                             key={nickname}
                             img={img}
                             nickname={nickname}
