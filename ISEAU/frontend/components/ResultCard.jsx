@@ -31,7 +31,7 @@ const ResultCard = ({ id }) => {
   }, []);
 
   const detailPoint = () => {
-    // setDetailPoint(resultObj);
+    setDetailPoint(resultObj);
     router.push({
       pathname: "/DetailPoint",
     });
