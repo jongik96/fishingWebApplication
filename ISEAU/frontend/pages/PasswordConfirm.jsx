@@ -23,20 +23,21 @@ const PasswordConfirm = () => {
 
   // signup 페이지로 이동
   const Confirm = () => {
-    const token = 'Bearer '+sessionStorage.getItem('is_login')
+    const token = sessionStorage.getItem('is_login')
     const id = Number(sessionStorage.getItem('userid'))
     console.log(token)
     console.log(id)
-    console.log(typeof(id))
     console.log(Password)
     axios({
         method: "get",
         url: 'http://j5d204.p.ssafy.io:8000/user/check/password/'+id,
-        headers: token,
+        headers: {
+            Authorization: `Bearer ${token}`
+        },         
         data: {
             password : Password,
-        }
-    }).then((res) =>{
+        },
+    }).then((res) => {
         console.log(res.data)
         router.push({
             pathname: "/ModifyUser"
