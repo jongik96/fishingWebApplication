@@ -15,6 +15,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
 
 
 #  Create your views here.
@@ -50,18 +51,26 @@ class fishingScrap(APIView):
 class ScrapList(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, userId, format=None):
-        scrapQuery = Scrap.objects.filter(user=userId)
+        scrapQuery = Scrap.objects.filter(user_id=userId).values()
+        fishing_ids = []
+        for i in scrapQuery:
+            fishing_ids.append(i["fishing_id"])
+        
+        fishings = Fishing.objects.filter(id__in=fishing_ids)
+        print(fishings)
+        if fishings:
+            serializered_data = FishingSerializer(fishings, many=True).data
+            for index, data in enumerate(serializered_data):
+                reviewSum = Review.objects.filter(
+                    fishing_id=data['id']).aggregate(Sum('rating'))
+                reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
+                rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+                data['reviewCnt'] = reviewCnt
+                data['rating'] = rating
 
-        serializered_data = FishingSerializer(scrapQuery, many=True).data
-        for index, data in enumerate(serializered_data):
-            reviewSum = Review.objects.filter(
-                fishing_id=data['id']).aggregate(Sum('rating'))
-            reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
-            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-            data['reviewCnt'] = reviewCnt
-            data['rating'] = rating
-
-        return Response(serializered_data)
+            return Response(serializered_data)
+        else:
+            return Response({'message': '해당 유저의 Scrap이 없습니다.'}, status=204)
 
 class fishingDetail(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -81,17 +90,21 @@ class fishingDetail(APIView):
 
 class reviewCreate(APIView):
     permission_classes = (permissions.AllowAny,)
+
+    @swagger_auto_schema(request_body=ReviewSerializer)
     def post(self, request, fishingId):
-        # request.data["fishing"] = fishingId
-        # print(request.user)
-        # request.data["user"] = request.user
-        fishing = get_object_or_404(Fishing, id=fishingId)
-        serializer = ReviewSerializer(data=request.data)
-        print(request.user)
-        if serializer.is_valid(raise_exception=True):  # 유효성 검사
-            serializer.save(fishing=fishing, user=request.user)  # 저장
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        review = Review.objects.filter(
+            fishing_id=fishingId, user_id=request.user)
+        if review:
+            return Response({'message': '이미 생성된 Review가 있습니다!'}, status=400)
+        else:
+            fishing = get_object_or_404(Fishing, id=fishingId)
+            serializer = ReviewSerializer(data=request.data)
+            print(request.user)
+            if serializer.is_valid(raise_exception=True):  # 유효성 검사
+                serializer.save(fishing=fishing, user=request.user)  # 저장
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class reviewCRUD(APIView):
@@ -102,18 +115,20 @@ class reviewCRUD(APIView):
         except Review.DoesNotExist:
             raise Http404
 
-    def put(self, request, reviewId, format=None):
+    def put(self, request, fishingId, reviewId, format=None):
         review = self.get_object(reviewId)
+        request.data["fishing"] = fishingId
+        request.data["user"] = request.user.id
         serializer = ReviewSerializer(review, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, reviewId, format=None):
+    def delete(self, request, fishingId, reviewId, format=None):
         review = self.get_object(reviewId)
         review.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'deleted reviewId' : reviewId}, status=status.HTTP_204_NO_CONTENT)
 
 
 class reviewFishingIdList(APIView):
@@ -174,5 +189,3 @@ class autoLoc(APIView):
             return Response(serializered_data)
         else:
             return HttpResponse(status=204)
-
-

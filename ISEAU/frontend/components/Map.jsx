@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import ReactMapGL, { Marker, Popup } from "react-map-gl";
 import { getCenter } from "geolib";
 
-const Map = ({ fishingData }) => {
+const Map = ({ searchData }) => {
   const [clickedLocation, setClickedLocation] = useState({});
+  console.log("맵 데이터들 : ", searchData);
 
   // 검색된 위치의 결과 객체를 {위도: ~~~ , 경도 : ~~~ } 처럼 바꾸는 작업
 
-  const changing = fishingData.map((res) => ({
-    latitude: res.lat,
-    longitude: res.long,
+  const changing = searchData.point.map((res) => ({
+    latitude: Number(parseFloat(res.latitude)),
+    longitude: Number(parseFloat(res.longitude)),
   }));
 
   //   지도 중심부위 (처음 보여주는 곳) {위도, 경도} 객체로 변환
@@ -18,10 +19,10 @@ const Map = ({ fishingData }) => {
 
   const [viewport, setViewport] = useState({
     width: "110%",
-    height: "100%",
-    longitude: center.longitude,
+    height: "1500px",
     latitude: center.latitude,
-    zoom: 10,
+    longitude: center.longitude,
+    zoom: 9.5,
   });
   return (
     <ReactMapGL
@@ -32,9 +33,9 @@ const Map = ({ fishingData }) => {
         setViewport(nextView);
       }}
     >
-      {fishingData.map((res) => (
-        <div key={res.long}>
-          <Marker longitude={res.long} latitude={res.lat}>
+      {searchData.point.map((res) => (
+        <div key={Number(res.longitude)}>
+          <Marker longitude={Number(res.longitude)} latitude={Number(res.latitude)}>
             <p
               role="img"
               className="cursor-pointer text-2xl animate-bounce"
@@ -46,17 +47,18 @@ const Map = ({ fishingData }) => {
           </Marker>
 
           {/* 지도에서 포인트 클릭할 때 띄워주는 것들 */}
-          {clickedLocation.long === res.long ? (
+
+          {clickedLocation.longitude === Number(res.longitude) ? (
             <Popup
               className="z-50"
               closeOnClick={true}
               onClose={() => setClickedLocation({})}
-              latitude={res.lat}
-              longitude={res.long}
+              latitudeitude={Number(res.latitude)}
+              longitude={Number(res.longitude)}
               offsetLeft={10}
               offsetTop={-10}
             >
-              {res.point_name}
+              {res.pointName}
             </Popup>
           ) : (
             false
