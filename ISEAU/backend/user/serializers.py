@@ -69,3 +69,12 @@ class NicknameUniqueCheckSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('nickname',)
+
+
+class SignupSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'id', 'password',
+                  'nickname', 'address', 'phonenumber',)

@@ -15,6 +15,7 @@ from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
 
 
 #  Create your views here.
@@ -90,6 +91,7 @@ class fishingDetail(APIView):
 class reviewCreate(APIView):
     permission_classes = (permissions.AllowAny,)
 
+    @swagger_auto_schema(request_body=ReviewSerializer)
     def post(self, request, fishingId):
         review = Review.objects.filter(
             fishing_id=fishingId, user_id=request.user)

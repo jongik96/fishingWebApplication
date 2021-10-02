@@ -11,7 +11,7 @@ from rest_framework import permissions, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken, EmailUniqueCheckSerializer, NicknameUniqueCheckSerializer
+from .serializers import UserSerializer, UserSerializerWithToken, EmailUniqueCheckSerializer, NicknameUniqueCheckSerializer, SignupSerializer
 from .models import User
 from rest_framework import status
 from fishing.models import Review
@@ -25,6 +25,7 @@ from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import make_password
+from drf_yasg.utils import swagger_auto_schema
 
 @api_view(['GET'])
 def current_user(request):
@@ -35,7 +36,9 @@ def current_user(request):
 
 class Signup(APIView):
     permission_classes = (permissions.AllowAny,)
-    def post(self, request, format=None):
+
+    @swagger_auto_schema(request_body=SignupSerializer)
+    def post(self, request):
         serializer = UserSerializerWithToken(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -45,12 +48,6 @@ class Signup(APIView):
 
 class ProfileUpdateAPI(generics.UpdateAPIView):
     permission_classes = (permissions.AllowAny,)
-#     lookup_field = "id"
-#     queryset = User.objects.all()
-#     serializer_class = UserUpdateSerializer
-
-# class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
-#     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
     def retrieve(self, request, *args, **kwargs):
