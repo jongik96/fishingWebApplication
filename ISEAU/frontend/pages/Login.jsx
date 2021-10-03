@@ -15,6 +15,7 @@ const Login = () => {
   });
   const { Email, Password } = inputs; // 비구조화 할당을 통해 값 추출
 
+
   const [isRight, setIsRight] = useState(false);
   useEffect(()=> {
    {isEmail(Email) &&
@@ -51,7 +52,9 @@ const Login = () => {
         }
     }).then((res) =>{
         const accessToken = res.data.token;
+        console.log(res.data.token)
         sessionStorage.setItem('is_login',`${accessToken}`)
+        sessionStorage.setItem('id', res.data.user.id)
         // redux 보내기
         dispatch(userAction.setLoginState(res.data.user))
         router.push({
@@ -59,6 +62,7 @@ const Login = () => {
         })
     }).catch((error)=> {
         console.log(error)
+        alert("email 또는 password를 잘못 입력했습니다.")
     })
   }
 

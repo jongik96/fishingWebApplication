@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import { Avatar } from "@material-ui/core";
 import StarRatingComponent from "react-star-rating-component";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
-const ReviewWriteCard = () => {
+const ReviewUpdateCard = () => {
   const [reviewData, setReviewData] = useState({
     text: "",
     rating: 0,
   });
-  const review = useSelector(({ review }) => review);
-
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -68,16 +65,22 @@ const ReviewWriteCard = () => {
         onChange={(e) => textChange(e)}
         placeholder="리뷰를 작성해주세요!"
       ></textarea>
-      <div className=" w-full text-right">
+      <div className=" w-full text-right space-x-2">
         <button
           className="p-2 cursor-pointer hover:scale-105 transform transition duration-300 ease-out bg-blue-600 text-white text-lg  "
           onClick={writeReview}
         >
-          리뷰 작성
+          리뷰 수정
+        </button>
+        <button
+          className="p-2 cursor-pointer hover:scale-105 transform transition duration-300 ease-out bg-red-600 text-white text-lg  "
+          onClick={writeReview}
+        >
+          리뷰 삭제
         </button>
       </div>
     </div>
   );
 };
 
-export default ReviewWriteCard;
+export default ReviewUpdateCard;
