@@ -6,8 +6,8 @@ from django.db import models
 # 낚시터 상세 목록
 
 class FishingSerializer(serializers.ModelSerializer):
-    reviewCnt = serializers.IntegerField(default=0)
-    rating = serializers.FloatField(default=0)
+    reviewCnt = serializers.IntegerField()
+    rating = serializers.DecimalField(max_digits=2, decimal_places=1)
 
     class Meta:
         model = Fishing

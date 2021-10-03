@@ -89,25 +89,23 @@ class recommendList(APIView):
 
         res = []
         for i in range(len(lst)):
-            recommend_result = recommend(lst[i], matrix, 3, similar_genre=True)
-            res.append(pd.DataFrame(recommend_result, columns=[
-                       'fishingId', 'Correlation', 'obsPostId']))
+            recommend_result = recommend(lst[i], matrix, 30, similar_genre=True)
+            res.append(pd.DataFrame(recommend_result, columns=['fishingId', 'Correlation', 'obsPostId']))
 
         abc = pd.concat(res)
         result = abc.sort_values(by=['Correlation'], axis=0, ascending=False)
-        print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm', type(result))
-        print(result)
 
-        # final_lst = []
-        abc = result[:3]['fishingId'].iloc[0]
 
-        finaldata = Fishing.objects.filter(Q(id=result[:3]['fishingId'].iloc[0]) | Q(id=result[:3]['fishingId'].iloc[1]) | Q(id=result[:3]['fishingId'].iloc[2]))
-
+        abc = result['fishingId']
+        fishing_list = []
+        for i in abc:
+            if i not in fishing_list:
+                fishing_list.append(i)
+                finaldata = Fishing.objects.filter(id__in=fishing_list)
 
         serializer_data = RecommendSerializer(finaldata, many=True).data
         for index, data in enumerate(serializer_data):
-            reviewSum = Review.objects.filter(
-                fishing_id=data['id']).aggregate(Sum('rating'))
+            reviewSum = Review.objects.filter(fishing_id=data['id']).aggregate(Sum('rating'))
             reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
             rating = round(reviewSum['rating__sum']/reviewCnt, 1)
             data['reviewCnt'] = reviewCnt

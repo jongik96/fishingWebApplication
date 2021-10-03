@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from .models import Fishing, Scrap, Review
 from user.models import User
 from .serializers import FishingSerializer, ReviewSerializer
-from django.db.models import Avg, Q, Sum
+from django.db.models import Avg, Q, Sum, Count
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -82,6 +82,7 @@ class fishingDetail(APIView):
     def get(self, request, fishingId):
         reviewSum = Review.objects.filter(fishing_id=fishingId).aggregate(Sum('rating'))
         fishing = Fishing.objects.filter(id=fishingId)
+        
         serializer = FishingSerializer(fishing, many=True)
         
         if Review.objects.filter(fishing_id=fishingId).count():
@@ -197,3 +198,22 @@ class autoLoc(APIView):
             return Response(serializered_data)
         else:
             return HttpResponse(status=204)
+
+
+class CategoryList(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, categoryId, format=None):
+        if categoryId == 2:
+            scrapQuery = Fishing.objects.all().annotate(reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
+        else:
+            scrapQuery = Fishing.objects.filter(category=categoryId).annotate(
+                reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
+            
+
+        if scrapQuery:
+            serializered_data = FishingSerializer(scrapQuery, many=True).data
+
+            return Response(serializered_data)
+        else:
+            return Response({'message': '해당 카테고리의 낚시터가 없습니다.'}, status=204)
