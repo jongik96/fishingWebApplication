@@ -10,6 +10,7 @@ import fishDump from "../dummy/json/fishDump.json";
 import { Tab } from "@headlessui/react";
 import { data } from "autoprefixer";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -62,6 +63,21 @@ const Header = ({ placeholder }) => {
     });
   };
 
+  const goDetail = (id) => {
+    console.log(id);
+    // const res = await axios.get()
+    setDetailPoint(id);
+    router.push({
+      pathname: "/DetailPoint",
+    });
+  };
+  const dispatch = useDispatch();
+  const setDetailPoint = useCallback(
+    (value) => {
+      dispatch(detailPointActions.setDetailPoint(value));
+    },
+    [dispatch]
+  );
   return (
     <header className="sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-2 md:px-12">
       {/* 왼쪽 로고 영역 */}
@@ -152,7 +168,12 @@ const Header = ({ placeholder }) => {
                             >
                               📌 {address} [{pointName}]
                             </p>
-                            <p className="flex items-center cursor-pointer pr-5" onClick={() => {}}>
+                            <p
+                              className="flex items-center cursor-pointer pr-5"
+                              onClick={() => {
+                                goDetail(id);
+                              }}
+                            >
                               <ChevronDoubleRightIcon className="h-5" />
                             </p>
                           </div>
