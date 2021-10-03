@@ -3,7 +3,7 @@ module.exports = {
     return [
       {
         source: "/:path*",
-        destination: "/:path*",
+        destination: "http://j5d204.p.ssafy.io:8000/:path*",
       },
     ];
   },
