@@ -55,6 +55,7 @@ const Signup = () => {
     {
       isEmail(Email) &&
       isNickname(Nickname) &&
+      isAddress(Address) &&
       (Password.length >= 10 || Password.length < 21) &&
       (Password == PasswordConfirm) &&
       (Nickname.length >= 2 || Nickname.length < 11) &&

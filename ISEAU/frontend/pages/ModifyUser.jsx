@@ -2,19 +2,20 @@ import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import React, {useEffect, useState} from "react";
 import Header from "../components/Header";
-
+import { useSelector } from "react-redux";
 const ModifyUser = () => {
 
     const [inputs, setInputs] = useState({
-        image: '',
         Email: '',
         Password: '',
         Nickname: '',
         Address: '',
         PhoneNumber: '',
+        introduce: '',
+        profileImg: '',
     })
 
-    const { image, Email, Password, Nickname, Address, PhoneNumber } = inputs; // 비구조화 할당을 통해 값 추출
+    const { Email, Password, Nickname, Address, PhoneNumber, introduce, profileImg } = inputs; // 비구조화 할당을 통해 값 추출
     
     const onChange = (e) => {
         const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -24,20 +25,11 @@ const ModifyUser = () => {
         });
     };
     
-    
+    const id = useSelector(state => state.user.id);
     useEffect(()=>{
-        const token = 'Bearer '+ sessionStorage.getItem('is_login')
-        const id = sessionStorage.getItem('userid')
-        axios({
-            method:'get',
-            url:'http://j5d204.p.ssafy.io:8000/user/modify/'+id,
-            headers: token,
-        }).then((res)=>{
-            console.log(res.data)
-        }).catch((err)=>{
-            console.log(err)
-        })
+       inputs.Email = id
     })
+    
 
 
     // 전화번호 유효성검사
@@ -47,32 +39,49 @@ const ModifyUser = () => {
         return numberRegex.test(PhoneNumber);
     }
 
+      // Nickname 유효성검사 특수문자 불가
+    const isNickname = (Nickname) => {
+        const nicknameRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+        return nicknameRegex.test(Nickname)
+
+    }
+
+    // 주소 유효성검사 특수문자 안되게
+    const isAddress = (Address) => {
+        const addressRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+        return addressRegex.test(Address)
+    }
     // modify Request
     const Modify = () => {
         axios({
             method: "put",
             url: 'http://j5d204.p.ssafy.io:8000/user/modify',
             data: {
-                profileImg: inputs.image,
+                profileImg: inputs.profileImg,
                 email: inputs.Email,
                 password : inputs.Password,
                 Nickname : inputs.Nickname,
                 Address : inputs.Address,
                 PhoneNumber : inputs.PhoneNumber,
-                username : inputs.Username,
+                username : inputs.Email,
+                introduce: inputs.introduce
+
             }
         }).then((res) =>{
-            console.log("email: ")
             console.log(res.data)
+            router.push({
+                pathname:"/"
+            })
         }).catch((error)=> {
             console.log(error)
         })
     }    
 
     const router = useRouter();
+    // 취소버튼
     const Login = () =>{
         router.push({
-            pathname: "/Login",
+            pathname: "/",
         })
     }
   return (
@@ -98,15 +107,15 @@ const ModifyUser = () => {
             </p>
             <input
               type="file"
-              name="image"
-              id="image"
+              name="profileImg"
+              id="profileImg"
               className=""
             />
             {/*Email*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             E-mail
             </p>
-            <input type="text" disabled name="Email" onChange = {onChange} placeholder={Email} className="text-lg w-full rounded-lg border-2 border-gray-400" />
+            <input type="text" name="Email" onChange = {onChange} placeholder={Email} className="text-lg w-full rounded-lg border-2 border-gray-400" />
             
             {/*Password*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
@@ -124,17 +133,29 @@ const ModifyUser = () => {
                 (Nickname.length<2 || Nickname.length>6) && 
                 (<p className="text-gray-500">Nickname은 2자이상 6자 이하여야합니다</p>
             )}
+            { isNickname(Nickname) && (
+                <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
+              )}
             {/*Address*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Address
             </p>
             <input type="text" name="Address" value={Address} onChange = {onChange} placeholder=" 경상북도구미시진평동" className="text-lg w-full rounded-lg border-2 border-gray-400" />
+            { isAddress(Address) &&( 
+                <p className="text-red-500">특수문자를 포함할 수 없습니다.</p>
+              )}
             {/*PhoneNumber*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Phone Number
             </p>
             <input type="text" name="PhoneNumber" value={PhoneNumber} onChange = {onChange} placeholder=" 010XXXXXXXX" className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400" />
             { (PhoneNumber.length!=0) && !isNumber(PhoneNumber) && (<p className="text-gray-500">숫자만 입력해주세요</p>)}
+
+            {/*Introduce*/}
+            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            Introduce
+            </p>
+            <input type="text" name="introduce" value={introduce} onChange = {onChange} placeholder=" introduce" className="text-lg w-full rounded-lg border-2 border-gray-400" />
             </div>
             {/*footer*/}
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
