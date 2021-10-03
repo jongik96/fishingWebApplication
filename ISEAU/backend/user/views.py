@@ -110,7 +110,7 @@ class reviewUserIdList(APIView):
 
 class checkPassword(APIView):
     permission_classes = (permissions.AllowAny,)
-    def post(self, request, userId, format=None):
+    def get(self, request, userId, format=None):
         user = User.objects.get(id=userId)
         if user.check_password(request.data['password']):
             return Response({"message": "SUCCESS"},status=200)

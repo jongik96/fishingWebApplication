@@ -36,14 +36,12 @@ class fishingScrap(APIView):
             
 
             if Scrap.objects.filter(user_id=user.id, fishing_id=fishing_id).exists():
-                print('mmmmmmmmmm', user.id)
                 Scrap.objects.filter(user_id=user.id, fishing_id=fishing_id).delete()
                 scrap_count = Scrap.objects.filter(fishing_id=fishing_id).count()
-                return JsonResponse({'message': 'SUCCESS delete', 'scrap_count':scrap_count}, status=200)
-            else:
-                Scrap.objects.create(user_id=user.id, fishing_id=fishing_id)
-                scrap_count = Scrap.objects.filter(fishing_id=fishing_id).count()
-                return JsonResponse({'message': 'SUCCESS create', 'scrap_count': scrap_count}, status=200)
+                return JsonResponse({'message': 'SUCCESS', 'scrap_count':scrap_count}, status=200)
+            Scrap.objects.create(user_id=user.id, fishing_id=fishing_id)
+            scrap_count = Scrap.objects.filter(fishing_id=fishing_id).count()
+            return JsonResponse({'message': 'SUCCESS', 'scrap_count': scrap_count}, status=200)
 
         except JSONDecodeError:
             return JsonResponse({'message':'JSON_DECODE_ERROR'}, status=400)

@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Fishing, Review, Fish
-from user.models import User
 from django.db import models
 # from django.db.models import fields
 
@@ -16,16 +15,11 @@ class FishingSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    nickname = serializers.CharField(source="user.nickname")
-    profileimg = serializers.CharField(source="user.profileimg")
-    username = serializers.CharField(source="user.username")
+
     class Meta:
         model = Review
         fields = (
             "reviewContent",
             "rating",
             "createdAt",
-            "nickname",
-            "profileimg",
-            "username",
         )
