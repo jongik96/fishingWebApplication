@@ -27,13 +27,13 @@ SECRET_KEY = 'django-insecure-*16^cyn%(un@^g3=w&w4e-h)0*u&vv01v%mx!_lk-v6aq5#*#7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['j5d204.p.ssafy.io', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 APPEND_SLASH = False # 추가 안해줄시 기본값이 True인데 그 경우 urls.py에서 경로설정시 주소 끝에 /를 붙이고 
 #해당경로로 /를 붙이지 않고 접속시 페이지를 찾을 수 없기때문에 리다이렉트를 시켜 자동으로 /를 붙여서 경로를 찾는다.
 #이 경우 문제가 될 수 있기때문에 false로 값을 지정해줬다.
 
-CORS_ORIGIN_WHITELIST = ['http://localhost:3000'] #아까 설치한 corsheaders로 해당 서버와 연결할 서버의 url을 작성해준모습
+CORS_ORIGIN_WHITELIST = ['*'] #아까 설치한 corsheaders로 해당 서버와 연결할 서버의 url을 작성해준모습
 
 # Application definition
 

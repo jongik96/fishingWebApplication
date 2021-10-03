@@ -14,6 +14,7 @@ const Search = () => {
   const router = useRouter();
 
   const { location } = router.query;
+  console.log(location);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +41,7 @@ const Search = () => {
           </div>
 
           <div className="flex flex-col">
-            {searchData.point.map(({ id }) => (
+            {searchData.point?.map(({ id }) => (
               <ResultCard key={id} id={id} />
             ))}
           </div>
