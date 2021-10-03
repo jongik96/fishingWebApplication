@@ -9,22 +9,28 @@
     "@badrap/bar-of-progress": "^0.1.2",
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
-<<<<<<< HEAD:ISEAU/frontend/package.json
-=======
     "@material-ui/core": "^4.12.3",
->>>>>>> 3039fa9572e02a4112ff63b99804777e36971a67:sub2/frontend/package.json
+    "@reduxjs/toolkit": "^1.6.1",
+    "@tailwindcss/line-clamp": "^0.2.2",
     "axios": "^0.21.4",
     "geolib": "^3.3.1",
     "headlessui": "^0.0.0",
     "next": "latest",
+    "next-redux-wrapper": "^7.0.5",
     "next.js": "^1.0.3",
     "react": "^17.0.2",
     "react-autocomplete": "^1.8.1",
     "react-date-range": "^1.4.0",
+    "react-datepicker": "^4.2.1",
     "react-dom": "^17.0.2",
     "react-map-gl": "^6.1.17",
+    "react-redux": "^7.2.5",
+    "react-star-rating-component": "^1.4.1",
+    "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
     "tailwind-scrollbar-hide": "^1.0.3",
-    "yarn": "^1.22.11"
+    "yarn": "^1.22.11",
+    "redux-logger": "^3.0.6"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",

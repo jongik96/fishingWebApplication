@@ -1,19 +1,28 @@
 import React, {useState, useEffect} from "react";
+import { useDispatch } from "react-redux";
 import Header from "../components/Header";
 import { useRouter } from "next/dist/client/router";
+import * as userAction from "../store/modules/user";
+import axios from 'axios';
 
 const Login = () => {
 
+  const dispatch = useDispatch();
+
   const [inputs, setInputs] = useState({
     Email: '',
-    Password: ''
+    Password: '',
   });
   const { Email, Password } = inputs; // 비구조화 할당을 통해 값 추출
 
-  const [loginBtn, setLoginBtn] = useState(false);
-  const changeBtn = () => {
-   (Email.length!=0) && (Password.length!=0) && isEmail(Email) && (Password.length>=10 || Password.length<21) ? setLoginBtn(true) : setLoginBtn(false);
-  }
+
+  const [isRight, setIsRight] = useState(false);
+  useEffect(()=> {
+   {isEmail(Email) &&
+    (Password.length>=10 && Password.length<21) 
+     ? setIsRight(true) : setIsRight(false);
+   }
+  },[inputs, isRight]);
 
   const onChange = (e) => {
     const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -29,6 +38,32 @@ const Login = () => {
     /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
     return emailRegex.test(Email);
+  }
+
+  // login Request
+  const Login = () => {
+    
+    axios({
+        method: "post",
+        url: 'http://j5d204.p.ssafy.io:8000/user/login',
+        data: {
+            username: inputs.Email,
+            password : inputs.Password,
+        }
+    }).then((res) =>{
+        const accessToken = res.data.token;
+        console.log(res.data.token)
+        sessionStorage.setItem('is_login',`${accessToken}`)
+        sessionStorage.setItem('id', res.data.user.id)
+        // redux 보내기
+        dispatch(userAction.setLoginState(res.data.user))
+        router.push({
+          pathname:"/"
+        })
+    }).catch((error)=> {
+        console.log(error)
+        alert("email 또는 password를 잘못 입력했습니다.")
+    })
   }
 
   // signup 페이지로 이동
@@ -70,15 +105,14 @@ const Login = () => {
                   { (Password.length!=0) && (Password.length<10 || Password.length>20) &&
                     (<p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
                    )}
-
+                  
                 </div>
                 {/*footer*/}
                 <div className="mt-3 flex flex-col items-center justify-end border-t border-solid border-blueGray-200 rounded-b">
                   <button
-                    className="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-blue-300 focus:outline-none mt-5 mr-1 mb-1 ease-linear transition-all duration-150"
-                    
+                    className={isRight ? `button_active` : `button_unactive`}
+                    onClick={Login}
                     type="button"
-                    disabled={!loginBtn}
                   >
                     Log In
                   </button>
@@ -100,4 +134,3 @@ const Login = () => {
 };
 
 export default Login;
-

@@ -15,6 +15,7 @@ class FishingSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Review
         fields = (
@@ -22,4 +23,3 @@ class ReviewSerializer(serializers.ModelSerializer):
             "rating",
             "createdAt",
         )
-        

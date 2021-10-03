@@ -9,4 +9,10 @@
     @apply px-4 py-2 border rounded-full cursor-pointer hover:shadow-lg active:scale-95
         active:bg-gray-100 transition transform duration-100 ease-out bg-blue-400 text-white;
   }
+  .button_active {
+    @apply text-blue-500 bg-transparent font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-blue-300 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150;
+  }
+  .button_unactive {
+    @apply text-white bg-gray-300 font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-gray-500 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150 cursor-not-allowed;
+  }
 }
