@@ -63,10 +63,15 @@ class ScrapList(APIView):
             for index, data in enumerate(serializered_data):
                 reviewSum = Review.objects.filter(
                     fishing_id=data['id']).aggregate(Sum('rating'))
-                reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
-                rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-                data['reviewCnt'] = reviewCnt
-                data['rating'] = rating
+                if Review.objects.filter(fishing_id=data['id']).count():
+                    reviewCnt = Review.objects.filter(
+                        fishing_id=data['id']).count()
+                    rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+                    data['reviewCnt'] = reviewCnt
+                    data['rating'] = rating
+                else:
+                    data['reviewCnt'] = 0
+                    data['rating'] = 0
 
             return Response(serializered_data)
         else:
@@ -76,17 +81,20 @@ class fishingDetail(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, fishingId):
         reviewSum = Review.objects.filter(fishing_id=fishingId).aggregate(Sum('rating'))
-        reviewCnt = Review.objects.filter(fishing_id=fishingId).count()
-        rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-
         fishing = Fishing.objects.filter(id=fishingId)
-
         serializer = FishingSerializer(fishing, many=True)
+        
+        if Review.objects.filter(fishing_id=fishingId).count():
+            reviewCnt = Review.objects.filter(fishing_id=fishingId).count()
+            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+        else:
+            reviewCnt = 0
+            rating = 0
+
         serializer.data[0].update({'reviewCnt': reviewCnt})
         serializer.data[0].update({'rating': rating})
 
         return Response(serializer.data)
-
 
 class reviewCreate(APIView):
     permission_classes = (permissions.AllowAny,)
