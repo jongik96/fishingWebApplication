@@ -39,7 +39,6 @@ class fishingScrap(APIView):
                 Scrap.objects.filter(user_id=user.id, fishing_id=fishing_id).delete()
                 scrap_count = Scrap.objects.filter(fishing_id=fishing_id).count()
                 return JsonResponse({'message': 'SUCCESS', 'scrap_count':scrap_count}, status=200)
-
             Scrap.objects.create(user_id=user.id, fishing_id=fishing_id)
             scrap_count = Scrap.objects.filter(fishing_id=fishing_id).count()
             return JsonResponse({'message': 'SUCCESS', 'scrap_count': scrap_count}, status=200)
@@ -135,9 +134,9 @@ class reviewFishingIdList(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, fishingId, format=None):
         reviews = Review.objects.filter(fishing_id=fishingId)
-      
         if reviews:
             serializer = ReviewSerializer(reviews, many=True)
+
             return Response(serializer.data)
         else:
             return HttpResponse(status=204)
