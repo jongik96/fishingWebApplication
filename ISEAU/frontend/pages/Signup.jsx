@@ -83,7 +83,7 @@ const Signup = () => {
     })
       .then((res) => {
         console.log(res.data);
-        alert("회원가입 완료!")
+        alert("회원가입 완료!");
         document.location.href = "/Login";
       })
       .catch((error) => {
@@ -144,7 +144,7 @@ const Signup = () => {
                 placeholder=" PasswordConfirm"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {(Password != PasswordConfirm) && (
+              {Password != PasswordConfirm && (
                 <p className="text-red-500">비밀번호와 동일하게 입력해주세요.</p>
               )}
               {/*Nickname*/}
@@ -186,7 +186,7 @@ const Signup = () => {
                 placeholder=" 010XXXXXXXX"
                 className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {(PhoneNumber.length !=0) && !isNumber(PhoneNumber) && (
+              {PhoneNumber.length != 0 && !isNumber(PhoneNumber) && (
                 <p className="text-red-500">숫자만 입력해주세요</p>
               )}
             </div>
