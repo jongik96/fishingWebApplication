@@ -51,6 +51,23 @@ const ModifyUser = () => {
         const addressRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
         return addressRegex.test(Address)
     }
+
+    useEffect(() =>{
+        const token = sessionStorage.getItem('is_login')
+        const id = sessionStorage.getItem('id')
+        axios({
+            method: "patch",
+            url: 'http://j5d204.p.ssafy.io:8000/user/modify/'+id,
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        }).then((res)=>{
+            console.log(res.data)
+        }).catch((error)=>{
+            console.log(error)
+        })
+    })
+
     // modify Request
     const Modify = () => {
         axios({
@@ -76,6 +93,32 @@ const ModifyUser = () => {
             console.log(error)
         })
     }    
+
+    // delete User
+    const Delete = () => {
+        let result = confirm("회원정보를 삭제하시겠습니까?")
+        if(result == true){
+            const token = sessionStorage.getItem('is_login')
+            const id = sessionStorage.getItem('id')
+            axios({
+                method: "delete",
+                url: 'http://j5d204.p.ssafy.io:8000/user/delete/'+id,
+                // headers: {
+                //     Authorization: `Bearer ${token}`
+                // },
+            }).then((res)=>{
+                console.log(res.data)
+                sessionStorage.removeItem('is_login')
+                sessionStorage.removeItem('id')
+                alert("삭제가 완료되었습니다.")
+                router.push({
+                    pathname:"/"
+                })
+            }).catch((error)=>{
+                console.log(error)
+            })
+        }
+    }
 
     const router = useRouter();
     // 취소버튼
@@ -175,6 +218,16 @@ const ModifyUser = () => {
                         
                     >
                         변경
+                    </button>
+                </div>
+                <div className="mt-2">
+                    <button
+                        className="text-gray-300 bg-red-500 font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-red-300 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150"
+                        type="button"
+                        onClick={Delete}
+                        
+                    >
+                        회원탈퇴
                     </button>
                 </div>
             </div>

@@ -53,6 +53,7 @@ const Login = () => {
     }).then((res) =>{
         const accessToken = res.data.token;
         console.log(res.data.token)
+        console.log(res.data.user)
         sessionStorage.setItem('is_login',`${accessToken}`)
         sessionStorage.setItem('id', res.data.user.id)
         // redux 보내기
