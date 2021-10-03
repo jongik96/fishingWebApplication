@@ -37,9 +37,25 @@ const Signup = () => {
     return numberRegex.test(PhoneNumber);
   };
 
+  // Nickname 유효성검사 특수문자 불가
+  const isNickname = (Nickname) => {
+    const nicknameRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+    return nicknameRegex.test(Nickname)
+
+  }
+
+  // 주소 유효성검사 특수문자 안되게
+  const isAddress = (Address) => {
+    const addressRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+    return addressRegex.test(Address)
+  }
+
+
   useEffect(() => {
     {
       isEmail(Email) &&
+      isNickname(Nickname) &&
+      isAddress(Address) &&
       (Password.length >= 10 || Password.length < 21) &&
       Password == PasswordConfirm &&
       (Nickname.length >= 2 || Nickname.length < 11) &&
@@ -142,8 +158,11 @@ const Signup = () => {
                 placeholder=" Nickname"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {Nickname.length != 0 && (Nickname.length < 2 || Nickname.length > 11) && (
+              {(Nickname.length != 0 && (Nickname.length < 2 || Nickname.length > 11)) && (
                 <p className="text-red-500">Nickname은 2자이상 10자 이하여야합니다</p>
+              )}
+              { isNickname(Nickname) && (
+                <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
               )}
               {/*Address*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Address</p>
@@ -155,6 +174,9 @@ const Signup = () => {
                 placeholder=" 경상북도구미시진평동"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
+              { isAddress(Address) &&( 
+                <p className="text-red-500">특수문자를 포함할 수 없습니다.</p>
+              )}
               {/*PhoneNumber*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Phone Number</p>
               <input

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useRouter } from "next/dist/client/router";
 import Header from "../components/Header";
 import axios from 'axios'
+import { useSelector } from "react-redux";
 
 const PasswordConfirm = () => {
 
@@ -24,11 +25,12 @@ const PasswordConfirm = () => {
   // signup 페이지로 이동
   const Confirm = () => {
     const token = sessionStorage.getItem('is_login')
-    const id = Number(sessionStorage.getItem('userid'))
+    // const id = useSelector(state => state.user.id);
+    const id = sessionStorage.getItem('id')
     axios({
         method: "post",
-        // url: 'http://j5d204.p.ssafy.io:8000/user/check/password/'+id,
-        url: 'http://127.0.0.1:8000/user/check/password/'+id,
+         url: 'http://j5d204.p.ssafy.io:8000/user/check/password/'+id,
+        // url: 'http://127.0.0.1:8000/user/check/password/'+id,
         headers: {
             Authorization: `Bearer ${token}`
         },         

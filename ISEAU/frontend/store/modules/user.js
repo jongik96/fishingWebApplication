@@ -5,7 +5,7 @@ const initialState = {
   nickname: "",
   address: "",
   profileImg: "",
-  phonenumber: "",
+  phonenumber: 0,
   introduce: "",
 
 }; // 초기 상태 정의
