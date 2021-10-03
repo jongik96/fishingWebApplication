@@ -54,13 +54,12 @@ const Signup = () => {
   useEffect(() => {
     {
       isEmail(Email) &&
-      isNickname(Nickname) &&
-      isAddress(Address) &&
       (Password.length >= 10 || Password.length < 21) &&
-      Password == PasswordConfirm &&
-      (Nickname.length >= 2 || Nickname.length < 11) &&
-      Address.length > 0 &&
-      PhoneNumber.length == 11 &&
+      (Password == PasswordConfirm) &&
+      (Nickname.length >= 2 && Nickname.length < 11) &&
+      !isNickname(Nickname) &&
+      (Address.length > 0 && !isAddress(Address)) &&
+      (PhoneNumber.length == 11) &&
       isNumber
         ? setIsRight(true)
         : setIsRight(false);
