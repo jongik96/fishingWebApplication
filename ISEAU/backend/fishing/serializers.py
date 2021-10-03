@@ -15,6 +15,9 @@ class FishingSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    nickname = serializers.CharField(source="user.nickname")
+    profileimg = serializers.CharField(source="user.profileimg")
+    username = serializers.CharField(source="user.username")
 
     class Meta:
         model = Review
@@ -22,4 +25,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "reviewContent",
             "rating",
             "createdAt",
+            "nickname",
+            "profileimg",
+            "username",
         )
