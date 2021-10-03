@@ -1,27 +1,48 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState, useRef, useEffect } from "react";
-import ReactDOM from "react-dom";
+import React, { Fragment, useState, useRef, useEffect, useCallback } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import ReviewCard from "../components/ReviewCard";
 import FullReviewCard from "../components/FullReviewCard";
 import Image from "next/image";
 import DetailMap from "../components/DetailMap";
-import reviewData from "../dummy/json/reviewDump.json";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import { StarIcon } from "@heroicons/react/solid";
 import { HeartIcon } from "@heroicons/react/outline";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSelector } from "react-redux";
 import fisherman from "../img/fisherman.jpg";
 import ReviewWriteCard from "../components/ReviewWriteCard";
+import ReviewUpdateCard from "../components/ReviewUpdateCard";
+import { useSelector, useDispatch } from "react-redux";
+import * as reviewActions from "../store/modules/review";
+import * as reviewArrActions from "../store/modules/reviewArr";
+
 const DetailPoint = () => {
   const [tideArr, setTideArr] = useState();
   const [selectedDate, setSelectedDate] = useState(new Date());
-  let [isOpen, setIsOpen] = useState(false);
-
+  const [isScraped, setIsScraped] = useState(false);
+  const [isReviewed, setIsReviewed] = useState(false);
+  const [topReviewArr, setTopReviewArr] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const point = useSelector(({ detailPoint }) => detailPoint);
+  const user = useSelector(({ user }) => user);
+  const review = useSelector(({ review }) => review);
+  const reviewArr = useSelector(({ reviewArr }) => reviewArr);
+  // id값으로 detailpoint 상태값 저장
+  const dispatch = useDispatch();
+  const setReview = useCallback(
+    (value) => {
+      dispatch(reviewActions.setReview(value));
+    },
+    [dispatch]
+  );
+  const setReviewArr = useCallback(
+    (value) => {
+      dispatch(reviewArrActions.setReviewArr(value));
+    },
+    [dispatch]
+  );
   const getToday = () => {
     const today = new Date(selectedDate);
     const year = today.getFullYear();
@@ -50,15 +71,22 @@ const DetailPoint = () => {
         console.log(error);
       });
   };
-
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-5 w-5"
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path
+      fillRule="evenodd"
+      d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+      clipRule="evenodd"
+    />
+  </svg>;
   useEffect(() => {
     getTideInfo();
-    return () => {};
   }, [selectedDate]);
 
-  // 5개의 데이터만 보여주기
-  let topReview = Object.assign([], reviewData);
-  topReview.length = 5;
   // 모달
 
   function closeModal() {
@@ -71,11 +99,91 @@ const DetailPoint = () => {
   }
 
   // 스크랩 기능 백엔드 통신
-  const setScrap = () => {
-    // 스크랩 돼있는지 체크
-    // 스크랩 돼있으면 스크랩 해제
-    //스크랩 안돼있으면 스크랩하기
+  useEffect(() => {
+    getIsScraped();
+    getReview();
+    const newReviewArr = Object.assign([], reviewArr);
+    // if (newReviewArr[0].length > 5) newReviewArr[0].slice(0, 5);
+    setTopReviewArr(newReviewArr);
+  }, []);
+
+  // 현재 포인트가 스크랩됐는지 받아오기
+  const getIsScraped = () => {
+    axios({
+      url: "http://j5d204.p.ssafy.io:8000/fishing/scrap/list/" + user.id,
+      dataType: "json",
+      method: "GET",
+    })
+      .then((response) => {
+        console.log(response);
+        response.data.forEach((element) => {
+          if (element.id === point.id) {
+            setIsScraped(true);
+          }
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+  //현재 포인트의 리뷰 받아오기
+  const getReview = async () => {
+    await axios({
+      url: "http://j5d204.p.ssafy.io:8000/fishing/" + point.id + "/review",
+      dataType: "json",
+      method: "GET",
+    })
+      .then(async (response) => {
+        console.log(response.data);
+        // 내가 쓴 글이 있는지 체크
+        response.data.forEach((element) => {
+          if (element.username === user.id) {
+            setReview(element);
+          }
+        });
+        await setReviewArr(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  // console.log(sessionStorage.getItem("is_login"));
+  const setScrap = () => {
+    setIsScraped(!isScraped);
+    if (!isScraped == true) {
+      alert("저장되었습니다.");
+    }
+    axios({
+      url: "http://j5d204.p.ssafy.io:8000/fishing/scrap/" + point.id,
+      dataType: "json",
+      method: "post",
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // 리뷰 5개 렌더링
+  const rendering = () => {
+    const result = [];
+    if (reviewArr[0] === undefined) return;
+    const size = Math.min(5, reviewArr[0].length);
+    for (let i = 0; i < size; i++) {
+      result.push(
+        <ReviewCard
+          key={i}
+          rating={reviewArr[0][i].rating}
+          date={reviewArr[0][i].createdAt}
+          desc={reviewArr[0][i].reviewContent}
+        />
+      );
+    }
+    return result;
+  };
+
   return (
     <div>
       <Header />
@@ -85,7 +193,11 @@ const DetailPoint = () => {
           <div className="flex flex-rows space-x-3">
             <h1 className="text-3xl font-semibold mt-2 mb-6">{point.pointName}</h1>
             <p className="flex items-center hover:underline cursor-pointer" onClick={setScrap}>
-              <HeartIcon className="h-4 text-red-400" />
+              {isScraped ? (
+                <HeartIcon className="h-4 text-red-400 " fill="red" />
+              ) : (
+                <HeartIcon className="h-4 text-red-400" />
+              )}
               저장
             </p>
           </div>
@@ -209,9 +321,7 @@ const DetailPoint = () => {
           <div className=" justify-around pt-5">
             <p className="flex items-center"></p>
             <div className="flex space-x-3  overflow-scroll scrollbar-hide h-40 ">
-              {topReview.map(({ img, nickname, date, desc }, index) => (
-                <ReviewCard key={nickname} img={img} nickname={nickname} date={date} desc={desc} />
-              ))}
+              {rendering()}
             </div>
           </div>
           {/* 리뷰 모두 보기 */}
@@ -258,11 +368,11 @@ const DetailPoint = () => {
                 >
                   <div className="inline-block w-full max-w-sm lg:max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform ">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                      리뷰 쓰기
+                      {review.username === null ? "리뷰 쓰기" : "리뷰 수정"}
                     </Dialog.Title>
                     <div className="mb-10">
                       <p className="text-sm text-gray-500">
-                        <ReviewWriteCard />
+                        {review.username === null ? <ReviewWriteCard /> : <ReviewUpdateCard />}
                       </p>
                     </div>
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
@@ -270,13 +380,14 @@ const DetailPoint = () => {
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        {reviewData.map(({ img, nickname, date, desc }) => (
+                        {reviewArr[0]?.map(({ createdAt, rating, reviewContent }, index) => (
                           <FullReviewCard
-                            key={nickname}
-                            img={img}
-                            nickname={nickname}
-                            date={date}
-                            desc={desc}
+                            key={index}
+                            // img={img}
+                            // nickname={nickname}
+                            rating={rating}
+                            date={createdAt}
+                            desc={reviewContent}
                           />
                         ))}
                       </p>
