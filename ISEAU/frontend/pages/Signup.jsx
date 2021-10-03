@@ -41,10 +41,10 @@ const Signup = () => {
     {
       isEmail(Email) &&
       (Password.length >= 10 || Password.length < 21) &&
-      (Password == PasswordConfirm) &&
+      Password == PasswordConfirm &&
       (Nickname.length >= 2 || Nickname.length < 11) &&
       Address.length > 0 &&
-      (PhoneNumber.length == 11) &&
+      PhoneNumber.length == 11 &&
       isNumber
         ? setIsRight(true)
         : setIsRight(false);
@@ -55,8 +55,8 @@ const Signup = () => {
   const Signup = () => {
     axios({
       method: "post",
-      // url: "http://j5d204.p.ssafy.io:8000/user/signup",
-      url: 'http://127.0.0.1:8000/user/signup',
+      url: "http://j5d204.p.ssafy.io:8000/user/signup",
+      // url: 'http://127.0.0.1:8000/user/signup',
       data: {
         username: inputs.Email,
         email: inputs.Email,
@@ -68,7 +68,7 @@ const Signup = () => {
     })
       .then((res) => {
         console.log(res.data);
-        alert("회원가입 완료!")
+        alert("회원가입 완료!");
         document.location.href = "/Login";
       })
       .catch((error) => {
@@ -129,7 +129,7 @@ const Signup = () => {
                 placeholder=" PasswordConfirm"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {(Password != PasswordConfirm) && (
+              {Password != PasswordConfirm && (
                 <p className="text-red-500">비밀번호와 동일하게 입력해주세요.</p>
               )}
               {/*Nickname*/}
@@ -165,7 +165,7 @@ const Signup = () => {
                 placeholder=" 010XXXXXXXX"
                 className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {(PhoneNumber.length !=0) && !isNumber(PhoneNumber) && (
+              {PhoneNumber.length != 0 && !isNumber(PhoneNumber) && (
                 <p className="text-red-500">숫자만 입력해주세요</p>
               )}
             </div>
