@@ -1,9 +1,12 @@
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../components/Header";
-const Signup = () => {
+
+const ModifyUser = () => {
 
     const [inputs, setInputs] = useState({
+        image: '',
         Email: '',
         Password: '',
         Nickname: '',
@@ -11,7 +14,7 @@ const Signup = () => {
         PhoneNumber: '',
     })
 
-    const { Email, Password, Nickname, Address, PhoneNumber } = inputs; // 비구조화 할당을 통해 값 추출
+    const { image, Email, Password, Nickname, Address, PhoneNumber } = inputs; // 비구조화 할당을 통해 값 추출
     
     const onChange = (e) => {
         const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
@@ -21,21 +24,50 @@ const Signup = () => {
         });
     };
     
-    const [SignupBtn, setSignupBtn] = useState(false);
-    const changeBtn = () => {
-      (Password.length>=10 || Password.length<21) &&
-       (Nickname.length<2 || Nickname.length>6) &&
-       (Address.length>0) && (PhoneNumber.length>0 && isNumber)
-        ? setSignupBtn(true) : setSignupBtn(false);
-    }
+    
+    useEffect(()=>{
+        const token = 'Bearer '+ sessionStorage.getItem('is_login')
+        const id = sessionStorage.getItem('userid')
+        axios({
+            method:'get',
+            url:'http://j5d204.p.ssafy.io:8000/user/modify/'+id,
+            headers: token,
+        }).then((res)=>{
+            console.log(res.data)
+        }).catch((err)=>{
+            console.log(err)
+        })
+    })
 
 
-
+    // 전화번호 유효성검사
     const isNumber = (PhoneNumber) => {
         const numberRegex = 
         /^[0-9]{1,100}$/g;
         return numberRegex.test(PhoneNumber);
     }
+
+    // modify Request
+    const Modify = () => {
+        axios({
+            method: "put",
+            url: 'http://j5d204.p.ssafy.io:8000/user/modify',
+            data: {
+                profileImg: inputs.image,
+                email: inputs.Email,
+                password : inputs.Password,
+                Nickname : inputs.Nickname,
+                Address : inputs.Address,
+                PhoneNumber : inputs.PhoneNumber,
+                username : inputs.Username,
+            }
+        }).then((res) =>{
+            console.log("email: ")
+            console.log(res.data)
+        }).catch((error)=> {
+            console.log(error)
+        })
+    }    
 
     const router = useRouter();
     const Login = () =>{
@@ -55,17 +87,27 @@ const Signup = () => {
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
             <h3 className="text-3xl font-semibold">
-                Sign Up
+                Modify
             </h3>
             </div>
             {/*body*/}
             <div className="relative p-6 flex-auto">
+            {/*profileImage*/}
+            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            Profile Image
+            </p>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              className=""
+            />
             {/*Email*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             E-mail
             </p>
-            <input type="text" disabled name="Email" onChange = {onChange} placeholder=" Email" className="text-lg w-full rounded-lg border-2 border-gray-400" />
-            {(Email.length!=0) && (<p className="text-gray-500">not valid Email</p>)}
+            <input type="text" disabled name="Email" onChange = {onChange} placeholder={Email} className="text-lg w-full rounded-lg border-2 border-gray-400" />
+            
             {/*Password*/}
             <p className="my-2 text-black-900 text-lg leading-relaxed">
             Password
@@ -108,8 +150,8 @@ const Signup = () => {
                     <button
                         className="text-blue-500 background-transparent font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-blue-300 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
-                        onClick={Signup}
-                        disabled={!SignupBtn}
+                        onClick={Modify}
+                        
                     >
                         변경
                     </button>
@@ -122,5 +164,5 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default ModifyUser;
 

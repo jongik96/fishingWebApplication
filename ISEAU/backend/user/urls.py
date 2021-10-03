@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProfileUpdateAPI, Signup, Delete, EmailUniqueCheck, NicknameUniqueCheck, reviewUserIdList
+from .views import ProfileUpdateAPI, Signup, Delete, EmailUniqueCheck, NicknameUniqueCheck, reviewUserIdList, checkPassword
 from rest_framework_jwt.views import obtain_jwt_token
 from . import views
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path("email/uniquecheck", EmailUniqueCheck.as_view()),
     path("nickname/uniquecheck", NicknameUniqueCheck.as_view()),
     path("<int:userId>/review", reviewUserIdList.as_view()),
+    path("check/password/<int:userId>", checkPassword.as_view()),
 ]

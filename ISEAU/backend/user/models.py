@@ -7,6 +7,7 @@ from django.dispatch import receiver
 from imagekit.models import ProcessedImageField
 
 class User(AbstractUser):
+    username = models.CharField(unique=True, max_length=255, null=True, blank=True)
     nickname = models.CharField(max_length=20, blank=True)
     address = models.CharField(max_length=100, blank=True)
     phonenumber = models.CharField(max_length=100, blank=True)
