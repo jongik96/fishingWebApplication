@@ -11,7 +11,7 @@ from fishing.models import Review, Fishing
 from rest_framework import permissions
 from fishing.serializers import FishingSerializer, ReviewSerializer
 from .serializers import RecommendSerializer
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Avg, Count
 
 
 class recommendList(APIView):
@@ -95,26 +95,15 @@ class recommendList(APIView):
         abc = pd.concat(res)
         result = abc.sort_values(by=['Correlation'], axis=0, ascending=False)
 
-
         abc = result['fishingId']
         fishing_list = []
         for i in abc:
             if i not in fishing_list:
                 fishing_list.append(i)
 
-        finaldata = Fishing.objects.filter(id__in=fishing_list)
+        finaldata = Fishing.objects.filter(id__in=fishing_list).annotate(reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
 
         serializer_data = RecommendSerializer(finaldata, many=True).data
-        for index, data in enumerate(serializer_data):
-            if Review.objects.filter(fishing_id=data['id']):
-                reviewSum = Review.objects.filter(fishing_id=data['id']).aggregate(Sum('rating'))
-                reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
-                rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-                data['reviewCnt'] = reviewCnt
-                data['rating'] = rating
-            else:
-                data['reviewCnt'] = 0
-                data['rating'] = 0
 
         # sort_datas
         return Response(serializer_data)

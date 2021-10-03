@@ -9,7 +9,7 @@ from django.http.response import JsonResponse
 from rest_framework.response import Response
 from .models import Fishing, Scrap, Review
 from user.models import User
-from .serializers import FishingSerializer, ReviewSerializer
+from .serializers import FishingSerializer, ReviewSerializer, CategorySerializer
 from django.db.models import Avg, Q, Sum, Count
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -212,7 +212,7 @@ class CategoryList(APIView):
             
 
         if scrapQuery:
-            serializered_data = FishingSerializer(scrapQuery, many=True).data
+            serializered_data = CategorySerializer(scrapQuery, many=True).data
 
             return Response(serializered_data)
         else:
