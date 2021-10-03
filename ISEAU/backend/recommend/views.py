@@ -101,15 +101,20 @@ class recommendList(APIView):
         for i in abc:
             if i not in fishing_list:
                 fishing_list.append(i)
-                finaldata = Fishing.objects.filter(id__in=fishing_list)
+
+        finaldata = Fishing.objects.filter(id__in=fishing_list)
 
         serializer_data = RecommendSerializer(finaldata, many=True).data
         for index, data in enumerate(serializer_data):
-            reviewSum = Review.objects.filter(fishing_id=data['id']).aggregate(Sum('rating'))
-            reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
-            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-            data['reviewCnt'] = reviewCnt
-            data['rating'] = rating
+            if Review.objects.filter(fishing_id=data['id']):
+                reviewSum = Review.objects.filter(fishing_id=data['id']).aggregate(Sum('rating'))
+                reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
+                rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+                data['reviewCnt'] = reviewCnt
+                data['rating'] = rating
+            else:
+                data['reviewCnt'] = 0
+                data['rating'] = 0
 
         # sort_datas
         return Response(serializer_data)
