@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ScrapList, fishingScrap, fishingDetail, reviewCreate, reviewCRUD, reviewFishingIdList, searchLoc, autoLoc, CategoryList
+from .views import ScrapList, fishingScrap, fishingDetail, reviewCreate, reviewCRUD, reviewFishingIdList, searchLoc, autoLoc
 
 
 urlpatterns = [
@@ -12,5 +12,5 @@ urlpatterns = [
     path("<int:fishingId>/review/<int:reviewId>/delete", reviewCRUD.as_view()),
     path("search/<str:location>", searchLoc.as_view()),
     path("search/auto/<str:location>", autoLoc.as_view()),
-    path("category/<int:categoryId>", CategoryList.as_view()),
+    # path("category/<int:categoryId>", CategoryList.as_view()),
 ]

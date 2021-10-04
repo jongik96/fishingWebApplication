@@ -17,15 +17,20 @@ from django.db.models import Q, Sum, Avg, Count
 class recommendList(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, userId):
+    def get(self, request, userId, categoryId):
         user_reviews = Review.objects.filter(user_id=userId)
         if len(user_reviews) < 3:
             fishing_datas = Fishing.objects.all().annotate(reviewCnt=Count(
                 'review__fishing_id')).annotate(rating=Avg('review__rating')).order_by('-rating')
             serializer_data = FishingSerializer(fishing_datas, many=True).data
             return Response(serializer_data)
+
         else:
-            fishing_datas = Fishing.objects.values()
+            if categoryId != 2:
+                fishing_datas = Fishing.objects.filter(category=categoryId).values()
+            else:
+                fishing_datas = Fishing.objects.values()
+
             review_datas = Review.objects.values()
 
             fishings = pd.DataFrame(fishing_datas)
@@ -46,8 +51,7 @@ class recommendList(APIView):
                 return np.sum(s1_c * s2_c) / np.sqrt(np.sum(s1_c ** 2) * np.sum(s2_c ** 2))
 
             def recommend(input_fishingId, matrix, n, similar_genre=True):
-                input_obsPostId = fishings[fishings['fishingId'] == input_fishingId]['obsPostId'].iloc(0)[
-                    0]
+                input_obsPostId = fishings[fishings['fishingId'] == input_fishingId]['obsPostId'].iloc(0)[0]
 
                 result = []
                 for title in matrix.columns:
@@ -59,8 +63,7 @@ class recommendList(APIView):
 
                     # genre comparison
                     if similar_genre and len(input_obsPostId) > 0:
-                        temp_obsPostId = fishings[fishings['fishingId'] == title]['obsPostId'].iloc(0)[
-                            0]
+                        temp_obsPostId = fishings[fishings['fishingId'] == title]['obsPostId'].iloc(0)[0]
                         same_count = np.sum(
                             np.isin(input_obsPostId, temp_obsPostId))
                         cor += (obsPostId_WEIGHT * same_count)
@@ -81,9 +84,12 @@ class recommendList(APIView):
             reviewList = Review.objects.filter(user_id=userId)
             reviewRatingUser = []
             for i in range(len(reviewList)):
-                reviewRatingUser.append(
-                    (reviewList[i].rating, reviewList[i].fishing_id)
-                )
+                if categoryId != 2:
+                    if Fishing.objects.get(id=reviewList[i].fishing_id).category == categoryId:
+                        reviewRatingUser.append((reviewList[i].rating, reviewList[i].fishing_id))
+                else:
+                    reviewRatingUser.append((reviewList[i].rating, reviewList[i].fishing_id))
+
             reviewRatingUser.sort(reverse=True)
             
             thirdList = []
@@ -95,7 +101,7 @@ class recommendList(APIView):
 
             res = []
             for i in range(len(lst)):
-                recommend_result = recommend(lst[i], matrix, 30, similar_genre=True)
+                recommend_result = recommend(lst[i], matrix, 90, similar_genre=True)
                 res.append(pd.DataFrame(recommend_result, columns=['fishingId', 'Correlation', 'obsPostId']))
 
             abc = pd.concat(res)

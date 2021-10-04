@@ -212,20 +212,20 @@ class autoLoc(APIView):
             return HttpResponse(status=204)
 
 
-class CategoryList(APIView):
-    permission_classes = (permissions.AllowAny,)
+# class CategoryList(APIView):
+#     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, categoryId, format=None):
-        if categoryId == 2:
-            scrapQuery = Fishing.objects.all().annotate(reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
-        else:
-            scrapQuery = Fishing.objects.filter(category=categoryId).annotate(
-                reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
+#     def get(self, request, categoryId, format=None):
+#         if categoryId == 2:
+#             scrapQuery = Fishing.objects.all().annotate(reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
+#         else:
+#             scrapQuery = Fishing.objects.filter(category=categoryId).annotate(
+#                 reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
             
 
-        if scrapQuery:
-            serializered_data = CategorySerializer(scrapQuery, many=True).data
+#         if scrapQuery:
+#             serializered_data = CategorySerializer(scrapQuery, many=True).data
 
-            return Response(serializered_data)
-        else:
-            return Response({'message': '해당 카테고리의 낚시터가 없습니다.'}, status=204)
+#             return Response(serializered_data)
+#         else:
+#             return Response({'message': '해당 카테고리의 낚시터가 없습니다.'}, status=204)
