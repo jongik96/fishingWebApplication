@@ -13,7 +13,8 @@ const Signup = () => {
   });
   const router = useRouter();
   const [isRight, setIsRight] = useState(false);
-
+  const [isNicknameRight, setIsNicknameRight] = useState(false);
+  const [isEmailRight, setIsEmailRight] = useState(false);
   const { Email, Password, PasswordConfirm, Nickname, Address, PhoneNumber } = inputs; // 비구조화 할당을 통해 값 추출
 
   const onChange = (e) => {
@@ -50,7 +51,13 @@ const Signup = () => {
     return addressRegex.test(Address)
   }
 
-
+  useEffect(()=>{
+    isNickname(Nickname) || (Nickname.length >= 2 && Nickname.length < 11) ? setIsNicknameRight(true) :
+    setIsNicknameRight(false);
+  })
+  useEffect(()=>{
+    isEmail(Email) ? setIsEmailRight(true) : setIsEmailRight(false);
+  })
   useEffect(() => {
     {
       isEmail(Email) &&
@@ -76,21 +83,49 @@ const Signup = () => {
         username: inputs.Email,
         email: inputs.Email,
         password: inputs.Password,
-        Nickname: inputs.Nickname,
-        Address: inputs.Address,
-        PhoneNumber: inputs.PhoneNumber,
+        nickname: inputs.Nickname,
+        address: inputs.Address,
+        phonenumber: inputs.PhoneNumber,
       },
     })
-      .then((res) => {
-        console.log(res.data);
+      .then(() => {
+        console.log(inputs.Address, inputs.PhoneNumber)
         alert("회원가입 완료!");
         document.location.href = "/Login";
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
       });
   };
-
+  // email 유효성검사
+  const checkEmail = () => {
+    axios({
+      method: "post",
+      url: "http://j5d204.p.ssafy.io:8000/user/email/uniquecheck",
+      data:{
+        email:inputs.Email,
+        
+      }
+    }).then(()=>{
+      alert("사용가능한 Email입니다.")
+    }).catch(()=>{
+      alert("이미 사용중인 Email 입니다.")
+    })
+  }
+  // nickname 유효성검사
+  const checkNickname = () => {
+    axios({
+      method: "post",
+      url: "http://j5d204.p.ssafy.io:8000/user/nickname/uniquecheck",
+      data:{
+        nickname:inputs.Nickname,
+        
+      }
+    }).then(()=>{
+      alert("사용가능한 Nickname입니다.")
+    }).catch(()=>{
+      alert("이미 사용중인 Nickname입니다.")
+    })
+  }
   // 로그인페이지로 이동
 
   const Login = () => {
@@ -123,6 +158,13 @@ const Signup = () => {
               {Email.length != 0 && !isEmail(Email) && (
                 <p className="text-red-500">잘못된 이메일 형식입니다.</p>
               )}
+              <button
+                  className={isEmailRight ? `button_active` : `button_unactive`}
+                  type="button"
+                  onClick={checkEmail}
+                >
+                  중복검사
+                </button>
               {/*Password*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Password</p>
               <input
@@ -163,6 +205,13 @@ const Signup = () => {
               { isNickname(Nickname) && (
                 <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
               )}
+              <button
+                  className={isNicknameRight ? `button_active` : `button_unactive`}
+                  type="button"
+                  onClick={checkNickname}
+                >
+                  중복검사
+                </button>
               {/*Address*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Address</p>
               <input

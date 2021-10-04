@@ -4,12 +4,12 @@ import { useRouter } from "next/dist/client/router";
 const MediumCard = ({ img, title }) => {
   const router = useRouter();
 
-  const [titleCategory, setTitleCategory] = useState("");
+  const [titleCategory, setTitleCategory] = useState(4);
 
   useEffect(() => {
-    if (title === "모두 보기") setTitleCategory("all");
-    if (title === "갯바위 낚시") setTitleCategory("rock");
-    if (title === "선상 낚시") setTitleCategory("sea");
+    if (title === "모두 보기") setTitleCategory(2);
+    if (title === "갯바위 낚시") setTitleCategory(1);
+    if (title === "선상 낚시") setTitleCategory(0);
   }, [titleCategory]);
 
   const select = () => {

@@ -32,12 +32,13 @@ const DropdownMenu=() => {
   }
   const Logout = () => {
     sessionStorage.removeItem('is_login')
+    sessionStorage.removeItem('id')
     document.location.href='/'
   }
 
   // 로그인 상태관리
   const id = useSelector(state => state.user.id);
-  console.log("store 현재 저장된 id값: " +id)
+  
   //로그인 되어있는지 아닌지
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() =>{

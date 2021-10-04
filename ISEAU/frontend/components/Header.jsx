@@ -11,6 +11,8 @@ import { Tab } from "@headlessui/react";
 import { data } from "autoprefixer";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import * as detailPointActions from "../store/modules/detailPoint";
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -65,8 +67,13 @@ const Header = ({ placeholder }) => {
 
   const goDetail = (id) => {
     console.log(id);
-    // const res = await axios.get()
-    setDetailPoint(id);
+    const getData = async () => {
+      const res = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
+      console.log(res.data[0]);
+      setDetailPoint(res.data[0]);
+    };
+    getData();
+
     router.push({
       pathname: "/DetailPoint",
     });
@@ -99,7 +106,7 @@ const Header = ({ placeholder }) => {
           value={searchInput}
           className="flex-grow pl-5 
           bg-transparent outline-none 
-          text-sm text-gray-600 placeholder-gray-400"
+          text-sm text-gray-600 placeholder-gray-400 scrollbar-hide"
           type="text"
           placeholder={placeholder || "검색을 시작해볼까요 ?"}
           onChange={inputHandler}
@@ -153,13 +160,13 @@ const Header = ({ placeholder }) => {
                   어종
                 </Tab>
               </Tab.List>
-              <Tab.Panels className="mt-2 overflow-scroll">
+              <Tab.Panels className="mt-2 overflow-scroll scrollbar-hide">
                 <Tab.Panel>
                   {locationInfo && (
                     <div>
                       {locationInfo.map(({ id, pointName, address, rate }) => {
                         return (
-                          <div className="flex justify-between overflow-scroll">
+                          <div className="flex justify-between">
                             <p
                               className="cursor-pointer text-lg ml-5"
                               onClick={() => {
