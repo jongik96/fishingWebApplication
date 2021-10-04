@@ -9,7 +9,7 @@ from django.http.response import JsonResponse
 from rest_framework.response import Response
 from .models import Fishing, Scrap, Review
 from user.models import User
-from .serializers import FishingSerializer, ReviewSerializer, CategorySerializer
+from .serializers import FishingSerializer, ReviewSerializer, CategorySerializer, ReviewCreateSerializer
 from django.db.models import Avg, Q, Sum, Count
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -100,7 +100,7 @@ class fishingDetail(APIView):
 class reviewCreate(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    @swagger_auto_schema(request_body=ReviewSerializer)
+    @swagger_auto_schema(request_body=ReviewCreateSerializer)
     def post(self, request, fishingId):
         review = Review.objects.filter(
             fishing_id=fishingId, user_id=request.user)
@@ -108,8 +108,14 @@ class reviewCreate(APIView):
             return Response({'message': '이미 생성된 Review가 있습니다!'}, status=400)
         else:
             fishing = get_object_or_404(Fishing, id=fishingId)
+
+            request.data.update({'profileimg': request.user.profileimg})
+            request.data.update({'username': request.user.username})
+            request.data.update({'nickname': request.user.nickname})
+
             serializer = ReviewSerializer(data=request.data)
-            print(request.user)
+
+            # print(request.user)
             if serializer.is_valid(raise_exception=True):  # 유효성 검사
                 serializer.save(fishing=fishing, user=request.user)  # 저장
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
