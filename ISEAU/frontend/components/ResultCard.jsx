@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import * as detailPointActions from "../store/modules/detailPoint";
 import axios from "axios";
 import notimg from "../img/imgnotfound.png";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const ResultCard = ({ id }) => {
   const [resultObj, setResultObj] = useState(null);
@@ -15,6 +17,7 @@ const ResultCard = ({ id }) => {
   const router = useRouter();
 
   useEffect(async () => {
+    Aos.init({ duration: 2000 });
     const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
     setResultObj(response.data[0]);
     // axios({
@@ -46,6 +49,7 @@ const ResultCard = ({ id }) => {
   );
   return (
     <div
+      data-aos="fade-up"
       className="flex py-7 px-2 pr-4 border-b cursor-pointer
     hover:opacity-80 hover:shadow-lg transition duration-200 ease-out
     first:border-t 
