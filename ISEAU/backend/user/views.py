@@ -27,12 +27,12 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.hashers import make_password
 from drf_yasg.utils import swagger_auto_schema
 
-@api_view(['GET'])
-def current_user(request):
-    permission_classes = (permissions.AllowAny,)
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
 
+class current_user(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
 class Signup(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -110,7 +110,7 @@ class reviewUserIdList(APIView):
 
 class checkPassword(APIView):
     permission_classes = (permissions.AllowAny,)
-    def get(self, request, userId, format=None):
+    def post(self, request, userId, format=None):
         user = User.objects.get(id=userId)
         if user.check_password(request.data['password']):
             return Response({"message": "SUCCESS"},status=200)

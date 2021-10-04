@@ -105,7 +105,7 @@ const DetailPoint = () => {
     const newReviewArr = Object.assign([], reviewArr);
     // if (newReviewArr[0].length > 5) newReviewArr[0].slice(0, 5);
     setTopReviewArr(newReviewArr);
-  }, []);
+  }, [point]);
 
   // 현재 포인트가 스크랩됐는지 받아오기
   const getIsScraped = () => {
@@ -136,9 +136,21 @@ const DetailPoint = () => {
       .then(async (response) => {
         console.log(response.data);
         // 내가 쓴 글이 있는지 체크
+        let check = true;
         response.data.forEach((element) => {
-          if (element.username === user.id) {
+          if (element.username === user.username) {
             setReview(element);
+            check = false;
+          }
+          if (check) {
+            setReview({
+              createdAt: null,
+              id: null,
+              rating: null,
+              reviewContent: null,
+              nickname: null,
+              username: null,
+            });
           }
         });
         await setReviewArr(response.data);
@@ -178,6 +190,9 @@ const DetailPoint = () => {
           rating={reviewArr[0][i].rating}
           date={reviewArr[0][i].createdAt}
           desc={reviewArr[0][i].reviewContent}
+          img={reviewArr[0][i].profileimg}
+          nickname={reviewArr[0][i].nickname}
+          username={reviewArr[0][i].username}
         />
       );
     }
@@ -367,29 +382,43 @@ const DetailPoint = () => {
                   leaveTo="opacity-0 scale-95"
                 >
                   <div className="inline-block w-full max-w-sm lg:max-w-xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform ">
-                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                      {review.username === null ? "리뷰 쓰기" : "리뷰 수정"}
-                    </Dialog.Title>
-                    <div className="mb-10">
-                      <p className="text-sm text-gray-500">
-                        {review.username === null ? <ReviewWriteCard /> : <ReviewUpdateCard />}
-                      </p>
-                    </div>
+                    {user.id != -1 ? (
+                      <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                        {review.id === null ? "리뷰 쓰기" : "내 리뷰"}
+                      </Dialog.Title>
+                    ) : (
+                      false
+                    )}
+                    {user.id != -1 ? (
+                      <div className="mb-10">
+                        <p className="text-sm text-gray-500">
+                          {review.id === null ? <ReviewWriteCard /> : <ReviewUpdateCard />}
+                        </p>
+                      </div>
+                    ) : (
+                      false
+                    )}
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                       전체 리뷰 보기
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        {reviewArr[0]?.map(({ createdAt, rating, reviewContent }, index) => (
-                          <FullReviewCard
-                            key={index}
-                            // img={img}
-                            // nickname={nickname}
-                            rating={rating}
-                            date={createdAt}
-                            desc={reviewContent}
-                          />
-                        ))}
+                        {reviewArr[0]?.map(
+                          (
+                            { profileimg, username, nickname, createdAt, rating, reviewContent },
+                            index
+                          ) => (
+                            <FullReviewCard
+                              key={index}
+                              img={profileimg}
+                              username={username}
+                              nickname={nickname}
+                              rating={rating}
+                              date={createdAt}
+                              desc={reviewContent}
+                            />
+                          )
+                        )}
                       </p>
                     </div>
 
