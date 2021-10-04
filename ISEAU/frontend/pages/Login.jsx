@@ -52,7 +52,6 @@ const Login = () => {
         }
     }).then((res) =>{
         const accessToken = res.data.token;
-        console.log(res.data.token)
         sessionStorage.setItem('is_login',`${accessToken}`)
         sessionStorage.setItem('id', res.data.user.id)
         // redux 보내기
@@ -60,8 +59,7 @@ const Login = () => {
         router.push({
           pathname:"/"
         })
-    }).catch((error)=> {
-        console.log(error)
+    }).catch(()=> {
         alert("email 또는 password를 잘못 입력했습니다.")
     })
   }
@@ -112,6 +110,7 @@ const Login = () => {
                   <button
                     className={isRight ? `button_active` : `button_unactive`}
                     onClick={Login}
+                    //onKeyPress={Login}
                     type="button"
                   >
                     Log In
