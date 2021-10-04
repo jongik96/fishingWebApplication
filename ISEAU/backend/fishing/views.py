@@ -130,6 +130,7 @@ class reviewCRUD(APIView):
         except Review.DoesNotExist:
             raise Http404
 
+    @swagger_auto_schema(request_body=ReviewCreateSerializer)
     def put(self, request, fishingId, reviewId, format=None):
         review = self.get_object(reviewId)
         request.data["fishing"] = fishingId
