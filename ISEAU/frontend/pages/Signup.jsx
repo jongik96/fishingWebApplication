@@ -37,13 +37,28 @@ const Signup = () => {
     return numberRegex.test(PhoneNumber);
   };
 
+  // Nickname 유효성검사 특수문자 불가
+  const isNickname = (Nickname) => {
+    const nicknameRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+    return nicknameRegex.test(Nickname)
+
+  }
+
+  // 주소 유효성검사 특수문자 안되게
+  const isAddress = (Address) => {
+    const addressRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+    return addressRegex.test(Address)
+  }
+
+
   useEffect(() => {
     {
       isEmail(Email) &&
       (Password.length >= 10 || Password.length < 21) &&
       (Password == PasswordConfirm) &&
-      (Nickname.length >= 2 || Nickname.length < 11) &&
-      Address.length > 0 &&
+      (Nickname.length >= 2 && Nickname.length < 11) &&
+      !isNickname(Nickname) &&
+      (Address.length > 0 && !isAddress(Address)) &&
       (PhoneNumber.length == 11) &&
       isNumber
         ? setIsRight(true)
@@ -55,8 +70,8 @@ const Signup = () => {
   const Signup = () => {
     axios({
       method: "post",
-      // url: "http://j5d204.p.ssafy.io:8000/user/signup",
-      url: 'http://127.0.0.1:8000/user/signup',
+      url: "http://j5d204.p.ssafy.io:8000/user/signup",
+      // url: 'http://127.0.0.1:8000/user/signup',
       data: {
         username: inputs.Email,
         email: inputs.Email,
@@ -68,7 +83,7 @@ const Signup = () => {
     })
       .then((res) => {
         console.log(res.data);
-        alert("회원가입 완료!")
+        alert("회원가입 완료!");
         document.location.href = "/Login";
       })
       .catch((error) => {
@@ -129,7 +144,7 @@ const Signup = () => {
                 placeholder=" PasswordConfirm"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {(Password != PasswordConfirm) && (
+              {Password != PasswordConfirm && (
                 <p className="text-red-500">비밀번호와 동일하게 입력해주세요.</p>
               )}
               {/*Nickname*/}
@@ -142,8 +157,11 @@ const Signup = () => {
                 placeholder=" Nickname"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {Nickname.length != 0 && (Nickname.length < 2 || Nickname.length > 11) && (
+              {(Nickname.length != 0 && (Nickname.length < 2 || Nickname.length > 11)) && (
                 <p className="text-red-500">Nickname은 2자이상 10자 이하여야합니다</p>
+              )}
+              { isNickname(Nickname) && (
+                <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
               )}
               {/*Address*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Address</p>
@@ -155,6 +173,9 @@ const Signup = () => {
                 placeholder=" 경상북도구미시진평동"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
+              { isAddress(Address) &&( 
+                <p className="text-red-500">특수문자를 포함할 수 없습니다.</p>
+              )}
               {/*PhoneNumber*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Phone Number</p>
               <input
@@ -165,7 +186,7 @@ const Signup = () => {
                 placeholder=" 010XXXXXXXX"
                 className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {(PhoneNumber.length !=0) && !isNumber(PhoneNumber) && (
+              {PhoneNumber.length != 0 && !isNumber(PhoneNumber) && (
                 <p className="text-red-500">숫자만 입력해주세요</p>
               )}
             </div>
