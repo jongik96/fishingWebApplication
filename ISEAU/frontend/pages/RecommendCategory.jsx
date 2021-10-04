@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import React, { useCallback, useEffect, useState } from "react";
 import Footer from "../components/Footer";
@@ -9,10 +10,14 @@ const RecommendCategory = () => {
   const router = useRouter();
 
   const { category } = router.query;
-  const [cateParse, setCateParse] = useState(category);
+  const [cateParse, setCateParse] = useState(Number(category));
+  const [getCategory, setGetCategory] = useState(4);
 
-  useEffect(() => {
-    setCateParse(category);
+  useEffect(async () => {
+    const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/category/" + cateParse);
+
+    setCateParse(Number(category));
+    // console.log(cateParse + " " + typeof cateParse);
   }, [cateParse]);
   const Routing = (value) => {
     router.push({
@@ -35,20 +40,20 @@ const RecommendCategory = () => {
         <section>
           <div className="hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap">
             <p
-              className={cateParse === "all" ? `button_selected` : `button`}
-              onClick={() => HandlerSelected("all")}
+              className={cateParse === 2 ? `button_selected` : `button`}
+              onClick={() => HandlerSelected(2)}
             >
               전체 보기
             </p>
             <p
-              className={cateParse === "rock" ? `button_selected` : `button`}
-              onClick={() => HandlerSelected("rock")}
+              className={cateParse === 1 ? `button_selected` : `button`}
+              onClick={() => HandlerSelected(1)}
             >
               갯바위 포인트
             </p>
             <p
-              className={cateParse === "sea" ? `button_selected` : `button`}
-              onClick={() => HandlerSelected("sea")}
+              className={cateParse === 0 ? `button_selected` : `button`}
+              onClick={() => HandlerSelected(0)}
             >
               선상 포인트
             </p>
