@@ -25,13 +25,7 @@ const ModifyUser = () => {
         });
     };
     
-    const id = useSelector(state => state.user.id);
-    useEffect(()=>{
-       inputs.Email = id
-    })
     
-
-
     // 전화번호 유효성검사
     const isNumber = (PhoneNumber) => {
         const numberRegex = 
@@ -51,38 +45,50 @@ const ModifyUser = () => {
         const addressRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
         return addressRegex.test(Address)
     }
-
+    const em = useSelector(state => state.user.username)
     useEffect(() =>{
-        const token = sessionStorage.getItem('is_login')
-        const id = sessionStorage.getItem('id')
+        //const token = sessionStorage.getItem('is_login')
+        const pw = sessionStorage.getItem('pw')
+        
         axios({
-            method: "patch",
-            url: 'http://j5d204.p.ssafy.io:8000/user/modify/'+id,
-            headers: {
-                Authorization: `Bearer ${token}`
-            },
+            method: "get",
+            url: 'http://j5d204.p.ssafy.io:8000/user/current',
+            // url: 'http://127.0.0.1:8000/user/current',
+            auth: {
+                username: em,
+                password: pw
+              }
         }).then((res)=>{
+            console.log('회원정보수정전 정보받아오기')
             console.log(res.data)
+            sessionStorage.removeItem('pw')
         }).catch((error)=>{
             console.log(error)
         })
-    })
+    },[em])
 
     // modify Request
     const Modify = () => {
+        const token = sessionStorage.getItem('is_login')
+        const id = sessionStorage.getItem('id')
+        console.log(inputs.Email)
+        console.log(inputs.Password)
+        console.log(inputs.Nickname)
         axios({
             method: "put",
-            url: 'http://j5d204.p.ssafy.io:8000/user/modify',
+            url: 'http://j5d204.p.ssafy.io:8000/user/modify/'+id,
+            headers:{
+                Authorization: `Bearer ${token}`
+            },
             data: {
-                profileImg: inputs.profileImg,
-                email: inputs.Email,
                 password : inputs.Password,
-                Nickname : inputs.Nickname,
-                Address : inputs.Address,
-                PhoneNumber : inputs.PhoneNumber,
-                username : inputs.Email,
-                introduce: inputs.introduce
-
+                nickname : inputs.Nickname,
+                address : inputs.Address,
+                phoneNumber : inputs.PhoneNumber,
+                
+                introduce: inputs.introduce,
+                
+                
             }
         }).then((res) =>{
             console.log(res.data)
@@ -96,6 +102,7 @@ const ModifyUser = () => {
 
     // delete User
     const Delete = () => {
+
         let result = confirm("회원정보를 삭제하시겠습니까?")
         if(result == true){
             const token = sessionStorage.getItem('is_login')

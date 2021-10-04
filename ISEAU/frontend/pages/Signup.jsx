@@ -91,6 +91,22 @@ const Signup = () => {
       });
   };
 
+  const checkEmail = () => {
+    axios({
+      method: "post",
+      url: "http://j5d204.p.ssafy.io:8000/user/email/uniquecheck",
+      data:{
+        email:inputs.Email,
+        
+      }
+    }).then((res)=>{
+      console.log(res.data)
+      alert("사용가능한 Email입니다.")
+    }).catch((err)=>{
+      alert("이미 사용중인 Email 입니다.")
+      console.log(err)
+    })
+  }
   // 로그인페이지로 이동
 
   const Login = () => {
@@ -123,6 +139,13 @@ const Signup = () => {
               {Email.length != 0 && !isEmail(Email) && (
                 <p className="text-red-500">잘못된 이메일 형식입니다.</p>
               )}
+              <button
+                  className="text-blue-500 bg-transparent font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-blue-300 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150;"
+                  type="button"
+                  onClick={checkEmail}
+                >
+                  중복검사
+                </button>
               {/*Password*/}
               <p className="my-2 text-black-900 text-lg leading-relaxed">Password</p>
               <input
