@@ -9,8 +9,8 @@ from django.http.response import JsonResponse
 from rest_framework.response import Response
 from .models import Fishing, Scrap, Review
 from user.models import User
-from .serializers import FishingSerializer, ReviewSerializer
-from django.db.models import Avg, Q, Sum
+from .serializers import FishingSerializer, ReviewSerializer, CategorySerializer
+from django.db.models import Avg, Q, Sum, Count
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -38,10 +38,11 @@ class fishingScrap(APIView):
             if Scrap.objects.filter(user_id=user.id, fishing_id=fishing_id).exists():
                 Scrap.objects.filter(user_id=user.id, fishing_id=fishing_id).delete()
                 scrap_count = Scrap.objects.filter(fishing_id=fishing_id).count()
-                return JsonResponse({'message': 'SUCCESS', 'scrap_count':scrap_count}, status=200)
+                return JsonResponse({'message': 'SUCCESS delete', 'scrap_count':scrap_count}, status=200)
+
             Scrap.objects.create(user_id=user.id, fishing_id=fishing_id)
             scrap_count = Scrap.objects.filter(fishing_id=fishing_id).count()
-            return JsonResponse({'message': 'SUCCESS', 'scrap_count': scrap_count}, status=200)
+            return JsonResponse({'message': 'SUCCESS create', 'scrap_count': scrap_count}, status=200)
 
         except JSONDecodeError:
             return JsonResponse({'message':'JSON_DECODE_ERROR'}, status=400)
@@ -62,10 +63,15 @@ class ScrapList(APIView):
             for index, data in enumerate(serializered_data):
                 reviewSum = Review.objects.filter(
                     fishing_id=data['id']).aggregate(Sum('rating'))
-                reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
-                rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-                data['reviewCnt'] = reviewCnt
-                data['rating'] = rating
+                if Review.objects.filter(fishing_id=data['id']).count():
+                    reviewCnt = Review.objects.filter(
+                        fishing_id=data['id']).count()
+                    rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+                    data['reviewCnt'] = reviewCnt
+                    data['rating'] = rating
+                else:
+                    data['reviewCnt'] = 0
+                    data['rating'] = 0
 
             return Response(serializered_data)
         else:
@@ -75,17 +81,21 @@ class fishingDetail(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, fishingId):
         reviewSum = Review.objects.filter(fishing_id=fishingId).aggregate(Sum('rating'))
-        reviewCnt = Review.objects.filter(fishing_id=fishingId).count()
-        rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-
         fishing = Fishing.objects.filter(id=fishingId)
-
+        
         serializer = FishingSerializer(fishing, many=True)
+        
+        if Review.objects.filter(fishing_id=fishingId).count():
+            reviewCnt = Review.objects.filter(fishing_id=fishingId).count()
+            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
+        else:
+            reviewCnt = 0
+            rating = 0
+
         serializer.data[0].update({'reviewCnt': reviewCnt})
         serializer.data[0].update({'rating': rating})
 
         return Response(serializer.data)
-
 
 class reviewCreate(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -188,3 +198,22 @@ class autoLoc(APIView):
             return Response(serializered_data)
         else:
             return HttpResponse(status=204)
+
+
+class CategoryList(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, categoryId, format=None):
+        if categoryId == 2:
+            scrapQuery = Fishing.objects.all().annotate(reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
+        else:
+            scrapQuery = Fishing.objects.filter(category=categoryId).annotate(
+                reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
+            
+
+        if scrapQuery:
+            serializered_data = CategorySerializer(scrapQuery, many=True).data
+
+            return Response(serializered_data)
+        else:
+            return Response({'message': '해당 카테고리의 낚시터가 없습니다.'}, status=204)
