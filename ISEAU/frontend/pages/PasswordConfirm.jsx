@@ -22,7 +22,7 @@ const PasswordConfirm = () => {
 
   const router = useRouter();
 
-  // signup 페이지로 이동
+  // 회원정보수정 페이지로 이동
   const Confirm = () => {
     const token = sessionStorage.getItem('is_login')
     // const id = useSelector(state => state.user.id);
@@ -38,11 +38,12 @@ const PasswordConfirm = () => {
             password : Password,
         },
     }).then(() => {
-        sessionStorage.setItem('pw',Password)
         router.push({
             pathname: "/ModifyUser"
         })
-    }).catch(()=> {
+    }).catch((err)=> {
+      console.log(err)
+      alert("비밀번호가 일치하지 않습니다!!")
     })
   }
 
@@ -79,6 +80,7 @@ const PasswordConfirm = () => {
                   <button
                     className={isRight ? `button_active` : `button_unactive`}
                     onClick={Confirm}
+                   // onKeyPress={Confirm}
                     type="button"
                   >
                     확인

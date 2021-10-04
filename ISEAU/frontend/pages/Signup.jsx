@@ -83,12 +83,13 @@ const Signup = () => {
         username: inputs.Email,
         email: inputs.Email,
         password: inputs.Password,
-        Nickname: inputs.Nickname,
-        Address: inputs.Address,
-        PhoneNumber: inputs.PhoneNumber,
+        nickname: inputs.Nickname,
+        address: inputs.Address,
+        phonenumber: inputs.PhoneNumber,
       },
     })
       .then(() => {
+        console.log(inputs.Address, inputs.PhoneNumber)
         alert("회원가입 완료!");
         document.location.href = "/Login";
       })

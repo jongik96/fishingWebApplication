@@ -51,36 +51,10 @@ const ModifyUser = () => {
     const ad = useSelector(state => state.user.address)
     const pn = useSelector(state => state.user.phonenumber)
     const it = useSelector(state => state.user.introduce)
-    const pw = sessionStorage.getItem('pw')
-    // inputs.Password = pw
-    // console.log(inputs.Email + inputs.Password)
 
 
     // 미리정보받아오기
     useEffect(() =>{
-        // const token = sessionStorage.getItem('is_login')
-        // const pw = sessionStorage.getItem('pw')
-        
-        // axios({
-        //     method: "get",
-        //     url: 'http://j5d204.p.ssafy.io:8000/user/current',
-        //     // url: 'http://127.0.0.1:8000/user/current',
-        //     auth: {
-        //         username: em,
-        //         password: pw
-        //       }
-        // }).then((res)=>{
-        //     inputs.Email = res.data.username
-        //     // Password = res.data.password
-        //     // Address = res.data.address
-        //     // Nickname = res.data.nickname
-        //     // PhoneNumber = res.data.phoneNumber
-        //     // introduce = res.data.introduce
-            
-        //     // console.log(inputs.Email)
-        // }).catch((error)=>{
-        //     console.log(error)
-        // })
         inputs.Email = em;
         inputs.Address = ad;
         inputs.Nickname = nn;
@@ -129,15 +103,14 @@ const ModifyUser = () => {
     const Modify = () => {
         let result = confirm("회원정보를 변경하시겠습니까?")
         if(result == true){
-        // const token = sessionStorage.getItem('is_login')
+        const token = sessionStorage.getItem('is_login')
         const id = sessionStorage.getItem('id')
         axios({
             method: "put",
             url: 'http://j5d204.p.ssafy.io:8000/user/modify/'+id,
-            auth: {
-                username: em,
-                password: pw
-              },
+            headers: {
+                Authorization: `JWT ${token}`
+            }, 
             data: {
                 password : inputs.Password,
                 nickname : inputs.Nickname,
@@ -287,7 +260,7 @@ const ModifyUser = () => {
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                 <div>
                     <button
-                        className="text-gray-500 background-transparent rounded-lg font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        className="text-gray-500 background-transparent border-gray-500 rounded-lg font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={Login}                    >
                         취소

@@ -110,6 +110,7 @@ const Login = () => {
                   <button
                     className={isRight ? `button_active` : `button_unactive`}
                     onClick={Login}
+                    //onKeyPress={Login}
                     type="button"
                   >
                     Log In

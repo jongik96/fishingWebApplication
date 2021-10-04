@@ -32,6 +32,7 @@ const DropdownMenu=() => {
   }
   const Logout = () => {
     sessionStorage.removeItem('is_login')
+    sessionStorage.removeItem('id')
     document.location.href='/'
   }
 
