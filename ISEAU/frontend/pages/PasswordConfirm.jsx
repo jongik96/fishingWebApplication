@@ -46,7 +46,11 @@ const PasswordConfirm = () => {
       alert("비밀번호가 일치하지 않습니다!!")
     })
   }
-
+  const enterkey = (e) =>{
+    if(e.key == 'Enter'){
+      Confirm()
+    }
+  }
   return (
         <div>
           <Header/>
@@ -80,7 +84,7 @@ const PasswordConfirm = () => {
                   <button
                     className={isRight ? `button_active` : `button_unactive`}
                     onClick={Confirm}
-                   // onKeyPress={Confirm}
+                    onKeyPress={enterkey}
                     type="button"
                   >
                     확인
