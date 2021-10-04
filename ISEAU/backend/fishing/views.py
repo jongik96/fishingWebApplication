@@ -9,7 +9,7 @@ from django.http.response import JsonResponse
 from rest_framework.response import Response
 from .models import Fishing, Scrap, Review
 from user.models import User
-from .serializers import FishingSerializer, ReviewSerializer, CategorySerializer, ReviewCreateSerializer
+from .serializers import FishingSerializer, ReviewUpdateSerializer, ReviewSerializer, CategorySerializer, ReviewCreateSerializer
 from django.db.models import Avg, Q, Sum, Count
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -135,7 +135,12 @@ class reviewCRUD(APIView):
         review = self.get_object(reviewId)
         request.data["fishing"] = fishingId
         request.data["user"] = request.user.id
-        serializer = ReviewSerializer(review, data=request.data)
+
+        request.data['profileimg'] = request.user.profileimg
+        request.data['username'] = request.user.username
+        request.data['nickname'] = request.user.nickname
+
+        serializer = ReviewUpdateSerializer(review, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

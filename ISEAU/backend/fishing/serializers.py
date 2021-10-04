@@ -31,6 +31,23 @@ class ReviewSerializer(serializers.ModelSerializer):
             "username",
         )
 
+class ReviewUpdateSerializer(serializers.ModelSerializer):
+    profileimg = serializers.ImageField(required=False)
+    nickname = serializers.CharField(required=False)
+    username = serializers.CharField()
+
+    class Meta:
+        model = Review
+        fields = (
+            "id",
+            "reviewContent",
+            "rating",
+            "createdAt",
+            "nickname",
+            "profileimg",
+            "username",
+        )
+
 
 class ReviewCreateSerializer(serializers.ModelSerializer):
     class Meta:
