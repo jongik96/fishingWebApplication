@@ -52,8 +52,6 @@ const Login = () => {
         }
     }).then((res) =>{
         const accessToken = res.data.token;
-        console.log(res.data.token)
-        console.log(res.data.user)
         sessionStorage.setItem('is_login',`${accessToken}`)
         sessionStorage.setItem('id', res.data.user.id)
         // redux 보내기
@@ -61,8 +59,7 @@ const Login = () => {
         router.push({
           pathname:"/"
         })
-    }).catch((error)=> {
-        console.log(error)
+    }).catch(()=> {
         alert("email 또는 password를 잘못 입력했습니다.")
     })
   }

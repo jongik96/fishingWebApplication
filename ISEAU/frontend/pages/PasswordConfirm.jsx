@@ -37,14 +37,12 @@ const PasswordConfirm = () => {
         data: {
             password : Password,
         },
-    }).then((res) => {
-        console.log(res.data)
+    }).then(() => {
         sessionStorage.setItem('pw',Password)
         router.push({
             pathname: "/ModifyUser"
         })
-    }).catch((error)=> {
-        console.log(error)
+    }).catch(()=> {
     })
   }
 
