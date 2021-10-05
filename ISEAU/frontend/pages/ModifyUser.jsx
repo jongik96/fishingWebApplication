@@ -27,12 +27,7 @@ const ModifyUser = () => {
     };
     
     
-    // 전화번호 유효성검사
-    const isNumber = (PhoneNumber) => {
-        const numberRegex = 
-        /^[0-9]{1,100}$/g;
-        return numberRegex.test(PhoneNumber);
-    }
+
 
       // Nickname 유효성검사 특수문자 불가
     const isNickname = (Nickname) => {
@@ -41,11 +36,7 @@ const ModifyUser = () => {
 
     }
 
-    // 주소 유효성검사 특수문자 안되게
-    const isAddress = (Address) => {
-        const addressRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-        return addressRegex.test(Address)
-    }
+
     const em = useSelector(state => state.user.username)
     const nn = useSelector(state => state.user.nickname)
     const ad = useSelector(state => state.user.address)
@@ -83,10 +74,7 @@ const ModifyUser = () => {
           (Password.length >= 10 || Password.length < 21) &&
           (Nickname.length >= 2 && Nickname.length < 11) &&
           (Password == PasswordConfirm) &&
-          !isNickname(Nickname) &&
-          (Address.length > 0 && !isAddress(Address)) &&
-          (PhoneNumber.length == 11) &&
-          isNumber
+          !isNickname(Nickname) 
             ? setIsRight(true)
             : setIsRight(false);
         }
@@ -247,20 +235,6 @@ const ModifyUser = () => {
                 >
                   중복검사
                 </button>
-            {/*Address*/}
-            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
-            Address
-            </p>
-            <input type="text" name="Address" value={Address} onChange = {onChange} placeholder="" className="text-lg w-full rounded-lg border-2 border-gray-400" />
-            { isAddress(Address) &&( 
-                <p className="text-red-500">특수문자를 포함할 수 없습니다.</p>
-              )}
-            {/*PhoneNumber*/}
-            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
-            Phone Number
-            </p>
-            <input type="text" name="PhoneNumber" value={PhoneNumber} onChange = {onChange} placeholder="" className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400" />
-            { (PhoneNumber.length!=0) && !isNumber(PhoneNumber) && (<p className="text-gray-500">숫자만 입력해주세요</p>)}
 
             {/*Introduce*/}
             <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
