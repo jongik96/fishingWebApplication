@@ -90,14 +90,14 @@ const Login = () => {
                   
                 </div>
                 {/*body*/}
-                <div  className="relative p-6 flex-auto">
-                  <p className="my-4 text-black-400 text-lg leading-relaxed">
+                <div  className="relative p-5 flex-auto">
+                  <p className="my-4 text-black-500 text-lg font-bold leading-relaxed">
                    E-mail
                   </p>
                   <input type="text" name="Email" value={Email} onChange = {onChange} placeholder=" Email" className="text-lg w-full rounded-lg border-2 border-gray-400" />
                   { ((Email.length!=0) && !isEmail(Email)) && (<p className="text-red-500">잘못된 이메일 형식입니다.</p>)}
 
-                  <p className="my-4 text-black-900 text-lg leading-relaxed">
+                  <p className="my-4 text-black-900 text-lg font-bold leading-relaxed">
                    Password
                   </p>
                   <input type="password" name="Password" value={Password} onChange = {onChange} placeholder=" Password" className="text-lg w-full rounded-lg border-2 border-gray-400" />
@@ -117,7 +117,7 @@ const Login = () => {
                     Log In
                   </button>
 
-                  <button className="text-yellow-500 background-transparent font-bold uppercase px-6 py-2 text-sm  focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150"
+                  <button className="text-yellow-500 background-transparent font-bold uppercase px-6 py-2 text-sm rounded-xl border-2 border-yellow-500 mt-3 mr-1 mb-5 ease-linear transition-all duration-150"
                     type="button"
                     onClick={Signup}
                   >

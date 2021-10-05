@@ -72,7 +72,7 @@ const PasswordConfirm = () => {
                 {/*body*/}
                 <div  className="relative p-6 flex-auto">
 
-                  <p className="my-4 text-black-900 text-lg leading-relaxed">
+                  <p className="my-1 text-black-900 font-bold text-lg leading-relaxed">
                    Password
                   </p>
                   <input type="password" name="Password" value={Password} onChange = {onChange} placeholder=" Password" className="text-lg w-full rounded-lg border-2 border-gray-400" />
@@ -86,7 +86,7 @@ const PasswordConfirm = () => {
                   <button
                     className={isRight ? `button_active` : `button_unactive`}
                     onClick={Confirm}
-                    onKeyPress={enterkey}
+                    // onKeyPress={enterkey}
                     type="button"
                   >
                     확인

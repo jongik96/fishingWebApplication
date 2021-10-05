@@ -194,7 +194,7 @@ const ModifyUser = () => {
             {/*body*/}
             <div className="relative p-6 flex-auto">
             {/*profileImage*/}
-            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
             Profile Image
             </p>
             <input
@@ -204,32 +204,32 @@ const ModifyUser = () => {
               className=""
             />
             {/*Email*/}
-            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
             E-mail
             </p>
             <input type="text" name="Email" disabled onChange = {onChange} placeholder={Email} className="text-lg w-full rounded-lg border-2 border-gray-400" />
             
             {/*Password*/}
-            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
             Password
             </p>
             <input type="password" name="Password" onChange = {onChange} placeholder="" className="text-lg w-full rounded-lg border-2 border-gray-400" />
             {(Password.length!=0)&&(Password.length<10 || Password.length>20) &&
              (<p className="text-gray-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>)}
             {/*Confirm Password*/}
-            <p className="my-2 text-black-900 text-lg leading-relaxed">Password</p>
+            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Check Password</p>
               <input
                 type="password"
                 name="PasswordConfirm"
                 onChange={onChange}
-                placeholder=" PasswordConfirm"
+                placeholder=" Password"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
               {Password != PasswordConfirm && (
                 <p className="text-red-500">비밀번호와 동일하게 입력해주세요.</p>
               )}
             {/*Nickname*/}
-            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
             Nickname
             </p>
             <input type="text" name="Nickname" value={Nickname} onChange = {onChange} placeholder="" className="text-lg w-full rounded-lg border-2 border-gray-400" />
@@ -248,7 +248,7 @@ const ModifyUser = () => {
                   중복검사
                 </button>
             {/*Address*/}
-            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
             Address
             </p>
             <input type="text" name="Address" value={Address} onChange = {onChange} placeholder="" className="text-lg w-full rounded-lg border-2 border-gray-400" />
@@ -256,14 +256,14 @@ const ModifyUser = () => {
                 <p className="text-red-500">특수문자를 포함할 수 없습니다.</p>
               )}
             {/*PhoneNumber*/}
-            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
             Phone Number
             </p>
             <input type="text" name="PhoneNumber" value={PhoneNumber} onChange = {onChange} placeholder="" className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400" />
             { (PhoneNumber.length!=0) && !isNumber(PhoneNumber) && (<p className="text-gray-500">숫자만 입력해주세요</p>)}
 
             {/*Introduce*/}
-            <p className="my-2 text-black-900 text-lg leading-relaxed">
+            <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
             Introduce
             </p>
             <input type="text" name="introduce" value={introduce} onChange = {onChange} placeholder="" className="text-lg w-full rounded-lg border-2 border-gray-400" />
@@ -272,7 +272,7 @@ const ModifyUser = () => {
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                 <div>
                     <button
-                        className="text-gray-500 background-transparent border-gray-500 rounded-lg font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        className="text-gray-500 w-52 border-gray-500 rounded-xl font-bold uppercase px-6 py-2 text-sm  mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={Login}                    >
                         취소
@@ -290,7 +290,7 @@ const ModifyUser = () => {
                 </div>
                 <div className="mt-2">
                     <button
-                        className="text-gray-300 bg-red-500 font-bold uppercase px-6 py-2 text-sm border-2 rounded-lg border-red-300 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150"
+                        className="text-gray-300 bg-red-500 w-52 font-bold uppercase px-6 py-2 text-sm border-2 rounded-xl border-red-300 focus:outline-none mt-3 mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={Delete}
                         

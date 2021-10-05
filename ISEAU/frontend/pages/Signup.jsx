@@ -147,7 +147,7 @@ const Signup = () => {
             {/*body*/}
             <div className="relative p-6 flex-auto">
               {/*Email*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">E-mail</p>
+              <p className="my-2 text-black-900 text-lg font-bold leading-relaxed">E-mail</p>
               <input
                 type="text"
                 name="Email"
@@ -166,7 +166,7 @@ const Signup = () => {
                   중복검사
                 </button>
               {/*Password*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Password</p>
+              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Password</p>
               <input
                 type="password"
                 name="Password"
@@ -178,19 +178,19 @@ const Signup = () => {
                 <p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
               )}
               {/*Confirm Password*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Password</p>
+              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Confirm Password</p>
               <input
                 type="password"
                 name="PasswordConfirm"
                 onChange={onChange}
-                placeholder=" PasswordConfirm"
+                placeholder=" Password"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
               {Password != PasswordConfirm && (
                 <p className="text-red-500">비밀번호와 동일하게 입력해주세요.</p>
               )}
               {/*Nickname*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Nickname</p>
+              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Nickname</p>
               <input
                 type="text"
                 name="Nickname"
@@ -213,7 +213,7 @@ const Signup = () => {
                   중복검사
                 </button>
               {/*Address*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Address</p>
+              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Address</p>
               <input
                 type="text"
                 name="Address"
@@ -226,7 +226,7 @@ const Signup = () => {
                 <p className="text-red-500">특수문자를 포함할 수 없습니다.</p>
               )}
               {/*PhoneNumber*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Phone Number</p>
+              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Phone Number</p>
               <input
                 type="text"
                 name="PhoneNumber"
@@ -243,7 +243,7 @@ const Signup = () => {
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <div>
                 <button
-                  className="text-gray-500 background-transparent border-2 border-gray-500 rounded-lg font-bold uppercase px-6 py-2 text-sm mr-1 mb-1 ease-linear transition-all duration-150"
+                  className="text-yellow-500 background-transparent border-2 border-yellow-500 rounded-lg font-bold uppercase px-6 py-2 text-sm mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
                   onClick={Login}
                 >
