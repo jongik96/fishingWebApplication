@@ -103,22 +103,27 @@ const DetailPoint = () => {
     getIsScraped();
     getReview();
     const newReviewArr = Object.assign([], reviewArr);
-    // if (newReviewArr[0].length > 5) newReviewArr[0].slice(0, 5);
     setTopReviewArr(newReviewArr);
   }, [point]);
 
   // 현재 포인트가 스크랩됐는지 받아오기
-  const getIsScraped = () => {
-    axios({
+  const getIsScraped = async () => {
+    await axios({
       url: "http://j5d204.p.ssafy.io:8000/fishing/scrap/list/" + user.id,
       dataType: "json",
       method: "GET",
     })
       .then((response) => {
+        console.log("in getIsScraped");
         console.log(response);
+        let check = false;
         response.data.forEach((element) => {
           if (element.id === point.id) {
             setIsScraped(true);
+            check = true;
+          }
+          if (!check) {
+            setIsScraped(false);
           }
         });
       })
@@ -159,9 +164,10 @@ const DetailPoint = () => {
         console.log(error);
       });
   };
-  // console.log(sessionStorage.getItem("is_login"));
   const setScrap = () => {
     setIsScraped(!isScraped);
+    const token = sessionStorage.getItem("is_login");
+
     if (!isScraped == true) {
       alert("저장되었습니다.");
     }
@@ -169,6 +175,9 @@ const DetailPoint = () => {
       url: "http://j5d204.p.ssafy.io:8000/fishing/scrap/" + point.id,
       dataType: "json",
       method: "post",
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
     })
       .then((response) => {
         console.log(response);
