@@ -52,8 +52,8 @@ const DropdownMenu = () => {
   // const [showSignupModal, setShowSignupModal] = useState(false);
   return (
     <Menu as="div" className="flex items-center space-x-6 justify-end text-gray-500">
-      <div className="flex items-center border-2 p-1 rounded-full cursor-pointer">
-        <Menu.Button className="flex">
+      <div className="flex items-center border-2 p-1 focus:outline-none rounded-full cursor-pointer">
+        <Menu.Button className="flex focus:outline-none">
           <MenuIcon className="h-6" />
           <UserCircleIcon className="h-6" />
         </Menu.Button>
