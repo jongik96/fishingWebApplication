@@ -81,11 +81,21 @@ COPY ./package*.json ./
 
 # Install dependencies
 RUN npm install --production
+
+COPY --from=builder /usr/app/next.config.js ./
+COPY --from=builder /usr/app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /usr/app/.next ./.next
+COPY --from=builder /usr/app/node_modules ./node_modules
+COPY --from=builder /usr/app/package.json ./package.json
+
+USER nextjs
+
 # RUN npm install 
 
 # Copy all files
-COPY ./ ./
+COPY . .
 
+CMD ["npx", "next", "build" ]
 # Build app
 # RUN npm run build
 
@@ -93,10 +103,8 @@ COPY ./ ./
 
 # Run container as non-root (unprivileged) user
 # The node user is provided in the Node.js Alpine base image
-# USER nextjs
 
 # Run npm start script when container starts
-CMD ["npx", "next", "build" ]
 
 
 # # nginx 이미지를 사용합니다. 뒤에 tag가 없으면 latest 를 사용합니다.
