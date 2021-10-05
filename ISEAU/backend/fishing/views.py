@@ -9,7 +9,7 @@ from django.http.response import JsonResponse
 from rest_framework.response import Response
 from .models import Fishing, Scrap, Review
 from user.models import User
-from .serializers import FishingSerializer, ReviewSerializer, CategorySerializer
+from .serializers import FishingSerializer, ReviewUpdateSerializer, ReviewSerializer, CategorySerializer, ReviewCreateSerializer
 from django.db.models import Avg, Q, Sum, Count
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -100,7 +100,7 @@ class fishingDetail(APIView):
 class reviewCreate(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    @swagger_auto_schema(request_body=ReviewSerializer)
+    @swagger_auto_schema(request_body=ReviewCreateSerializer)
     def post(self, request, fishingId):
         review = Review.objects.filter(
             fishing_id=fishingId, user_id=request.user)
@@ -108,8 +108,14 @@ class reviewCreate(APIView):
             return Response({'message': '이미 생성된 Review가 있습니다!'}, status=400)
         else:
             fishing = get_object_or_404(Fishing, id=fishingId)
+
+            request.data.update({'profileimg': request.user.profileimg})
+            request.data.update({'username': request.user.username})
+            request.data.update({'nickname': request.user.nickname})
+
             serializer = ReviewSerializer(data=request.data)
-            print(request.user)
+
+            # print(request.user)
             if serializer.is_valid(raise_exception=True):  # 유효성 검사
                 serializer.save(fishing=fishing, user=request.user)  # 저장
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -124,11 +130,17 @@ class reviewCRUD(APIView):
         except Review.DoesNotExist:
             raise Http404
 
+    @swagger_auto_schema(request_body=ReviewCreateSerializer)
     def put(self, request, fishingId, reviewId, format=None):
         review = self.get_object(reviewId)
         request.data["fishing"] = fishingId
         request.data["user"] = request.user.id
-        serializer = ReviewSerializer(review, data=request.data)
+
+        request.data['profileimg'] = request.user.profileimg
+        request.data['username'] = request.user.username
+        request.data['nickname'] = request.user.nickname
+
+        serializer = ReviewUpdateSerializer(review, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -200,20 +212,20 @@ class autoLoc(APIView):
             return HttpResponse(status=204)
 
 
-class CategoryList(APIView):
-    permission_classes = (permissions.AllowAny,)
+# class CategoryList(APIView):
+#     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, categoryId, format=None):
-        if categoryId == 2:
-            scrapQuery = Fishing.objects.all().annotate(reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
-        else:
-            scrapQuery = Fishing.objects.filter(category=categoryId).annotate(
-                reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
+#     def get(self, request, categoryId, format=None):
+#         if categoryId == 2:
+#             scrapQuery = Fishing.objects.all().annotate(reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
+#         else:
+#             scrapQuery = Fishing.objects.filter(category=categoryId).annotate(
+#                 reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
             
 
-        if scrapQuery:
-            serializered_data = CategorySerializer(scrapQuery, many=True).data
+#         if scrapQuery:
+#             serializered_data = CategorySerializer(scrapQuery, many=True).data
 
-            return Response(serializered_data)
-        else:
-            return Response({'message': '해당 카테고리의 낚시터가 없습니다.'}, status=204)
+#             return Response(serializered_data)
+#         else:
+#             return Response({'message': '해당 카테고리의 낚시터가 없습니다.'}, status=204)

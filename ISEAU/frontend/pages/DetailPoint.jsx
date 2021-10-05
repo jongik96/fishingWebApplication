@@ -71,18 +71,6 @@ const DetailPoint = () => {
         console.log(error);
       });
   };
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-  >
-    <path
-      fillRule="evenodd"
-      d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-      clipRule="evenodd"
-    />
-  </svg>;
   useEffect(() => {
     getTideInfo();
   }, [selectedDate]);
@@ -103,22 +91,27 @@ const DetailPoint = () => {
     getIsScraped();
     getReview();
     const newReviewArr = Object.assign([], reviewArr);
-    // if (newReviewArr[0].length > 5) newReviewArr[0].slice(0, 5);
     setTopReviewArr(newReviewArr);
   }, [point]);
 
   // 현재 포인트가 스크랩됐는지 받아오기
-  const getIsScraped = () => {
-    axios({
+  const getIsScraped = async () => {
+    await axios({
       url: "http://j5d204.p.ssafy.io:8000/fishing/scrap/list/" + user.id,
       dataType: "json",
       method: "GET",
     })
       .then((response) => {
+        console.log("in getIsScraped");
         console.log(response);
+        let check = false;
         response.data.forEach((element) => {
           if (element.id === point.id) {
             setIsScraped(true);
+            check = true;
+          }
+          if (!check) {
+            setIsScraped(false);
           }
         });
       })
@@ -159,9 +152,10 @@ const DetailPoint = () => {
         console.log(error);
       });
   };
-  // console.log(sessionStorage.getItem("is_login"));
   const setScrap = () => {
     setIsScraped(!isScraped);
+    const token = sessionStorage.getItem("is_login");
+
     if (!isScraped == true) {
       alert("저장되었습니다.");
     }
@@ -169,6 +163,9 @@ const DetailPoint = () => {
       url: "http://j5d204.p.ssafy.io:8000/fishing/scrap/" + point.id,
       dataType: "json",
       method: "post",
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
     })
       .then((response) => {
         console.log(response);

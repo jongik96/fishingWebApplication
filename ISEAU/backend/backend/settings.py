@@ -57,7 +57,7 @@ JWT_AUTH = { # 추가
    'JWT_ALGORITHM': 'HS256',
    'JWT_VERIFY_EXPIRATION' : True, #토큰검증
    'JWT_ALLOW_REFRESH': True, #유효기간이 지나면 새로운 토큰반환의 refresh
-   'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=30),  # Access Token의 만료 시간
+   'JWT_EXPIRATION_DELTA': datetime.timedelta(days=3),  # Access Token의 만료 시간
    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=3), # Refresh Token의 만료 시간
    'JWT_RESPONSE_PAYLOAD_HANDLER': 'backend.custom_responses.my_jwt_response_handler'
 }
@@ -176,6 +176,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #사용자가 업로드한 파일 �
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 AUTH_USER_MODEL = 'user.User'
+
+CORS_ALLOW_CREDENTIALS = True
 
 from . import my_settings
 EMAIL_BACKEND = my_settings.EMAIL['EMAIL_BACKEND']

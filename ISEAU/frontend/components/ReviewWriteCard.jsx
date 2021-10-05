@@ -9,7 +9,10 @@ import * as detailPointActions from "../store/modules/detailPoint";
 
 const ReviewWriteCard = () => {
   const dispatch = useDispatch();
-
+  const [reviewData, setReviewData] = useState({
+    reviewContent: "",
+    rating: 0,
+  });
   const point = useSelector(({ detailPoint }) => detailPoint);
   const user = useSelector(({ user }) => user);
   const review = useSelector(({ review }) => review);
@@ -37,30 +40,26 @@ const ReviewWriteCard = () => {
     [dispatch]
   );
   const textChange = (e) => {
-    const newReview = Object.assign({}, review);
-    newReview.reviewContent = e.target.value;
-    setReview(newReview);
+    const newReviewData = Object.assign({}, reviewData);
+    newReviewData.reviewContent = e.target.value;
+    setReviewData(newReviewData);
   };
   const ratingChange = (value) => {
-    const newReview = Object.assign({}, review);
-    newReview.rating = value;
-    setReview(newReview);
+    const newReviewData = Object.assign({}, reviewData);
+    newReviewData.rating = value;
+    setReviewData(newReviewData);
   };
   const writeReview = async () => {
-    if (review.rating === 0 || review.rating === null) {
+    if (reviewData.rating === 0) {
       alert("평점을 입력해주세요");
       return;
     }
-    const Review = {
-      rating: review.rating,
-      reviewContent: review.reviewContent,
-    };
 
     const token = sessionStorage.getItem("is_login");
     await axios({
       url: "http://j5d204.p.ssafy.io:8000/fishing/" + point.id + "/review/create",
       method: "post",
-      data: Review,
+      data: reviewData,
       headers: {
         Authorization: `JWT ${token}`,
       },
@@ -69,14 +68,11 @@ const ReviewWriteCard = () => {
       credentials: "include",
     })
       .then((response) => {
-        // console.log(Review);
-        console.log(response);
         getReview();
         getDetailPoint();
       })
       .catch((error) => {
         console.log(error);
-        console.log(Review);
       });
   };
 
@@ -118,7 +114,7 @@ const ReviewWriteCard = () => {
             <StarRatingComponent
               name="rate1"
               starCount={5}
-              value={review.rating}
+              value={reviewData.rating}
               onStarClick={(value) => ratingChange(value)}
             />
           </p>
@@ -126,7 +122,7 @@ const ReviewWriteCard = () => {
       </div>
       <textarea
         className="mt-3 h-40 w-full border-solid border-2 border-black resize-none"
-        value={review.reviewContent}
+        value={reviewData.reviewContent}
         onChange={(e) => textChange(e)}
         placeholder="리뷰를 작성해주세요!"
       ></textarea>

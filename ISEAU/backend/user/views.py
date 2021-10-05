@@ -63,10 +63,10 @@ class ProfileUpdateAPI(generics.UpdateAPIView):
 
 class Delete(APIView):
     permission_classes = (permissions.AllowAny,)
-    def delete(request, user_pk):
+    def delete(self, request, user_pk):
         user = get_object_or_404(User, id=user_pk)
         user.delete()
-        return Response(user, {'id': user_pk})
+        return Response({'id': user_pk}, status=200)
 
 
 class EmailUniqueCheck(generics.CreateAPIView):
