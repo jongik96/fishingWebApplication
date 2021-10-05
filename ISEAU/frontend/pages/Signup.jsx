@@ -33,10 +33,10 @@ const Signup = () => {
     return emailRegex.test(Email);
   };
   // 전화번호 유효성검사  무조건 숫자만 들어갈수있도록
-  const isNumber = (PhoneNumber) => {
-    const numberRegex = /^[0-9]{1,100}$/g;
-    return numberRegex.test(PhoneNumber);
-  };
+  // const isNumber = (PhoneNumber) => {
+  //   const numberRegex = /^[0-9]{1,100}$/g;
+  //   return numberRegex.test(PhoneNumber);
+  // };
 
   // Nickname 유효성검사 특수문자 불가
   const isNickname = (Nickname) => {
@@ -46,10 +46,10 @@ const Signup = () => {
   }
 
   // 주소 유효성검사 특수문자 안되게
-  const isAddress = (Address) => {
-    const addressRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-    return addressRegex.test(Address)
-  }
+  // const isAddress = (Address) => {
+  //   const addressRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+  //   return addressRegex.test(Address)
+  // }
 
   useEffect(()=>{
     isNickname(Nickname) || (Nickname.length >= 2 && Nickname.length < 11) ? setIsNicknameRight(true) :
@@ -64,10 +64,7 @@ const Signup = () => {
       (Password.length >= 10 || Password.length < 21) &&
       (Password == PasswordConfirm) &&
       (Nickname.length >= 2 && Nickname.length < 11) &&
-      !isNickname(Nickname) &&
-      (Address.length > 0 && !isAddress(Address)) &&
-      (PhoneNumber.length == 11) &&
-      isNumber
+      !isNickname(Nickname) 
         ? setIsRight(true)
         : setIsRight(false);
     }
@@ -139,7 +136,7 @@ const Signup = () => {
       <div className="">
         <div className="relative md:w-2/5 w-full my-6 mx-auto max-w-3xl">
           {/*content*/}
-          <div className="border-0 rounded-lg relative flex flex-col w-full">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full">
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl font-semibold">Sign Up</h3>
@@ -147,7 +144,7 @@ const Signup = () => {
             {/*body*/}
             <div className="relative p-6 flex-auto">
               {/*Email*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">E-mail</p>
+              <p className="my-2 text-black-900 text-lg font-bold leading-relaxed">E-mail</p>
               <input
                 type="text"
                 name="Email"
@@ -159,14 +156,14 @@ const Signup = () => {
                 <p className="text-red-500">잘못된 이메일 형식입니다.</p>
               )}
               <button
-                  className={isEmailRight ? `button_active` : `button_unactive`}
+                  className={isEmailRight ? `checkbutton_active` : `checkbutton_unactive`}
                   type="button"
                   onClick={checkEmail}
                 >
                   중복검사
                 </button>
               {/*Password*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Password</p>
+              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Password</p>
               <input
                 type="password"
                 name="Password"
@@ -178,19 +175,19 @@ const Signup = () => {
                 <p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
               )}
               {/*Confirm Password*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Password</p>
+              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Confirm Password</p>
               <input
                 type="password"
                 name="PasswordConfirm"
                 onChange={onChange}
-                placeholder=" PasswordConfirm"
+                placeholder=" Password"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
               {Password != PasswordConfirm && (
                 <p className="text-red-500">비밀번호와 동일하게 입력해주세요.</p>
               )}
               {/*Nickname*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Nickname</p>
+              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Nickname</p>
               <input
                 type="text"
                 name="Nickname"
@@ -206,44 +203,19 @@ const Signup = () => {
                 <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
               )}
               <button
-                  className={isNicknameRight ? `button_active` : `button_unactive`}
+                  className={isNicknameRight ? `checkbutton_active` : `checkbutton_unactive`}
                   type="button"
                   onClick={checkNickname}
                 >
                   중복검사
                 </button>
-              {/*Address*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Address</p>
-              <input
-                type="text"
-                name="Address"
-                value={Address}
-                onChange={onChange}
-                placeholder=" 경상북도구미시진평동"
-                className="text-lg w-full rounded-lg border-2 border-gray-400"
-              />
-              { isAddress(Address) &&( 
-                <p className="text-red-500">특수문자를 포함할 수 없습니다.</p>
-              )}
-              {/*PhoneNumber*/}
-              <p className="my-2 text-black-900 text-lg leading-relaxed">Phone Number</p>
-              <input
-                type="text"
-                name="PhoneNumber"
-                value={PhoneNumber}
-                onChange={onChange}
-                placeholder=" 010XXXXXXXX"
-                className="appearance-textfield text-lg w-full rounded-lg border-2 border-gray-400"
-              />
-              {PhoneNumber.length != 0 && !isNumber(PhoneNumber) && (
-                <p className="text-red-500">숫자만 입력해주세요</p>
-              )}
+
             </div>
             {/*footer*/}
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <div>
                 <button
-                  className="text-gray-500 background-transparent rounded-lg font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  className="text-yellow-500 background-transparent border-2 border-yellow-500 rounded-lg font-bold uppercase px-6 py-2 text-sm mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
                   onClick={Login}
                 >
