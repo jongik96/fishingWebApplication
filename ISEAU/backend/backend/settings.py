@@ -24,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-*16^cyn%(un@^g3=w&w4e-h)0*u&vv01v%mx!_lk-v6aq5#*#7'
 
+SECURE_SSL_REDIRECT = False
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -34,7 +35,7 @@ APPEND_SLASH = False # 추가 안해줄시 기본값이 True인데 그 경우 ur
 #이 경우 문제가 될 수 있기때문에 false로 값을 지정해줬다.
 
 # 아까 설치한 corsheaders로 해당 서버와 연결할 서버의 url을 작성해준모습
-CORS_ORIGIN_WHITELIST = ['http://j5d204.p.ssafy.io', 'http://localhost:3000', 'http://127.0.0.1']
+CORS_ORIGIN_WHITELIST = ['https://j5d204.p.ssafy.io', 'https://localhost:3000', 'https://127.0.0.1']
 
 # Application definition
 
