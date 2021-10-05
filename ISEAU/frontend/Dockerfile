@@ -73,7 +73,7 @@
 FROM node:12.2.0-alpine as build-stage 
 
 # Set working directory
-WORKDIR /app
+WORKDIR /homepage
 
 # Copy package.json and package-lock.json before other files
 # Utilise Docker cache to save re-installing dependencies if unchanged
@@ -106,10 +106,10 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/homepage.conf
 
-COPY --from=build-stage ./app/.next /usr/share/nginx/html/app
+COPY --from=build-stage ./homepage/.next /usr/share/nginx/html/homepage
 
 # 80 포트 오픈
-EXPOSE 80
+EXPOSE 80 443
 
 # container 실행 시 자동으로 실행할 command. nginx 시작함
 CMD ["nginx", "-g", "daemon off;"]
