@@ -11,15 +11,36 @@ from fishing.models import Review, Fishing
 from rest_framework import permissions
 from fishing.serializers import FishingSerializer, ReviewSerializer
 from .serializers import RecommendSerializer
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Avg, Count
 
 
 class recommendList(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, userId):
+    def get(self, request, userId, categoryId):
+        if categoryId == 2:
+            user_reviews = Review.objects.filter(user_id=userId)
+            if len(user_reviews) < 3:
+                fishing_datas = Fishing.objects.all().annotate(reviewCnt=Count(
+                    'review__fishing_id')).annotate(rating=Avg('review__rating')).order_by('-rating')
+                serializer_data = FishingSerializer(fishing_datas, many=True).data
+                return Response(serializer_data)
 
-        fishing_datas = Fishing.objects.values()
+            else:
+                fishing_datas = Fishing.objects.values()
+
+        else:
+            user_reviews = Review.objects.filter(user_id=userId)
+            user_reviews_category = Fishing.objects.filter(id=user_reviews["fishing_id"], category=categoryId)
+            if len(user_reviews_category) < 3:
+                fishing_datas = Fishing.objects.filter(category=categoryId).annotate(reviewCnt=Count(
+                    'review__fishing_id')).annotate(rating=Avg('review__rating')).order_by('-rating')
+                serializer_data = FishingSerializer(fishing_datas, many=True).data
+                return Response(serializer_data)
+
+            else:
+                fishing_datas = Fishing.objects.filter(category=categoryId).values()
+
         review_datas = Review.objects.values()
 
         fishings = pd.DataFrame(fishing_datas)
@@ -40,8 +61,7 @@ class recommendList(APIView):
             return np.sum(s1_c * s2_c) / np.sqrt(np.sum(s1_c ** 2) * np.sum(s2_c ** 2))
 
         def recommend(input_fishingId, matrix, n, similar_genre=True):
-            input_obsPostId = fishings[fishings['fishingId'] == input_fishingId]['obsPostId'].iloc(0)[
-                0]
+            input_obsPostId = fishings[fishings['fishingId'] == input_fishingId]['obsPostId'].iloc(0)[0]
 
             result = []
             for title in matrix.columns:
@@ -53,8 +73,7 @@ class recommendList(APIView):
 
                 # genre comparison
                 if similar_genre and len(input_obsPostId) > 0:
-                    temp_obsPostId = fishings[fishings['fishingId'] == title]['obsPostId'].iloc(0)[
-                        0]
+                    temp_obsPostId = fishings[fishings['fishingId'] == title]['obsPostId'].iloc(0)[0]
                     same_count = np.sum(
                         np.isin(input_obsPostId, temp_obsPostId))
                     cor += (obsPostId_WEIGHT * same_count)
@@ -75,9 +94,12 @@ class recommendList(APIView):
         reviewList = Review.objects.filter(user_id=userId)
         reviewRatingUser = []
         for i in range(len(reviewList)):
-            reviewRatingUser.append(
-                (reviewList[i].rating, reviewList[i].fishing_id)
-            )
+            if categoryId != 2:
+                if Fishing.objects.get(id=reviewList[i].fishing_id).category == categoryId:
+                    reviewRatingUser.append((reviewList[i].rating, reviewList[i].fishing_id))
+            else:
+                reviewRatingUser.append((reviewList[i].rating, reviewList[i].fishing_id))
+
         reviewRatingUser.sort(reverse=True)
         
         thirdList = []
@@ -89,29 +111,21 @@ class recommendList(APIView):
 
         res = []
         for i in range(len(lst)):
-            recommend_result = recommend(lst[i], matrix, 3, similar_genre=True)
-            res.append(pd.DataFrame(recommend_result, columns=[
-                       'fishingId', 'Correlation', 'obsPostId']))
+            recommend_result = recommend(lst[i], matrix, 90, similar_genre=True)
+            res.append(pd.DataFrame(recommend_result, columns=['fishingId', 'Correlation', 'obsPostId']))
 
         abc = pd.concat(res)
         result = abc.sort_values(by=['Correlation'], axis=0, ascending=False)
-        print('mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm', type(result))
-        print(result)
 
-        # final_lst = []
-        abc = result[:3]['fishingId'].iloc[0]
+        abc = result['fishingId']
+        fishing_list = []
+        for i in abc:
+            if i not in fishing_list:
+                fishing_list.append(i)
 
-        finaldata = Fishing.objects.filter(Q(id=result[:3]['fishingId'].iloc[0]) | Q(id=result[:3]['fishingId'].iloc[1]) | Q(id=result[:3]['fishingId'].iloc[2]))
-
+        finaldata = Fishing.objects.filter(id__in=fishing_list).annotate(reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
 
         serializer_data = RecommendSerializer(finaldata, many=True).data
-        for index, data in enumerate(serializer_data):
-            reviewSum = Review.objects.filter(
-                fishing_id=data['id']).aggregate(Sum('rating'))
-            reviewCnt = Review.objects.filter(fishing_id=data['id']).count()
-            rating = round(reviewSum['rating__sum']/reviewCnt, 1)
-            data['reviewCnt'] = reviewCnt
-            data['rating'] = rating
 
         # sort_datas
         return Response(serializer_data)

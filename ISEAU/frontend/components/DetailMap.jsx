@@ -45,6 +45,13 @@ const DetailMap = () => {
     }));
   }, [width]);
 
+  useEffect(() => {
+    setViewport((state) => ({
+      ...state,
+      longitude: Number(point.longitude),
+      latitude: Number(point.latitude),
+    }));
+  }, [point]);
   const [viewport, setViewport] = useState({
     width: "100%",
     height: "100%",

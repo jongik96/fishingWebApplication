@@ -32,12 +32,17 @@ const DropdownMenu = () => {
   };
   const Logout = () => {
     sessionStorage.removeItem("is_login");
+    sessionStorage.removeItem("id");
     document.location.href = "/";
   };
-
+  const scrapList = () => {
+    router.push({
+      pathname: "/ScrapList",
+    });
+  };
   // 로그인 상태관리
   const id = useSelector((state) => state.user.id);
-  // console.log("store 현재 저장된 id값: " +id)
+
   //로그인 되어있는지 아닌지
   const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
@@ -128,23 +133,23 @@ const DropdownMenu = () => {
                     </button>
                   )}
                 </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      onClick={scrapList}
+                      className={classNames(
+                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                        "block px-4 py-2 text-sm"
+                      )}
+                    >
+                      저장목록
+                    </button>
+                  )}
+                </Menu.Item>
               </>
             )}
           </div>
           <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block px-4 py-2 text-sm"
-                  )}
-                >
-                  등록하기
-                </a>
-              )}
-            </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <a

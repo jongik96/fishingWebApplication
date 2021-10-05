@@ -27,13 +27,14 @@ SECRET_KEY = 'django-insecure-*16^cyn%(un@^g3=w&w4e-h)0*u&vv01v%mx!_lk-v6aq5#*#7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['j5d204.p.ssafy.io', 'localhost:3000', '127.0.0.1']
 
 APPEND_SLASH = False # 추가 안해줄시 기본값이 True인데 그 경우 urls.py에서 경로설정시 주소 끝에 /를 붙이고 
 #해당경로로 /를 붙이지 않고 접속시 페이지를 찾을 수 없기때문에 리다이렉트를 시켜 자동으로 /를 붙여서 경로를 찾는다.
 #이 경우 문제가 될 수 있기때문에 false로 값을 지정해줬다.
 
-CORS_ORIGIN_WHITELIST = ['*'] #아까 설치한 corsheaders로 해당 서버와 연결할 서버의 url을 작성해준모습
+# 아까 설치한 corsheaders로 해당 서버와 연결할 서버의 url을 작성해준모습
+CORS_ORIGIN_WHITELIST = ['http://j5d204.p.ssafy.io', 'http://localhost:3000', 'http://127.0.0.1']
 
 # Application definition
 
@@ -56,7 +57,7 @@ JWT_AUTH = { # 추가
    'JWT_ALGORITHM': 'HS256',
    'JWT_VERIFY_EXPIRATION' : True, #토큰검증
    'JWT_ALLOW_REFRESH': True, #유효기간이 지나면 새로운 토큰반환의 refresh
-   'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=30),  # Access Token의 만료 시간
+   'JWT_EXPIRATION_DELTA': datetime.timedelta(days=3),  # Access Token의 만료 시간
    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=3), # Refresh Token의 만료 시간
    'JWT_RESPONSE_PAYLOAD_HANDLER': 'backend.custom_responses.my_jwt_response_handler'
 }
@@ -175,6 +176,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #사용자가 업로드한 파일 �
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 AUTH_USER_MODEL = 'user.User'
+
+CORS_ALLOW_CREDENTIALS = True
 
 from . import my_settings
 EMAIL_BACKEND = my_settings.EMAIL['EMAIL_BACKEND']

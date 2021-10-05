@@ -12,4 +12,5 @@ urlpatterns = [
     path("<int:fishingId>/review/<int:reviewId>/delete", reviewCRUD.as_view()),
     path("search/<str:location>", searchLoc.as_view()),
     path("search/auto/<str:location>", autoLoc.as_view()),
+    # path("category/<int:categoryId>", CategoryList.as_view()),
 ]

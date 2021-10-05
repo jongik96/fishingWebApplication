@@ -1,21 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, Fragment } from "react";
 import { Avatar } from "@material-ui/core";
 import StarRatingComponent from "react-star-rating-component";
 import axios from "axios";
-
+import { useSelector, useDispatch } from "react-redux";
+import * as reviewActions from "../store/modules/review";
+import * as reviewArrActions from "../store/modules/reviewArr";
+import * as detailPointActions from "../store/modules/detailPoint";
+import FullReviewCard from "./FullReviewCard";
 const ReviewUpdateCard = () => {
+  const dispatch = useDispatch();
+
+  const [update, setUpdate] = useState(true);
+  const point = useSelector(({ detailPoint }) => detailPoint);
+  const user = useSelector(({ user }) => user);
+  const review = useSelector(({ review }) => review);
   const [reviewData, setReviewData] = useState({
-    text: "",
-    rating: 0,
+    reviewContent: review.reviewContent,
+    rating: review.rating,
   });
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const date = today.getDate();
+  const setReview = useCallback(
+    (value) => {
+      dispatch(reviewActions.setReview(value));
+    },
+    [dispatch]
+  );
+  const setReviewArr = useCallback(
+    (value) => {
+      dispatch(reviewArrActions.setReviewArr(value));
+    },
+    [dispatch]
+  );
+  const setDetailPoint = useCallback(
+    (value) => {
+      dispatch(detailPointActions.setDetailPoint(value));
+    },
+    [dispatch]
+  );
 
   const textChange = (e) => {
     const newReviewData = Object.assign({}, reviewData);
-    newReviewData.text = e.target.value;
+    newReviewData.reviewContent = e.target.value;
     setReviewData(newReviewData);
   };
   const ratingChange = (value) => {
@@ -23,31 +47,141 @@ const ReviewUpdateCard = () => {
     newReviewData.rating = value;
     setReviewData(newReviewData);
   };
-  const writeReview = () => {
-    if (reviewData.rating === 0) {
-      alert("평점을 입력해주세요");
+  const updateReview = async () => {
+    // 수정
+    if (update) {
+      setUpdate(!update);
       return;
+    } else {
+      if (confirm("수정 하시겠습니까?")) {
+        await writeReview();
+        setUpdate(!update);
+      }
     }
-    // axios({
-    //   url: "http://j5d204.p.ssafy.io/fishing/" + fishingId + "/review/create",
-    //   method: "post",
-    //   data:
-    // })
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
-  return (
+
+  const removeReview = async () => {
+    // 수정
+    if (confirm("삭제 하시겠습니까?")) {
+      await deleteReview();
+    }
+  };
+
+  const deleteReview = async () => {
+    const token = sessionStorage.getItem("is_login");
+    await axios({
+      url: "http://j5d204.p.ssafy.io:8000/fishing/" + point.id + "/review/" + review.id + "/delete",
+      method: "delete",
+      data: reviewData,
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+      withCredentials: true,
+      crossDomain: true,
+      credentials: "include",
+    })
+      .then((response) => {
+        getReview();
+        getDetailPoint();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const writeReview = async () => {
+    const token = sessionStorage.getItem("is_login");
+    await axios({
+      url: "http://j5d204.p.ssafy.io:8000/fishing/" + point.id + "/review/" + review.id + "/update",
+      method: "put",
+      data: reviewData,
+      headers: {
+        Authorization: `JWT ${token}`,
+      },
+      withCredentials: true,
+      crossDomain: true,
+      credentials: "include",
+    })
+      .then((response) => {
+        getReview();
+        getDetailPoint();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getReview = async () => {
+    await axios({
+      url: "http://j5d204.p.ssafy.io:8000/fishing/" + point.id + "/review",
+      dataType: "json",
+      method: "GET",
+    })
+      .then(async (response) => {
+        console.log(response.data);
+        let check = true;
+        // 내가 쓴 글이 있는지 체크
+        response.data.forEach((element) => {
+          if (element.username === user.username) {
+            setReview(element);
+            check = false;
+          }
+          if (check) {
+            setReview({
+              createdAt: null,
+              id: null,
+              rating: null,
+              reviewContent: null,
+              nickname: null,
+              username: null,
+            });
+          }
+        });
+        await setReviewArr(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const getDetailPoint = async () => {
+    const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + point.id);
+    setDetailPoint(response.data[0]);
+  };
+
+  return update ? (
+    <Fragment>
+      <FullReviewCard
+        id={review.id}
+        username={user.username}
+        nickname={user.nickname}
+        rating={review.rating}
+        date={review.createdAt}
+        desc={review.reviewContent}
+      />
+
+      <div className=" w-full text-right space-x-2">
+        <button
+          className="p-2 cursor-pointer hover:scale-105 transform transition duration-300 ease-out bg-blue-600 text-white text-lg  "
+          onClick={updateReview}
+        >
+          리뷰 수정
+        </button>
+        <button
+          className="p-2 cursor-pointer hover:scale-105 transform transition duration-300 ease-out bg-red-600 text-white text-lg  "
+          onClick={removeReview}
+        >
+          리뷰 삭제
+        </button>
+      </div>
+    </Fragment>
+  ) : (
     <div className="my-2  p-2  ">
       <div className="flex flex-row  w-[350px]">
         <Avatar className="post-avatar" /> {/* 로그인한 사용자 이미지로 수정필요 */}
         <p className="grid-rows-2">
-          <p className="pl-2 text-sm ">사용자 닉네임</p> {/* 로그인한 사용자 닉네임으로 수정필요 */}
+          <p className="pl-2 text-sm ">{user.nickname}</p>
           <p className="pl-2 text-sm ">
-            {year}년 {month}월 {date}일
+            {review.createdAt.slice(0, 4)}년 {review.createdAt.slice(5, 7)}월
+            {review.createdAt.slice(8, 10)}일
           </p>
           <p>
             <StarRatingComponent
@@ -61,20 +195,19 @@ const ReviewUpdateCard = () => {
       </div>
       <textarea
         className="mt-3 h-40 w-full border-solid border-2 border-black resize-none"
-        value={reviewData.text}
+        value={reviewData.reviewContent}
         onChange={(e) => textChange(e)}
-        placeholder="리뷰를 작성해주세요!"
       ></textarea>
       <div className=" w-full text-right space-x-2">
         <button
           className="p-2 cursor-pointer hover:scale-105 transform transition duration-300 ease-out bg-blue-600 text-white text-lg  "
-          onClick={writeReview}
+          onClick={updateReview}
         >
           리뷰 수정
         </button>
         <button
           className="p-2 cursor-pointer hover:scale-105 transform transition duration-300 ease-out bg-red-600 text-white text-lg  "
-          onClick={writeReview}
+          onClick={removeReview}
         >
           리뷰 삭제
         </button>
