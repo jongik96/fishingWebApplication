@@ -172,7 +172,7 @@ COPY --from=builder /app/package.json ./package.json
 
 USER nextjs
 
-FROM nginx:stable-alpine as production-stage
+FROM nginx:latest as production-stage
 
 RUN rm /etc/nginx/conf.d/default.conf
 
