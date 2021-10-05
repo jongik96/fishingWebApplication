@@ -73,15 +73,15 @@
 FROM node:12.2.0-alpine as build-stage 
 
 # Set working directory
-WORKDIR /homepage
+WORKDIR /usr/app
 
 # Copy package.json and package-lock.json before other files
 # Utilise Docker cache to save re-installing dependencies if unchanged
 COPY ./package*.json ./
 
 # Install dependencies
-# RUN npm install --production
-RUN npm install 
+RUN npm install --production
+# RUN npm install 
 
 # Copy all files
 COPY ./ ./
@@ -99,14 +99,14 @@ COPY ./ ./
 CMD ["npx", "next", "build" ]
 
 
-# nginx 이미지를 사용합니다. 뒤에 tag가 없으면 latest 를 사용합니다.
+# # nginx 이미지를 사용합니다. 뒤에 tag가 없으면 latest 를 사용합니다.
 FROM nginx:stable-alpine as production-stage
 
 RUN rm /etc/nginx/conf.d/default.conf
 
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/homepage.conf
 
-COPY --from=build-stage ./homepage/.next /usr/share/nginx/html/homepage
+COPY --from=build-stage ./usr/app/.next /usr/share/nginx/html/homepage
 
 # 80 포트 오픈
 EXPOSE 80 443
