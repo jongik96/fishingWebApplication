@@ -82,11 +82,11 @@ COPY ./package*.json ./
 # Install dependencies
 RUN npm install --production
 
-COPY --from=builder /usr/app/next.config.js ./
-COPY --from=builder /usr/app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /usr/app/.next ./.next
-COPY --from=builder /usr/app/node_modules ./node_modules
-COPY --from=builder /usr/app/package.json ./package.json
+COPY --from=build-stage /usr/app/next.config.js ./
+COPY --from=build-stage /usr/app/public ./public
+COPY --from=build-stage --chown=nextjs:nodejs /usr/app/.next ./.next
+COPY --from=build-stage /usr/app/node_modules ./node_modules
+COPY --from=build-stage /usr/app/package.json ./package.json
 
 USER nextjs
 
