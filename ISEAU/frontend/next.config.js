@@ -1,4 +1,6 @@
-module.exports = {
+const withVideos = require("next-videos");
+
+module.exports = withVideos({
   async rewrites() {
     return [
       {
@@ -23,4 +25,4 @@ module.exports = {
     map_key:
       "pk.eyJ1IjoiamFlZGVuaXN0IiwiYSI6ImNrdGhldjUyZjAxcngydW1zejU2bWs1dnMifQ.K3Ijqq6Vi7UKKrZSwWT-uw",
   },
-};
+});
