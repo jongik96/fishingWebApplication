@@ -31,8 +31,8 @@ class recommendList(APIView):
 
         else:
             user_reviews = Review.objects.filter(user_id=userId)
-            user_reviews_category = Fishing.objects.filter(category=user_reviews.fishing_id, category=categoryId)
-            if len(user_reviews_ca) < 3:
+            user_reviews_category = Fishing.objects.filter(id=user_reviews["fishing_id"], category=categoryId)
+            if len(user_reviews_category) < 3:
                 fishing_datas = Fishing.objects.filter(category=categoryId).annotate(reviewCnt=Count(
                     'review__fishing_id')).annotate(rating=Avg('review__rating')).order_by('-rating')
                 serializer_data = FishingSerializer(fishing_datas, many=True).data
