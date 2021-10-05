@@ -79,7 +79,7 @@ const Login = () => {
           <div
             className=""
           >
-            <div className="relative w-full md:w-1/3 my-6 mx-auto max-w-3xl bg-white">
+            <div className="relative w-full md:w-1/3 my-6 mx-auto max-w-3xl">
               {/*content*/}
               <form className="border-0 rounded-lg shadow-lg relative flex flex-col w-full">
                 {/*header*/}
