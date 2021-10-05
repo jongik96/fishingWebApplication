@@ -12,7 +12,7 @@ const Banner = () => {
          active:scale-90 transition-transform duration-200 ease-out hover:scale-105
         "
         >
-          검색 시작하기
+          I SEA U
         </button>
       </div>
     </div>
