@@ -178,7 +178,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/homepage.conf
 
-COPY --from=builder ./app/.next /usr/share/nginx/html/homepage
+COPY --from=builder ./app/.next /usr/share/nginx/html/app
 
 # 80 포트 오픈
 EXPOSE 80 443 3000
