@@ -184,4 +184,6 @@ COPY --from=builder /app/.next /usr/share/nginx/html/app
 EXPOSE 80 443 3000
 
 # container 실행 시 자동으로 실행할 command. nginx 시작함
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
+CMD ["pwd"]
+CMD ["ls"]
