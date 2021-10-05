@@ -92,6 +92,7 @@ const DetailPoint = () => {
     getReview();
     const newReviewArr = Object.assign([], reviewArr);
     setTopReviewArr(newReviewArr);
+    getFishData();
   }, [point]);
 
   // 현재 포인트가 스크랩됐는지 받아오기
@@ -195,7 +196,18 @@ const DetailPoint = () => {
     }
     return result;
   };
-
+  const getFishData = () => {
+    axios({
+      url: "http://www.khoa.go.kr/oceangrid/grid/api/fcIndexOfType/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&Type=SF&ResultType=json",
+      method: "get",
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
       <Header />
