@@ -83,13 +83,8 @@ class recommendList(APIView):
             reviewList = Review.objects.filter(user_id=userId)
             reviewRatingUser = []
             for i in range(len(reviewList)):
-                if categoryId != 2:
-                    if Fishing.objects.get(id=reviewList[i].fishing_id).category == categoryId:
-                        reviewRatingUser.append(
-                            (reviewList[i].rating, reviewList[i].fishing_id))
-                else:
-                    reviewRatingUser.append(
-                        (reviewList[i].rating, reviewList[i].fishing_id))
+                reviewRatingUser.append(
+                    (reviewList[i].rating, reviewList[i].fishing_id))
 
             reviewRatingUser.sort(reverse=True)
 
@@ -108,6 +103,7 @@ class recommendList(APIView):
                            'fishingId', 'Correlation', 'obsPostId']))
 
             abc = pd.concat(res)
+
             result = abc.sort_values(
                 by=['Correlation'], axis=0, ascending=False)
 
