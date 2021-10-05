@@ -9,10 +9,10 @@ const Banner = () => {
         <p className="text-md sm:text-xl font-semibold">언제든지, 바다가 당신을 기다립니다 !</p>
         <button
           className="text-blue-400 bg-white px-8 py-2 sm:py-3 shadow-md rounded-full font-bold my-8 sm:my-12 hover:shadow-xl 
-         active:scale-90 transition duration-150
+         active:scale-90 transition-transform duration-200 ease-out hover:scale-105
         "
         >
-          검색 시작하기
+          I SEA U
         </button>
       </div>
     </div>

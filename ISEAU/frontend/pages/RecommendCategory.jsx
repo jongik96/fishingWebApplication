@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
 import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import RecommendCard from "../components/RecommendCard";
@@ -12,13 +14,22 @@ const RecommendCategory = () => {
   const { category } = router.query;
   const [cateParse, setCateParse] = useState(Number(category));
   const [getCategory, setGetCategory] = useState(4);
+  const [userId, setUserId] = useState("");
+  const uid = useSelector((state) => state.user.id);
+  const [recommData, setRecommData] = useState([]);
 
   useEffect(async () => {
-    const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/category/" + cateParse);
-
     setCateParse(Number(category));
+    setUserId(uid);
+    const response = await axios.get(
+      "http://j5d204.p.ssafy.io:8000/recommend/category/" + uid + "/" + cateParse
+    );
+
+    console.log(response.data);
+    setRecommData(response.data);
+
     // console.log(cateParse + " " + typeof cateParse);
-  }, [cateParse]);
+  }, [cateParse, userId, recommData]);
   const Routing = (value) => {
     router.push({
       pathname: "/RecommendCategory",
@@ -31,6 +42,25 @@ const RecommendCategory = () => {
     setCateParse(value);
     Routing(value);
   };
+
+  const goDetail = (id) => {
+    const getData = async () => {
+      const res = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
+      setDetailPoint(res.data[0]);
+    };
+    getData();
+
+    router.push({
+      pathname: "/DetailPoint",
+    });
+  };
+  const dispatch = useDispatch();
+  const setDetailPoint = useCallback(
+    (value) => {
+      dispatch(detailPointActions.setDetailPoint(value));
+    },
+    [dispatch]
+  );
 
   return (
     <div>
@@ -61,15 +91,20 @@ const RecommendCategory = () => {
         </section>
         <section className="pt-5">
           <div className="flex flex-wrap -mx-1 overflow-hidden md:-mx-2 lg:-mx-4 xl:-mx-2">
-            {fishingData.map(({ id, img, point_name, address, rate, description, category }) => (
-              <div className="my-5 px-9 w-full overflow-hidden md:my-2 md:px-2 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2 xl:my-2 xl:px-2 xl:w-1/3">
+            {recommData.map(({ id, fishingimg, pointname, address, rating, category }) => (
+              <div
+                className="my-5 px-9 w-full overflow-hidden md:my-2 md:px-2 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2 xl:my-2 xl:px-2 xl:w-1/3"
+                onClick={() => {
+                  goDetail(id);
+                }}
+              >
                 <RecommendCard
                   key={id}
-                  img={img}
-                  point_name={point_name}
+                  id={id}
+                  fishingimg={fishingimg}
+                  pointname={pointname}
                   address={address}
-                  rate={rate}
-                  description={description}
+                  rating={rating}
                   category={category}
                 />
               </div>

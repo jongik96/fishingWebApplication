@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
+import Aos from "aos";
+import "aos/dist/aos.css";
+
 const LargeCard = ({ img, title, description, buttonText }) => {
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+  }, []);
   return (
     <>
-      <section className="relative py-16 cursor-pointer">
+      <section data-aos="fade-up" className="relative py-16 cursor-pointer">
         <div className="relative h-96 min-w-[300px] ">
           <Image src={img} layout="fill" objectFit="cover" className="rounded-2xl" />
         </div>
