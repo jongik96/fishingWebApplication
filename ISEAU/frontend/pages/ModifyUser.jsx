@@ -63,6 +63,18 @@ const ModifyUser = () => {
     },[em, ad, nn, pn, it])
 
 
+    useEffect(()=>{
+        const token = sessionStorage.getItem('is_login')
+        axios({
+            method: "get",
+            url:"http://j5d204.p.ssafy.io:8000/user/current",
+            headers: `JWT ${token}`,
+        }).then((res)=>{
+            console.log(res.data)
+        }).catch((err)=>{
+            console.log(err)
+        })
+    })
 
 
     const [isRight, setIsRight] = useState(false);
@@ -229,7 +241,7 @@ const ModifyUser = () => {
                 <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
               )}
             <button
-                  className={isNicknameRight ? `button_active` : `button_unactive`}
+                  className={isNicknameRight ? `checkbutton_active` : `checkbutton_unactive`}
                   type="button"
                   onClick={checkNickname}
                 >

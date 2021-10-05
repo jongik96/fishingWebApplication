@@ -54,6 +54,7 @@ const Login = () => {
         const accessToken = res.data.token;
         sessionStorage.setItem('is_login',`${accessToken}`)
         sessionStorage.setItem('id', res.data.user.id)
+        alert("로그인되었습니다.")
         // redux 보내기
         dispatch(userAction.setLoginState(res.data.user))
         router.push({

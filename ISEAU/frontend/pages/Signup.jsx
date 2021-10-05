@@ -159,7 +159,7 @@ const Signup = () => {
                 <p className="text-red-500">잘못된 이메일 형식입니다.</p>
               )}
               <button
-                  className={isEmailRight ? `button_active` : `button_unactive`}
+                  className={isEmailRight ? `checkbutton_active` : `checkbutton_unactive`}
                   type="button"
                   onClick={checkEmail}
                 >
@@ -206,7 +206,7 @@ const Signup = () => {
                 <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
               )}
               <button
-                  className={isNicknameRight ? `button_active` : `button_unactive`}
+                  className={isNicknameRight ? `checkbutton_active` : `checkbutton_unactive`}
                   type="button"
                   onClick={checkNickname}
                 >
@@ -243,7 +243,7 @@ const Signup = () => {
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <div>
                 <button
-                  className="text-gray-500 background-transparent rounded-lg font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                  className="text-gray-500 background-transparent border-2 border-gray-500 rounded-lg font-bold uppercase px-6 py-2 text-sm mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
                   onClick={Login}
                 >

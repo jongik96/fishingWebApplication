@@ -38,6 +38,7 @@ const PasswordConfirm = () => {
             password : Password,
         },
     }).then(() => {
+      
         router.push({
             pathname: "/ModifyUser"
         })
@@ -46,11 +47,12 @@ const PasswordConfirm = () => {
       alert("비밀번호가 일치하지 않습니다!!")
     })
   }
-  const enterkey = (e) =>{
-    if(e.key == 'Enter'){
-      Confirm()
-    }
-  }
+  // const enterkey = e =>{
+  //   if(e.key === 'Enter'){
+  //     console.log('eneter')
+  //     Confirm()
+  //   }
+  // }
   return (
         <div>
           <Header/>
