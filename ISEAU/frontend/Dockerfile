@@ -42,9 +42,9 @@ FROM nginx:latest AS production-stage
 # ADD /app/.next ./build
 
 RUN rm /etc/nginx/conf.d/default.conf
-CMD ["cat", "homepage.conf"]
-CMD ["pwd"]
-CMD ["ls"]
+RUN ["cat", "homepage.conf"]
+RUN ["pwd"]
+RUN ["ls"]
 COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
 
 COPY --from=builder /app/.next /usr/share/nginx/html/app
