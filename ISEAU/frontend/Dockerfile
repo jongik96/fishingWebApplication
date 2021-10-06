@@ -42,13 +42,13 @@ FROM nginx:latest AS production-stage
 # ADD /app/.next ./build
 
 RUN rm /etc/nginx/conf.d/default.conf
-# RUN ["cat", "homepage.conf"]
+
 RUN ["pwd"]
 RUN ["ls"]
-COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
+COPY ./app/homepage.conf /etc/nginx/conf.d/homepage.conf
 
 COPY --from=builder /app/.next /usr/share/nginx/html/app
-
+RUN ["cat", "./app/homepage.conf"]
 # 80 포트 오픈
 EXPOSE 443 80
 
