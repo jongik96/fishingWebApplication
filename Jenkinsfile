@@ -1,21 +1,21 @@
 // 젠킨스 파이프라인 플러그인을 호출하기 위한 블록
 pipeline {
 	// 파이프라인을 실행하고 싶은 위치 정의
-	agent any
+	agent none
 	// gitlab의 소스를 jenkins 디렉토리로 내려받을 시
 	// skipDefaultCheckout(true)일 경우 내려받는 프로세스 skip
 	// skipDefaultCheckout(false)일 경우 gitlab 소스 체크
-	options { skipDefaultCheckout(true) }
-	environment {
-		GIT_URL = "https://lab.ssafy.com/s05-bigdata-rec/S05P21D204.git"
-	}
+	// options { skipDefaultCheckout(true) }
+	// environment {
+	// 	GIT_URL = "https://lab.ssafy.com/s05-bigdata-rec/S05P21D204.git"
+	// }
 	// stage의 모음
 	stages {
-		stage('Pull'){
-			steps{
-				git url: "${GIT_URL}", branch: "develop", poll : true, changelog: true
-			}
-		}
+		// stage('Pull'){
+		// 	steps{
+		// 		git url: "${GIT_URL}", branch: "develop", poll : true, changelog: true
+		// 	}
+		// }
 		// 실제 작업이 수행되는 블록
 		// 해당 stage 명으로 jenkins 화면에 표시된다
 		stage('Build and Test') {
