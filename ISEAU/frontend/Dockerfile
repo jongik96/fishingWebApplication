@@ -180,7 +180,7 @@ COPY ./nginx/homepage.conf /etc/nginx/conf.d/homepage.conf
 COPY --from=builder /app/.next /usr/share/nginx/html/app/.next
 
 # 80 포트 오픈
-EXPOSE 80 443 3000
+EXPOSE 80
 
 # container 실행 시 자동으로 실행할 command. nginx 시작함
 CMD ["nginx", "-g", "daemon off;"]
