@@ -102,8 +102,23 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 RUN yarn install 
+
+FROM node:lts-alpine AS builder
+ENV NODE_ENV=production
+WORKDIR /app
 COPY . .
+COPY --from=build-stage /app/node_modules ./node_modules
 RUN yarn build
+
+FROM node:lts-alpine AS runner
+ARG X_TAG
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+CMD ["node_modules/.bin/next", "start"]
 
 FROM nginx:latest as production-stage 
 
