@@ -1,9 +1,7 @@
 # Install dependencies only when needed
-
-
 FROM node:alpine AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN mkdir -p /app
+# RUN mkdir -p /app
 
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -39,15 +37,15 @@ USER nextjs
 
 FROM nginx:latest AS production-stage
 
-RUN mkdir ./build
+# RUN mkdir ./build
 
-ADD /app/.next ./build
+# ADD /app/.next ./build
 
 RUN rm /etc/nginx/conf.d/default.conf
 
 COPY ./homepage.conf /etc/nginx/conf.d
 
-# COPY --from=build-stage ./.next /usr/share/nginx/html/app
+COPY --from=builder ./.next /usr/share/nginx/html/app
 
 # 80 포트 오픈
 EXPOSE 443 80
