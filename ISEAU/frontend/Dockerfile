@@ -129,25 +129,59 @@
 #################################
 # build react app, it should be /build
 # FROM node:12.2.0-alpine as build
-FROM node:lts-alpine as build
-WORKDIR /app
-COPY package.json /app/package.json
-# RUN npm install --only=prod
-RUN yarn install --only=prod
-COPY . /app
-# RUN npm run build
+# FROM node:lts-alpine as build
+# WORKDIR /app
+# COPY package.json /app/package.json
+# # RUN npm install --only=prod
+# RUN yarn install --only=prod
+# COPY . /app
+# # RUN npm run build
+# RUN yarn build
+
+# # Creating nginx image and copy build folder from above
+# # FROM nginx:1.16.0-alpine
+# FROM nginx:stable-alpine
+# RUN mkdir /usr/share/nginx/buffer
+# COPY --from=build /app/.next /usr/share/nginx/buffer
+# COPY --from=build /app/deploy.sh /usr/share/nginx/buffer
+# RUN chmod +x /usr/share/nginx/buffer/deploy.sh
+# RUN cd /usr/share/nginx/buffer && ./deploy.sh
+# RUN mkdir /usr/share/nginx/log
+# RUN rm /etc/nginx/conf.d/default.conf
+# COPY nginx/nginx.conf /etc/nginx/conf.d
+# EXPOSE 80 443
+# CMD ["nginx", "-g", "daemon off;"]
+#################################
+# Build app
 RUN yarn build
 
-# Creating nginx image and copy build folder from above
-# FROM nginx:1.16.0-alpine
-FROM nginx:stable-alpine
-RUN mkdir /usr/share/nginx/buffer
-COPY --from=build /app/.next /usr/share/nginx/buffer
-COPY --from=build /app/deploy.sh /usr/share/nginx/buffer
-RUN chmod +x /usr/share/nginx/buffer/deploy.sh
-RUN cd /usr/share/nginx/buffer && ./deploy.sh
-RUN mkdir /usr/share/nginx/log
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/conf.d
-EXPOSE 80 443
-CMD ["nginx", "-g", "daemon off;"]
+# remove development dependencies
+RUN yarn install --production
+
+####################################################### 
+
+FROM nginx:alpine
+
+WORKDIR /usr/app
+
+RUN apk add nodejs-current npm supervisor
+RUN mkdir mkdir -p /var/log/supervisor && mkdir -p /etc/supervisor/conf.d
+
+# Remove any existing config files
+RUN rm /etc/nginx/conf.d/*
+
+# Copy nginx config files
+# *.conf files in conf.d/ dir get included in main config
+COPY ./.nginx/default.conf /etc/nginx/conf.d/
+
+# COPY package.json next.config.js .env* ./
+# COPY --from=builder /usr/app/public ./public
+COPY --from=builder /usr/app/.next ./.next
+COPY --from=builder /usr/app/node_modules ./node_modules
+
+# supervisor base configuration
+ADD supervisor.conf /etc/supervisor.conf
+
+# replace $PORT in nginx config (provided by executior) and start supervisord (run nextjs and nginx)
+CMD sed -i -e 's/443/'"443"'/g' /etc/nginx/conf.d/default.conf && \
+  supervisord -c /etc/supervisor.conf
