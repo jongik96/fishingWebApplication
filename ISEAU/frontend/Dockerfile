@@ -175,8 +175,6 @@ USER nextjs
 
 FROM nginx:latest as production-stage
 
-RUN rm /etc/nginx/conf.d/default.conf
-
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/homepage.conf
 
 COPY --from=builder /app/.next /usr/share/nginx/html/app/.next
