@@ -45,7 +45,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 COPY ./homepage.conf /etc/nginx/conf.d
 
-COPY --from=builder ./.next /usr/share/nginx/html/app
+COPY --from=builder /app/.next /usr/share/nginx/html/app
 
 # 80 포트 오픈
 EXPOSE 443 80
