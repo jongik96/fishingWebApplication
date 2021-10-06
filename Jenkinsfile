@@ -53,7 +53,7 @@ pipeline {
 				// docker container 실행
 				// sh 'docker run -d --name <front-image-name> -p 80:80 <front-image-name>:latest'
                 sh 'docker run -d --name backend --network out-net -p 8000:8000 backend:latest'    
-                sh 'docker run -d --name frontend -v /home/ubuntu/key:/usr/share/nginx/html/app --network out-net  -p 80:3000 -p 443:3000 frontend:latest'     
+                sh 'docker run -d --name frontend -v /home/ubuntu/key:/usr/share/nginx/html/app --network out-net  -p 80:3000 -p 443:443 frontend:latest'     
 			}
 		}
 	}
