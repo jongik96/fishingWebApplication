@@ -2,11 +2,9 @@
 FROM node:alpine AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 # RUN mkdir -p /app
+
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
-RUN ["mkdir", "abcde"]
-RUN ["pwd"]
-RUN ["ls"]
 COPY package.json yarn.lock ./
 # RUN yarn install --frozen-lockfile
 RUN yarn install
@@ -45,12 +43,10 @@ FROM nginx:latest AS production-stage
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-RUN ["pwd"]
-RUN ["ls"]
 COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
 
 COPY --from=builder /app/.next /usr/share/nginx/html/app
-# RUN ["cat", "./homepage.conf"]
+
 # 80 포트 오픈
 EXPOSE 443 80
 
