@@ -97,32 +97,55 @@
 # CMD ["nginx", "-g", "daemon off;"]
 
 ##############################
-FROM node:lts-alpine AS build-stage
+# FROM node:lts-alpine AS build-stage
+# WORKDIR /app
+# COPY package.json yarn.lock ./
+
+# RUN yarn install 
+
+# FROM node:lts-alpine AS builder
+# ENV NODE_ENV=production
+# WORKDIR /app
+# COPY . .
+# COPY --from=build-stage /app/node_modules ./node_modules
+# RUN yarn build
+
+# FROM node:lts-alpine AS runner
+# ARG X_TAG
+# WORKDIR /app
+# ENV NODE_ENV=production
+# COPY --from=builder /app/next.config.js ./
+# COPY --from=builder /app/public ./public
+# COPY --from=builder /app/.next ./.next
+# COPY --from=builder /app/node_modules ./node_modules
+# CMD ["node_modules/.bin/next", "start"]
+
+# FROM nginx:latest as production-stage 
+
+# COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
+# COPY --from=build-stage ./app /usr/share/nginx/html/app
+# EXPOSE 80 
+# CMD ["nginx", "-g", "daemon off;"]
+#################################
+# build react app, it should be /build
+# FROM node:12.2.0-alpine as build
+FROM node:lts-alpine as build
 WORKDIR /app
-COPY package.json yarn.lock ./
+COPY package.json /app/package.json
+RUN npm install --only=prod
+COPY . /app
+RUN npm run build
 
-RUN yarn install 
-
-FROM node:lts-alpine AS builder
-ENV NODE_ENV=production
-WORKDIR /app
-COPY . .
-COPY --from=build-stage /app/node_modules ./node_modules
-RUN yarn build
-
-FROM node:lts-alpine AS runner
-ARG X_TAG
-WORKDIR /app
-ENV NODE_ENV=production
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-CMD ["node_modules/.bin/next", "start"]
-
-FROM nginx:latest as production-stage 
-
-COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
-COPY --from=build-stage ./app /usr/share/nginx/html/app
-EXPOSE 80 
+# Creating nginx image and copy build folder from above
+# FROM nginx:1.16.0-alpine
+FROM nginx:stable-alpine
+RUN mkdir /usr/share/nginx/buffer
+COPY --from=build /app/.next /usr/share/nginx/buffer
+COPY --from=build /app/deploy.sh /usr/share/nginx/buffer
+RUN chmod +x /usr/share/nginx/buffer/deploy.sh
+RUN cd /usr/share/nginx/buffer && ./deploy.sh
+RUN mkdir /usr/share/nginx/log
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d
+EXPOSE 80 443
 CMD ["nginx", "-g", "daemon off;"]
