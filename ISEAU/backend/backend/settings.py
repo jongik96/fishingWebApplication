@@ -35,7 +35,7 @@ APPEND_SLASH = False # 추가 안해줄시 기본값이 True인데 그 경우 ur
 #이 경우 문제가 될 수 있기때문에 false로 값을 지정해줬다.
 
 # 아까 설치한 corsheaders로 해당 서버와 연결할 서버의 url을 작성해준모습
-CORS_ORIGIN_WHITELIST = ['https://j5d204.p.ssafy.io', 'https://localhost:3000', 'https://127.0.0.1']
+CORS_ORIGIN_WHITELIST = ['https://52.78.112.199', 'https://j5d204.p.ssafy.io', 'https://localhost:3000', 'https://127.0.0.1']
 
 # Application definition
 
