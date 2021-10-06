@@ -152,6 +152,22 @@
 # EXPOSE 80 443
 # CMD ["nginx", "-g", "daemon off;"]
 #################################
+# Base on offical Node.js Alpine image
+FROM node:latest as builder
+
+# Set working directory
+WORKDIR /usr/app
+
+# Copy package.json and package-lock.json before other files
+# Utilise Docker cache to save re-installing dependencies if unchanged
+COPY package.json ./
+COPY yarn.lock ./
+
+# Install dependencies
+RUN yarn install --frozen-lockfile
+
+# Copy all files
+COPY ./ ./
 # Build app
 RUN yarn build
 
