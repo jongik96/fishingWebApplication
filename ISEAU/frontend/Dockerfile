@@ -132,9 +132,11 @@
 FROM node:lts-alpine as build
 WORKDIR /app
 COPY package.json /app/package.json
-RUN npm install --only=prod
+# RUN npm install --only=prod
+RUN yarn install --only=prod
 COPY . /app
-RUN npm run build
+# RUN npm run build
+RUN yarn build
 
 # Creating nginx image and copy build folder from above
 # FROM nginx:1.16.0-alpine
