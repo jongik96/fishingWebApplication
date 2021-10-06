@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'rest_framework_jwt', # 추가
     'corsheaders', # 추가
     'drf_yasg', # 추가
+    'sslserver', # 추가
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -188,3 +189,9 @@ EMAIL_HOST = my_settings.EMAIL['EMAIL_HOST']
 EMAIL_HOST_USER = my_settings.EMAIL['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = my_settings.EMAIL['EMAIL_HOST_PASSWORD']
 SERVER_EMAIL = my_settings.EMAIL['SERVER_EMAIL']
+
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
