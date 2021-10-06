@@ -45,10 +45,10 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 RUN ["pwd"]
 RUN ["ls"]
-COPY /homepage.conf /etc/nginx/conf.d/homepage.conf
+COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
 
 COPY --from=builder /app/.next /usr/share/nginx/html/app
-RUN ["cat", "/homepage.conf"]
+RUN ["cat", "./homepage.conf"]
 # 80 포트 오픈
 EXPOSE 443 80
 
