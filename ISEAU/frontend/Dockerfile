@@ -45,7 +45,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 
 RUN ["pwd"]
 RUN ["ls"]
-COPY ./app/homepage.conf /etc/nginx/conf.d/homepage.conf
+COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
 
 COPY --from=builder /app/.next /usr/share/nginx/html/app
 RUN ["cat", "./app/homepage.conf"]
