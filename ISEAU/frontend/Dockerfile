@@ -108,6 +108,6 @@ RUN yarn build
 FROM nginx:latest as production-stage 
 
 COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
-COPY --from=build-stage ./app/build /usr/share/nginx/html/app
+COPY --from=build-stage ./app /usr/share/nginx/html/app
 EXPOSE 80 
 CMD ["nginx", "-g", "daemon off;"]
