@@ -199,5 +199,5 @@ COPY --from=builder /usr/app/node_modules ./node_modules
 ADD supervisor.conf /etc/supervisor.conf
 
 # replace $PORT in nginx config (provided by executior) and start supervisord (run nextjs and nginx)
-CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/conf.d/default.conf && \
+CMD sed -i -e 's/$PORT/80/g' /etc/nginx/conf.d/default.conf && \
   supervisord -c /etc/supervisor.conf
