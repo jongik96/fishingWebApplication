@@ -86,7 +86,11 @@ COPY --from=builder /opt/app/public ./public
 COPY --from=builder /opt/app/.next ./.next
 COPY --from=builder /opt/app/node_modules ./node_modules
 
+FROM nginx:latest AS production-stage
+RUN rm /etc/nginx/conf.d/default.conf
+COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
+
 EXPOSE 443 80
 
 CMD ["node_modules/.bin/next", "start"]
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
