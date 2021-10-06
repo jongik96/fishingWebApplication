@@ -177,7 +177,7 @@ FROM nginx:latest as production-stage
 
 COPY ./nginx/homepage.conf /etc/nginx/conf.d/homepage.conf
 
-COPY --from=builder /app/.next /usr/share/nginx/html/app/.next
+COPY --from=builder /app/.next/ /usr/share/nginx/html/app/
 
 # 80 포트 오픈
 EXPOSE 443 
