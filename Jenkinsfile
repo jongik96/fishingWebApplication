@@ -1,7 +1,7 @@
 // 젠킨스 파이프라인 플러그인을 호출하기 위한 블록
 pipeline {
 	// 파이프라인을 실행하고 싶은 위치 정의
-	agent none
+	agent any
 	// gitlab의 소스를 jenkins 디렉토리로 내려받을 시
 	// skipDefaultCheckout(true)일 경우 내려받는 프로세스 skip
 	// skipDefaultCheckout(false)일 경우 gitlab 소스 체크
