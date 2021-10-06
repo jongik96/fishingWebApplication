@@ -19,16 +19,15 @@ class Fishing(models.Model):
     category = models.IntegerField()
     longitude = models.CharField(max_length=100) #longitude
     latitude = models.CharField(max_length=100) #latitude
-    tide = models.CharField(max_length=100)
     dpwt = models.CharField(max_length=100)
-    material = models.CharField(max_length=100)
-    fishingimg = ProcessedImageField(
-        upload_to="images/fishing/",
-        options={"quality": 60},
-        default="fishingdefault.png",
-    )
-    obsCode = models.CharField(max_length=100)
-    obsPostId = models.CharField(max_length=100)
+    material = models.CharField(max_length=500)
+    fishingImg = models.CharField(max_length=500)
+    obsCode = models.CharField(max_length=500)
+    obsPostId = models.CharField(max_length=500)
+    caution = models.CharField(max_length=500)
+    locInfo = models.CharField(max_length=500)
+    nearPointName = models.CharField(max_length=500)
+    fish = models.CharField(max_length=500)
 
 class Scrap(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
