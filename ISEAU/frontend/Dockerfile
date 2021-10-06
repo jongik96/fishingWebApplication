@@ -43,7 +43,7 @@ FROM nginx:latest AS production-stage
 
 RUN rm /etc/nginx/conf.d/default.conf
 
-COPY ./homepage.conf /etc/nginx/conf.d
+COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
 
 COPY --from=builder /app/.next /usr/share/nginx/html/app
 
