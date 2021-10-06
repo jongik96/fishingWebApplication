@@ -88,8 +88,8 @@ COPY --from=builder /opt/app/node_modules ./node_modules
 
 
 # FROM nginx:latest AS production-stage
-RUN rm /etc/nginx/conf.d/default.conf
-COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
+# RUN rm /etc/nginx/conf.d/default.conf
+# COPY ./homepage.conf /etc/nginx/conf.d/homepage.conf
 
 EXPOSE 443 80
 
