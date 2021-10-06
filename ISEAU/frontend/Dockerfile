@@ -39,9 +39,15 @@ USER nextjs
 
 FROM nginx:latest AS production-stage
 
-COPY ./nginx/homepage.conf /etc/nginx/conf.d/homepage.conf
+RUN mkdir ./build
 
-COPY --from=build-stage ./.next /usr/share/nginx/html/app/.next
+ADD ./.next ./build
+
+RUN rm /etc/nginx/conf.d/default.conf
+
+COPY ./homepage.conf /etc/nginx/conf.d
+
+# COPY --from=build-stage ./.next /usr/share/nginx/html/app
 
 # 80 포트 오픈
 EXPOSE 443 80
