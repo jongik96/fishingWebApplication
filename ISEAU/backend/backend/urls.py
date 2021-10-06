@@ -46,9 +46,9 @@ urlpatterns = [
     url(r'swagger', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path(r'redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc-v1'),
     # django 앱 
-    path('user/', include('user.urls')),
-    path('fishing/', include('fishing.urls')),
-    path('recommend/', include('recommend.urls')),
+    path('api/user/', include('user.urls')),
+    path('api/fishing/', include('fishing.urls')),
+    path('api/recommend/', include('recommend.urls')),
 ]
 urlpatterns += \
     static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
