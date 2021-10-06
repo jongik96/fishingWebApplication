@@ -41,7 +41,7 @@ FROM nginx:latest AS production-stage
 
 RUN mkdir ./build
 
-ADD ./.next ./build
+ADD /app/.next ./build
 
 RUN rm /etc/nginx/conf.d/default.conf
 
