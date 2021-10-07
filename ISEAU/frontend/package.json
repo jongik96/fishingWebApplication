@@ -36,6 +36,7 @@
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
+    "sharp": "^0.29.1",
     "tailwind-scrollbar-hide": "^1.0.3",
     "yarn": "^1.22.11"
   },
