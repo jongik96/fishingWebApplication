@@ -120,6 +120,7 @@ const DetailPoint = () => {
         console.log(error);
       });
   };
+
   //현재 포인트의 리뷰 받아오기
   const getReview = async () => {
     await axios({
@@ -128,10 +129,30 @@ const DetailPoint = () => {
       method: "GET",
     })
       .then(async (response) => {
-        // console.log(response.data);
+        console.log("dd");
+        console.log(response);
         // 내가 쓴 글이 있는지 체크
         let check = true;
-        if (response.data.length === 0) {
+        if (response.status === 204) {
+          // 리뷰가 없을 때
+          setReview({
+            createdAt: null,
+            id: null,
+            rating: null,
+            reviewContent: null,
+            nickname: null,
+            username: null,
+          });
+          let temp = [];
+          setReviewArr(temp);
+        } else {
+          let check = true;
+          response.data?.forEach((element) => {
+            if (element.username === user.username) {
+              setReview(element);
+              check = false;
+            }
+          });
           if (check) {
             setReview({
               createdAt: null,
@@ -141,28 +162,9 @@ const DetailPoint = () => {
               nickname: null,
               username: null,
             });
-            setReviewArr([]);
           }
-          return;
+          setReviewArr(response.data);
         }
-        response.data?.forEach((element) => {
-          if (element.username === user.username) {
-            setReview(element);
-            check = false;
-          }
-          if (check) {
-            setReview({
-              createdAt: null,
-              id: null,
-              rating: null,
-              reviewContent: null,
-              nickname: null,
-              username: null,
-            });
-            setReviewArr([]);
-          }
-        });
-        if (!check) await setReviewArr(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -194,6 +196,7 @@ const DetailPoint = () => {
   // 리뷰 5개 렌더링
   const rendering = () => {
     const result = [];
+    console.log(reviewArr);
     if (reviewArr[0] === undefined) return;
     const size = Math.min(5, reviewArr[0].length);
     for (let i = 0; i < size; i++) {
