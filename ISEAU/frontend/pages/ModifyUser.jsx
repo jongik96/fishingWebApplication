@@ -6,26 +6,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import * as userAction from "../store/modules/user";
 const ModifyUser = () => {
-  const [inputs, setInputs] = useState({
-    Email: "",
-    Password: "",
-    Nickname: "",
-    Address: "",
-    PhoneNumber: "",
-    PasswordConfirm: "",
-    introduce: "",
-    profileImg: "",
-  });
-  const {
-    Email,
-    Password,
-    PasswordConfirm,
-    Nickname,
-    Address,
-    PhoneNumber,
-    introduce,
-    profileImg,
-  } = inputs; // 비구조화 할당을 통해 값 추출
+
 
     const [isNicknameRight, setIsNicknameRight] = useState(false);
 
@@ -35,13 +16,6 @@ const ModifyUser = () => {
     const em = useSelector(state => state.user.username)
     const nn = useSelector(state => state.user.nickname)
     const it = useSelector(state => state.user.introduce)
-
-  // Nickname 유효성검사 특수문자 불가
-  const isNickname = (Nickname) => {
-    const nicknameRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-    return nicknameRegex.test(Nickname);
-  };
-
 
     const [isRight, setIsRight] = useState(false);
 
@@ -176,12 +150,10 @@ const ModifyUser = () => {
         }).catch((error)=> {
             console.log(error)
         })
-        .catch((error) => {
-          console.log(error);
-        });
+
     }
   };
-
+  const Delete = () => {
         let result = confirm("회원정보를 삭제하시겠습니까?")
         if(result == true){
             const token = sessionStorage.getItem('is_login')
@@ -326,6 +298,6 @@ const ModifyUser = () => {
       </div>
     </div>
   );
-
+}
 
 export default ModifyUser;
