@@ -234,7 +234,6 @@ class autoFish(APIView):
 class nearFishing(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    @swagger_auto_schema(request_body=NearInputSerializer)
     def get(self, request, longitude, latitude):
         # lon = float(request.data['longitude'])
         # lat = float(request.data['latitude'])

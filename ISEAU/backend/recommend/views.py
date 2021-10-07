@@ -19,12 +19,8 @@ from haversine import haversine
 class recommendList(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    @swagger_auto_schema(request_body=NearInputSerializer)
     def get(self, request, userId, categoryId):
         user_reviews = Review.objects.filter(user_id=userId)
-        lon = float(request.data['longitude'])
-        lat = float(request.data['latitude'])
-        me = (lat, lon)
 
         if len(user_reviews) < 3:
             fishing_datas = Fishing.objects.all().annotate(reviewCnt=Count(
