@@ -33,7 +33,6 @@
     "react-redux": "^7.2.5",
     "react-scripts": "^4.0.3",
     "react-star-rating-component": "^1.4.1",
-    "read-more-more": "^1.0.3",
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-logger": "^3.0.6",
