@@ -76,7 +76,7 @@ const Signup = () => {
     axios({
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/signup",
-      // url: 'http://127.0.0.1:8000/user/signup',
+      //url: 'http://127.0.0.1:8000/user/signup',
       data: {
         username: inputs.Email,
         email: inputs.Email,
@@ -98,9 +98,15 @@ const Signup = () => {
     axios({
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/email/uniquecheck",
-      data: {
-        email: inputs.Email,
-      },
+      //url: 'http://127.0.0.1:8000/user/email/uniquecheck',
+      data:{
+        email:inputs.Email,
+        
+      }
+    }).then(()=>{
+      alert("사용가능한 Email입니다.")
+    }).catch(()=>{
+      alert("이미 사용중인 Email 입니다.")
     })
       .then(() => {
         alert("사용가능한 Email입니다.");
@@ -114,16 +120,17 @@ const Signup = () => {
     axios({
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/nickname/uniquecheck",
-      data: {
-        nickname: inputs.Nickname,
-      },
+      //url: 'http://127.0.0.1:8000/user/nickname/uniquecheck',
+      data:{
+        nickname:inputs.Nickname,
+        
+      }
+    }).then(()=>{
+      alert("사용가능한 Nickname입니다.")
+    }).catch(()=>{
+      alert("이미 사용중인 Nickname입니다.")
     })
-      .then(() => {
-        alert("사용가능한 Nickname입니다.");
-      })
-      .catch(() => {
-        alert("이미 사용중인 Nickname입니다.");
-      });
+
   };
   // 로그인페이지로 이동
 
@@ -216,15 +223,6 @@ const Signup = () => {
             </div>
             {/*footer*/}
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
-              <div>
-                <button
-                  className="text-yellow-500 background-transparent border-2 border-yellow-500 rounded-lg font-bold uppercase px-6 py-2 text-sm mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={Login}
-                >
-                  이미 계정이 있으신가요?
-                </button>
-              </div>
               <div className="mt-2">
                 <button
                   className={isRight ? `button_active` : `button_unactive`}
@@ -232,6 +230,15 @@ const Signup = () => {
                   onClick={Signup}
                 >
                   Sign Up
+                </button>
+              </div>
+              <div>
+                <button
+                  className="text-yellow-500 background-transparent border-2 border-yellow-500 rounded-lg font-bold uppercase px-6 py-2 text-sm mr-1 mb-1 ease-linear transition-all duration-150"
+                  type="button"
+                  onClick={Login}
+                >
+                  이미 계정이 있으신가요?
                 </button>
               </div>
             </div>

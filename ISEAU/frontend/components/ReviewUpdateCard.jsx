@@ -170,6 +170,7 @@ const ReviewUpdateCard = () => {
         rating={review.rating}
         date={review.createdAt}
         desc={review.reviewContent}
+        img={review.profileimg}
       />
 
       <div className=" w-full text-right space-x-2">
