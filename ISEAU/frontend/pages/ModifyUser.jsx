@@ -134,8 +134,8 @@ const ModifyUser = () => {
               }
         axios({
             method: "put",
-            //url: 'http://j5d204.p.ssafy.io:8000/user/modify/'+id,
-            url: 'http://127.0.0.1:8000/user/modify/'+id,
+            url: 'http://j5d204.p.ssafy.io:8000/user/modify/'+id,
+            //url: 'http://127.0.0.1:8000/user/modify/'+id,
             headers: {
                 'Content-Type': 'multipart/form-data',
                // "Authorization": `JWT ${token}`,
@@ -163,8 +163,8 @@ const ModifyUser = () => {
             const id = sessionStorage.getItem('id')
             axios({
                 method: "delete",
-                //url: 'http://j5d204.p.ssafy.io:8000/user/delete/'+id,
-                url: 'http://127.0.0.1:8000/user/delete/'+id,
+                url: 'http://j5d204.p.ssafy.io:8000/user/delete/'+id,
+                //url: 'http://127.0.0.1:8000/user/delete/'+id,
                 headers: {
                     Authorization: `JWT ${token}`
                 },

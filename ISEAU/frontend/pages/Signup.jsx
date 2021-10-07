@@ -74,8 +74,8 @@ const Signup = () => {
   const Signup = () => {
     axios({
       method: "post",
-      //url: "http://j5d204.p.ssafy.io:8000/user/signup",
-      url: 'http://127.0.0.1:8000/user/signup',
+      url: "http://j5d204.p.ssafy.io:8000/user/signup",
+      //url: 'http://127.0.0.1:8000/user/signup',
       data: {
         username: inputs.Email,
         email: inputs.Email,
