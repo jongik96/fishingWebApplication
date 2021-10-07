@@ -74,7 +74,7 @@ export default function Home() {
           img="https://c4.wallpaperflare.com/wallpaper/775/468/883/nature-landscape-mist-forest-wallpaper-preview.jpg"
           title="The best Fishing Info Service"
           description="We always with you"
-          buttonText="Get Inspired"
+          buttonText="I SEA U"
         />
       </main>
 

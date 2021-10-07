@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -8,20 +9,28 @@ const Footer = () => {
     >
       <div className="space-y-4 text-xs text-gray-800">
         <h5 className="font-bold">ABOUT</h5>
+        <a
+          className="pt-3"
+          target="_blank"
+          href="https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp"
+          rel="noreferrer"
+        >
+          <p className="mt-4">SSAFY 5th</p>
+        </a>
         <p>How we works</p>
         <p>Notice</p>
-        <p>SSAFY 5th</p>
       </div>
 
       <div className="space-y-4 text-xs text-gray-800">
         <h5 className="font-bold">COMMUNITY</h5>
+
         <p>Fishing Tips</p>
       </div>
 
       <div className="space-y-4 text-xs text-gray-800">
         <h5 className="font-bold">POINTS</h5>
         <p>By Location</p>
-        <p>By Fish Species</p>
+        <p>By User Ratings</p>
       </div>
 
       <div className="space-y-4 text-xs text-gray-800">
