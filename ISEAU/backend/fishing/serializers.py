@@ -5,9 +5,10 @@ from django.db import models
 
 # 낚시터 상세 목록
 
+
 class FishingSerializer(serializers.ModelSerializer):
     reviewCnt = serializers.IntegerField(default=0)
-    rating = serializers.FloatField(default=0)
+    rating = serializers.DecimalField(max_digits=2, decimal_places=1)
 
     class Meta:
         model = Fishing
@@ -15,7 +16,8 @@ class FishingSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    profileimg = serializers.ImageField(source="user.profileimg", required=False)
+    profileimg = serializers.ImageField(
+        source="user.profileimg", required=False)
     nickname = serializers.CharField(source="user.nickname", required=False)
     username = serializers.CharField(source="user.username")
 
@@ -30,6 +32,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             "profileimg",
             "username",
         )
+
 
 class ReviewUpdateSerializer(serializers.ModelSerializer):
     profileimg = serializers.ImageField(required=False)
@@ -58,10 +61,28 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         )
 
 
-
 class CategorySerializer(serializers.ModelSerializer):
     reviewCnt = serializers.IntegerField()
     rating = serializers.DecimalField(max_digits=2, decimal_places=1)
+
+    class Meta:
+        model = Fishing
+        fields = "__all__"
+
+
+class NearInputSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Fishing
+        fields = (
+            "longitude",
+            "latitude",
+        )
+
+
+class FishingNearSerializer(serializers.ModelSerializer):
+    reviewCnt = serializers.IntegerField(default=0)
+    rating = serializers.DecimalField(max_digits=2, decimal_places=1)
+    distance = serializers.DecimalField(max_digits=5, decimal_places=1)
 
     class Meta:
         model = Fishing

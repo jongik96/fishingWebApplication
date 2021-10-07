@@ -177,7 +177,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #사용자가 업로드한 파일 �
 
 AUTH_USER_MODEL = 'user.User'
 
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 
 from . import my_settings
 EMAIL_BACKEND = my_settings.EMAIL['EMAIL_BACKEND']
@@ -188,4 +188,4 @@ EMAIL_HOST_USER = my_settings.EMAIL['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = my_settings.EMAIL['EMAIL_HOST_PASSWORD']
 SERVER_EMAIL = my_settings.EMAIL['SERVER_EMAIL']
 
-SECURE_SSL_REDIRECT = False
+# SECURE_SSL_REDIRECT = False
