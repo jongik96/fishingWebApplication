@@ -16,7 +16,6 @@ const ModifyUser = () => {
     introduce: "",
     profileImg: "",
   });
-  const [isNicknameRight, setIsNicknameRight] = useState(false);
   const {
     Email,
     Password,
