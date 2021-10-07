@@ -75,7 +75,7 @@ const ReviewWriteCard = () => {
         console.log(error);
       });
   };
-
+  //현재 포인트의 리뷰 받아오기
   const getReview = async () => {
     await axios({
       url: "http://j5d204.p.ssafy.io:8000/fishing/" + point.id + "/review",
@@ -83,14 +83,42 @@ const ReviewWriteCard = () => {
       method: "GET",
     })
       .then(async (response) => {
-        console.log(response.data);
+        console.log("dd");
+        console.log(response);
         // 내가 쓴 글이 있는지 체크
-        response.data.forEach((element) => {
-          if (element.username === user.username) {
-            setReview(element);
+        let check = true;
+        if (response.status === 204) {
+          // 리뷰가 없을 때
+          setReview({
+            createdAt: null,
+            id: null,
+            rating: null,
+            reviewContent: null,
+            nickname: null,
+            username: null,
+          });
+          let temp = [];
+          setReviewArr(temp);
+        } else {
+          let check = true;
+          response.data?.forEach((element) => {
+            if (element.username === user.username) {
+              setReview(element);
+              check = false;
+            }
+          });
+          if (check) {
+            setReview({
+              createdAt: null,
+              id: null,
+              rating: null,
+              reviewContent: null,
+              nickname: null,
+              username: null,
+            });
           }
-        });
-        await setReviewArr(response.data);
+          setReviewArr(response.data);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -103,7 +131,7 @@ const ReviewWriteCard = () => {
   return (
     <div className="my-2  p-2  ">
       <div className="flex flex-row  w-[350px]">
-        <Avatar className="post-avatar" />
+        <Avatar className="post-avatar" src={review.profileimg} />
         <p className="grid-rows-2">
           <p className="pl-2 text-sm ">{user.nickname}</p>
           {/* 로그인한 사용자 닉네임으로 수정필요 */}

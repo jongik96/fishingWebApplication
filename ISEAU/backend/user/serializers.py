@@ -1,11 +1,7 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-# from django.contrib.auth.models import User
-# from .models import User
 from django.contrib.auth import get_user_model
 from rest_framework.validators import UniqueValidator
-from rest_framework.response import Response
-from rest_framework import status
 
 User = get_user_model()
 

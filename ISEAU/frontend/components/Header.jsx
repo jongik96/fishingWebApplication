@@ -69,7 +69,7 @@ const Header = ({ placeholder }) => {
     console.log(id);
     const getData = async () => {
       const res = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
-      console.log(res.data[0]);
+      // console.log(res.data[0]);
       setDetailPoint(res.data[0]);
     };
     getData();
@@ -111,6 +111,11 @@ const Header = ({ placeholder }) => {
           type="text"
           placeholder={placeholder || "검색을 시작해볼까요 ?"}
           onChange={inputHandler}
+          onKeyPress={(e) => {
+            if (e.key == "Enter") {
+              search();
+            }
+          }}
         />
         <SearchIcon
           className="hidden md:inline-flex h-8 text-white bg-blue-300

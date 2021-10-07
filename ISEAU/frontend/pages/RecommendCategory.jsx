@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import RecommendCard from "../components/RecommendCard";
+import * as detailPointActions from "../store/modules/detailPoint";
 import fishingData from "../dummy/json/fishingDump.json";
 
 const RecommendCategory = () => {
@@ -18,18 +19,68 @@ const RecommendCategory = () => {
   const uid = useSelector((state) => state.user.id);
   const [recommData, setRecommData] = useState([]);
 
+  const [result, setResult] = useState([]);
+  const [item, setItem] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchMoreData = async () => {
+    setIsLoading(true);
+    setResult(result.concat(item.slice(0, 21)));
+    setItem(item.slice(21));
+    setIsLoading(false);
+  };
+
+  const _infiniteScroll = useCallback(() => {
+    let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+
+    let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+
+    let clientHeight = document.documentElement.clientHeight;
+    scrollHeight -= 100;
+    if (scrollTop + clientHeight >= scrollHeight && isLoading === false) {
+      fetchMoreData();
+    }
+  }, [isLoading]);
+
+  const getFetchData = async () => {
+    await axios
+      .get("http://j5d204.p.ssafy.io:8000/recommend/category/" + uid + "/" + cateParse)
+      .then((res) => {
+        let response = res.data;
+        // console.log(response);
+        setResult(response.slice(0, 21));
+        response = response.slice(21);
+        setItem(response);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  };
+
   useEffect(async () => {
     setCateParse(Number(category));
     setUserId(uid);
-    const response = await axios.get(
-      "http://j5d204.p.ssafy.io:8000/recommend/category/" + uid + "/" + cateParse
-    );
+    // 무한스크롤 전 api 호출방식
+    // const response = await axios.get(
+    //   "http://j5d204.p.ssafy.io:8000/recommend/category/" + uid + "/" + cateParse
+    // );
 
-    console.log(response.data);
-    setRecommData(response.data);
+    // console.log(response.data);
+    // setRecommData(response.data);
 
     // console.log(cateParse + " " + typeof cateParse);
-  }, [cateParse, userId, recommData]);
+  }, [cateParse, userId, category]);
+
+  useEffect(() => {
+    getFetchData();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", _infiniteScroll, true);
+    return () => window.removeEventListener("scroll", _infiniteScroll, true);
+  }, [_infiniteScroll]);
+
   const Routing = (value) => {
     router.push({
       pathname: "/RecommendCategory",
@@ -39,7 +90,10 @@ const RecommendCategory = () => {
     });
   };
   const HandlerSelected = (value) => {
+    // console.log(value);
     setCateParse(value);
+    getFetchData();
+
     Routing(value);
   };
 
@@ -91,7 +145,7 @@ const RecommendCategory = () => {
         </section>
         <section className="pt-5">
           <div className="flex flex-wrap -mx-1 overflow-hidden md:-mx-2 lg:-mx-4 xl:-mx-2">
-            {recommData.map(({ id, fishingimg, pointname, address, rating, category }) => (
+            {result.map(({ id, fishingImg, pointName, address, rating, category }) => (
               <div
                 className="my-5 px-9 w-full overflow-hidden md:my-2 md:px-2 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2 xl:my-2 xl:px-2 xl:w-1/3"
                 onClick={() => {
@@ -101,8 +155,8 @@ const RecommendCategory = () => {
                 <RecommendCard
                   key={id}
                   id={id}
-                  fishingimg={fishingimg}
-                  pointname={pointname}
+                  fishingimg={fishingImg}
+                  pointName={pointName}
                   address={address}
                   rating={rating}
                   category={category}

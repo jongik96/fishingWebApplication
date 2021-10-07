@@ -1,11 +1,32 @@
 import axios from "axios";
 import { useRouter } from "next/dist/client/router";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import * as userAction from "../store/modules/user";
 const ModifyUser = () => {
+  const [inputs, setInputs] = useState({
+    Email: "",
+    Password: "",
+    Nickname: "",
+    Address: "",
+    PhoneNumber: "",
+    PasswordConfirm: "",
+    introduce: "",
+    profileImg: "",
+  });
+  const [isNicknameRight, setIsNicknameRight] = useState(false);
+  const {
+    Email,
+    Password,
+    PasswordConfirm,
+    Nickname,
+    Address,
+    PhoneNumber,
+    introduce,
+    profileImg,
+  } = inputs; // 비구조화 할당을 통해 값 추출
 
     const [isNicknameRight, setIsNicknameRight] = useState(false);
 
@@ -16,6 +37,11 @@ const ModifyUser = () => {
     const nn = useSelector(state => state.user.nickname)
     const it = useSelector(state => state.user.introduce)
 
+  // Nickname 유효성검사 특수문자 불가
+  const isNickname = (Nickname) => {
+    const nicknameRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+    return nicknameRegex.test(Nickname);
+  };
 
 
     const [isRight, setIsRight] = useState(false);
@@ -151,11 +177,11 @@ const ModifyUser = () => {
         }).catch((error)=> {
             console.log(error)
         })
+        .catch((error) => {
+          console.log(error);
+        });
     }
-    }    
-
-    // delete User
-    const Delete = () => {
+  };
 
         let result = confirm("회원정보를 삭제하시겠습니까?")
         if(result == true){
@@ -180,28 +206,25 @@ const ModifyUser = () => {
         }
     }
 
-    const router = useRouter();
-    // 취소버튼
-    const Login = () =>{
-        sessionStorage.removeItem('pw')
-        router.push({
-            pathname: "/",
-        })
-    }
+
+  const router = useRouter();
+  // 취소버튼
+  const Login = () => {
+    sessionStorage.removeItem("pw");
+    router.push({
+      pathname: "/",
+    });
+  };
   return (
     <div>
-        <Header/>
-        <div
-        className=""
-        >
+      <Header />
+      <div className="">
         <div className="relative w-2/5 my-6 mx-auto max-w-3xl">
-        {/*content*/}
-        <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full">
+          {/*content*/}
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full">
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-            <h3 className="text-3xl font-semibold">
-                Modify
-            </h3>
+              <h3 className="text-3xl font-semibold">Modify</h3>
             </div>
             {/*body*/}
             <div className="relative p-6 flex-auto">
@@ -255,13 +278,13 @@ const ModifyUser = () => {
             { isNickname(userInfo.nickname) && (
                 <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
               )}
-            <button
-                  className={isNicknameRight ? `checkbutton_active` : `checkbutton_unactive`}
-                  type="button"
-                  onClick={checkNickname}
-                >
-                  중복검사
-                </button>
+              <button
+                className={isNicknameRight ? `checkbutton_active` : `checkbutton_unactive`}
+                type="button"
+                onClick={checkNickname}
+              >
+                중복검사
+              </button>
 
             {/*Introduce*/}
             <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
@@ -299,12 +322,11 @@ const ModifyUser = () => {
                     </button>
                 </div>
             </div>
+          </div>
         </div>
-        </div>
-    </div>
+      </div>
     </div>
   );
-};
+
 
 export default ModifyUser;
-
