@@ -5,8 +5,7 @@ const reviewArrSlice = createSlice({
   initialState,
   reducers: {
     setReviewArr: (state, action) => {
-      state.splice(0);
-      state.push(action.payload);
+      return [action.payload];
     },
   },
 });
