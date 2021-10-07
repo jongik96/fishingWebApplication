@@ -108,12 +108,7 @@ const Signup = () => {
     }).catch(()=>{
       alert("이미 사용중인 Email 입니다.")
     })
-      .then(() => {
-        alert("사용가능한 Email입니다.");
-      })
-      .catch(() => {
-        alert("이미 사용중인 Email 입니다.");
-      });
+
   };
   // nickname 유효성검사
   const checkNickname = () => {
