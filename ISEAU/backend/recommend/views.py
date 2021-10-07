@@ -17,10 +17,16 @@ class recommendList(APIView):
         user_reviews = Review.objects.filter(user_id=userId)
 
         if len(user_reviews) < 3:
-            fishing_datas = Fishing.objects.all().annotate(reviewCnt=Count(
-                'review__fishing_id')).annotate(rating=Avg('review__rating')).order_by('-rating')
-            serializer_data = FishingSerializer(fishing_datas, many=True).data
-            return Response(serializer_data)
+            if categoryId == 2:
+                fishing_datas = Fishing.objects.all().annotate(reviewCnt=Count(
+                    'review__fishing_id')).annotate(rating=Avg('review__rating')).order_by('-rating')
+                serializer_data = FishingSerializer(fishing_datas, many=True).data
+                return Response(serializer_data)
+            else:
+                fishing_datas = Fishing.objects.filter(category=categoryId).annotate(reviewCnt=Count(
+                    'review__fishing_id')).annotate(rating=Avg('review__rating')).order_by('-rating')
+                serializer_data = FishingSerializer(fishing_datas, many=True).data
+                return Response(serializer_data)
 
         else:
             fishing_datas = Fishing.objects.values()
@@ -114,7 +120,7 @@ class recommendList(APIView):
             else:
                 finaldata = Fishing.objects.filter(id__in=fishing_list).annotate(
                     reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
-                    
+
             serializer_data = RecommendSerializer(finaldata, many=True).data
 
             # sort_datas
