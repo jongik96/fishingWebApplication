@@ -1,31 +1,15 @@
-# from backend.backend.text import message
-# from sub2.backend.fishing.serializers import ReviewSerializer
-import re
-from django.contrib import auth
-from django.core.exceptions import ValidationError
-from django.http.response import JsonResponse
-from django.shortcuts import redirect, render, get_object_or_404
-# Create your views here.
-from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from rest_framework import permissions, status, generics
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken, EmailUniqueCheckSerializer, NicknameUniqueCheckSerializer, SignupSerializer
+from .serializers import *
 from .models import User
 from rest_framework import status
 from fishing.models import Review
 from fishing.serializers import ReviewSerializer
-# from my_settings import EMAIL
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.core.mail import EmailMessage
-from django.utils.encoding import force_bytes, force_text
-from django.contrib.auth import authenticate
-from django.db.models import Q
-from rest_framework.permissions import IsAuthenticated
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.hashers import make_password
 from drf_yasg.utils import swagger_auto_schema
+# Create your views here.
 
 
 class current_user(APIView):
@@ -73,8 +57,7 @@ class EmailUniqueCheck(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = EmailUniqueCheckSerializer
     def post(self, request, format=None):
-        print(request.data)
-        serializer = self.get_serializer(data=request.data) #, context={'request': request})
+        serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             return Response(data={'detail':['You can use this Email']}, status=status.HTTP_200_OK)
         else:

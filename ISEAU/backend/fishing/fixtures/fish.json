@@ -4,9 +4,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uac00\ub9ac\ube44",
-            "mean": "\uc7a0\uc218",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\uc7a0\uc218"
         }
     },
     {
@@ -14,9 +12,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uac00\ubb34\ub77d(\ubaa8\uc2dc\uc870\uac1c)",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -24,9 +20,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uac00\uc790\ubbf8",
-            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c",
-            "celMin": 15,
-            "celMax": 20
+            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c"
         }
     },
     {
@@ -34,9 +28,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uac04\uc7ac\ubbf8",
-            "mean": "\uc6d0\ud22c",
-            "celMin": 7,
-            "celMax": 11
+            "mean": "\uc6d0\ud22c"
         }
     },
     {
@@ -44,9 +36,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uac08\uce58",
-            "mean": "\ub8e8\uc5b4",
-            "celMin": 16,
-            "celMax": 18
+            "mean": "\ub8e8\uc5b4"
         }
     },
     {
@@ -54,9 +44,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uac10\uc131\ub3d4",
-            "mean": "\ub9b4\ucc0c,\uc7a5\ub300,\uc6d0\ud22c",
-            "celMin": 17,
-            "celMax": 19
+            "mean": "\ub9b4\ucc0c,\uc7a5\ub300,\uc6d0\ud22c"
         }
     },
     {
@@ -64,9 +52,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uac11\uc624\uc9d5\uc5b4",
-            "mean": "\uc5d0\uae45",
-            "celMin": 13,
-            "celMax": 16
+            "mean": "\uc5d0\uae45"
         }
     },
     {
@@ -74,9 +60,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uac1c\ubd88",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -84,9 +68,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uac8c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -94,9 +76,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uace0\ub3d9",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -104,9 +84,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uace0\ub4f1\uc5b4",
-            "mean": "\uc7a5\ub300,\ub9b4\ucc0c,\ub8e8\uc5b4",
-            "celMin": 15,
-            "celMax": 16
+            "mean": "\uc7a5\ub300,\ub9b4\ucc0c,\ub8e8\uc5b4"
         }
     },
     {
@@ -114,9 +92,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uad11\uc5b4",
-            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c",
-            "celMin": 12,
-            "celMax": 16
+            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c"
         }
     },
     {
@@ -124,9 +100,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uad74",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -134,9 +108,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uae4c\ub9c9\uc870\uac1c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -144,9 +116,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uaf2c\ub9c9",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -154,9 +124,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uaf2c\uc2dc\ub798\uae30",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -164,9 +132,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uaf34\ub69c\uae30",
-            "mean": "\uc5d0\uae45, \ub8e8\uc5b4",
-            "celMin": 11,
-            "celMax": 13
+            "mean": "\uc5d0\uae45, \ub8e8\uc5b4"
         }
     },
     {
@@ -174,9 +140,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uaf41\uce58",
-            "mean": "\ub9b4\ucc0c,\uc7a5\ub300",
-            "celMin": 17,
-            "celMax": 18
+            "mean": "\ub9b4\ucc0c,\uc7a5\ub300"
         }
     },
     {
@@ -184,9 +148,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uaf43\uac8c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -194,9 +156,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub099\uc9c0",
-            "mean": "\uc5d0\uae45, \ud574\ub8e8\uc9c8",
-            "celMin": 17,
-            "celMax": 18
+            "mean": "\uc5d0\uae45, \ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -204,9 +164,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub119\uce58",
-            "mean": "\ub8e8\uc5b4,\uc6d0\ud22c",
-            "celMin": 17,
-            "celMax": 19
+            "mean": "\ub8e8\uc5b4,\uc6d0\ud22c"
         }
     },
     {
@@ -214,9 +172,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub178\ub798\ubbf8",
-            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c,\uc7a5\ub300,\uc6d0\ud22c",
-            "celMin": 12,
-            "celMax": 20
+            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c,\uc7a5\ub300,\uc6d0\ud22c"
         }
     },
     {
@@ -224,9 +180,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub18d\uac8c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -234,9 +188,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub18d\uc5b4",
-            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c",
-            "celMin": 18,
-            "celMax": 20
+            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c"
         }
     },
     {
@@ -244,9 +196,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub2e4\uae08\ubc14\ub9ac",
-            "mean": "\uc6d0\ud22c",
-            "celMin": 19,
-            "celMax": 22
+            "mean": "\uc6d0\ud22c"
         }
     },
     {
@@ -254,9 +204,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub3c4\ub2e4\ub9ac",
-            "mean": "\uc6d0\ud22c",
-            "celMin": 14,
-            "celMax": 16
+            "mean": "\uc6d0\ud22c"
         }
     },
     {
@@ -264,9 +212,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub3c5\uac00\uc2dc\uce58",
-            "mean": "\ubaa9\uc904,\uc7a5\ub300,\ubd80\ub825,\uc7a0\uc218",
-            "celMin": 21,
-            "celMax": 23
+            "mean": "\ubaa9\uc904,\uc7a5\ub300,\ubd80\ub825,\uc7a0\uc218"
         }
     },
     {
@@ -274,9 +220,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub3cc\uac8c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -284,9 +228,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub3cc\ub3d4",
-            "mean": "\uc7a5\ub300,\ub9b4\ucc0c,\uc6d0\ud22c",
-            "celMin": 17,
-            "celMax": 20
+            "mean": "\uc7a5\ub300,\ub9b4\ucc0c,\uc6d0\ud22c"
         }
     },
     {
@@ -294,9 +236,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub3d9\uc8fd",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -304,9 +244,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub9db",
-            "mean": "",
-            "celMin": "",
-            "celMax": ""
+            "mean": ""
         }
     },
     {
@@ -314,9 +252,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub9db\uc870\uac1c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -324,9 +260,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub9dd\ub451\uc5b4",
-            "mean": "\uc6d0\ud22c",
-            "celMin": 12,
-            "celMax": 22
+            "mean": "\uc6d0\ud22c"
         }
     },
     {
@@ -334,9 +268,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub9dd\ub465\uc5b4",
-            "mean": "\ub9b4\ucc0c,\uc7a5\ub300",
-            "celMin": 12,
-            "celMax": 22
+            "mean": "\ub9b4\ucc0c,\uc7a5\ub300"
         }
     },
     {
@@ -344,9 +276,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ub9dd\uc0c1\uc5b4",
-            "mean": "\ub9b4\ucc0c,\uc7a5\ub300",
-            "celMin": 15,
-            "celMax": 22
+            "mean": "\ub9b4\ucc0c,\uc7a5\ub300"
         }
     },
     {
@@ -354,9 +284,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uba78\uce58",
-            "mean": "\uadf8\ubb3c",
-            "celMin": 22,
-            "celMax": 24
+            "mean": "\uadf8\ubb3c"
         }
     },
     {
@@ -364,9 +292,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uba85\uc8fc\uc870\uac1c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -374,9 +300,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubaa8\uc2dc\uc870\uac1c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -384,9 +308,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubb34\ub2ac\uc624\uc9d5\uc5b4",
-            "mean": "\uc5d0\uae45",
-            "celMin": 20,
-            "celMax": 30
+            "mean": "\uc5d0\uae45"
         }
     },
     {
@@ -394,9 +316,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubb38\uc5b4",
-            "mean": "\ub8e8\uc5b4",
-            "celMin": 17,
-            "celMax": 23
+            "mean": "\ub8e8\uc5b4"
         }
     },
     {
@@ -404,9 +324,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubbfc\uaf43\uac8c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -414,9 +332,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubbfc\uc5b4",
-            "mean": "\ub8e8\uc5b4,\uc9c0\uae45,\uc6d0\ud22c",
-            "celMin": 18,
-            "celMax": 25
+            "mean": "\ub8e8\uc5b4,\uc9c0\uae45,\uc6d0\ud22c"
         }
     },
     {
@@ -424,9 +340,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubc14\uc9c0\ub77d",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -434,9 +348,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubc15\ud558\uc9c0",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -444,9 +356,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubc29\uc5b4",
-            "mean": "\ubd80\ub825,\uc7a0\uc218,\uc9c0\uae45",
-            "celMin": 18,
-            "celMax": 20
+            "mean": "\ubd80\ub825,\uc7a0\uc218,\uc9c0\uae45"
         }
     },
     {
@@ -454,9 +364,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubc31\uc870\uae30",
-            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c",
-            "celMin": 16,
-            "celMax": 24
+            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c"
         }
     },
     {
@@ -464,9 +372,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubc31\ud569",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -474,9 +380,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubca4\uc790\ub9ac",
-            "mean": "\ub9b4\ucc0c,\ubbfc\uc7a5\ub300",
-            "celMin": 19,
-            "celMax": 21
+            "mean": "\ub9b4\ucc0c,\ubbfc\uc7a5\ub300"
         }
     },
     {
@@ -484,9 +388,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubcb5\uc5d0\ub3d4",
-            "mean": "\ubaa9\uc904,\uc7a5\ub300,\ubd80\ub825,\uc7a0\uc218",
-            "celMin": 15,
-            "celMax": 22
+            "mean": "\ubaa9\uc904,\uc7a5\ub300,\ubd80\ub825,\uc7a0\uc218"
         }
     },
     {
@@ -494,9 +396,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubcf4\uad6c\uce58",
-            "mean": "\uc6d0\ud22c",
-            "celMin": 18,
-            "celMax": 20
+            "mean": "\uc6d0\ud22c"
         }
     },
     {
@@ -504,9 +404,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubcf4\ub9ac\uba78",
-            "mean": "\uc6d0\ud22c",
-            "celMin": 20,
-            "celMax": 24
+            "mean": "\uc6d0\ud22c"
         }
     },
     {
@@ -514,9 +412,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubcf4\ub9ac\uba85",
-            "mean": "\uc6d0\ud22c",
-            "celMin": 20,
-            "celMax": 24
+            "mean": "\uc6d0\ud22c"
         }
     },
     {
@@ -524,9 +420,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubcf4\ub9d0",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -534,9 +428,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubcf5\uc5b4",
-            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c,\ub8e8\uc5b4",
-            "celMin": 12,
-            "celMax": 18
+            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c,\ub8e8\uc5b4"
         }
     },
     {
@@ -544,9 +436,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubcfc\ub77d",
-            "mean": "\ub9b4\ucc0c,\uc7a5\ub300,\ub8e8\uc5b4",
-            "celMin": 13,
-            "celMax": 15
+            "mean": "\ub9b4\ucc0c,\uc7a5\ub300,\ub8e8\uc5b4"
         }
     },
     {
@@ -554,9 +444,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubd80\uc138",
-            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c",
-            "celMin": 16,
-            "celMax": 24
+            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c"
         }
     },
     {
@@ -564,9 +452,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubd80\uc2dc",
-            "mean": "",
-            "celMin": "",
-            "celMax": ""
+            "mean": ""
         }
     },
     {
@@ -574,9 +460,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubd80\uc2dc\ub9ac",
-            "mean": "\ubd80\ub825,\uc7a0\uc218,\uc9c0\uae45",
-            "celMin": 17,
-            "celMax": 20
+            "mean": "\ubd80\ub825,\uc7a0\uc218,\uc9c0\uae45"
         }
     },
     {
@@ -584,9 +468,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubd89\uc740\ubcfc\ub77d",
-            "mean": "\ub9b4\ucc0c,\uc7a5\ub300,\ub8e8",
-            "celMin": 13,
-            "celMax": 15
+            "mean": "\ub9b4\ucc0c,\uc7a5\ub300,\ub8e8"
         }
     },
     {
@@ -594,9 +476,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubd95\uc7a5\uc5b4",
-            "mean": "\uc6d0\ud22c",
-            "celMin": 17,
-            "celMax": 23
+            "mean": "\uc6d0\ud22c"
         }
     },
     {
@@ -604,9 +484,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ube44\ub2e8\uace0\ub465",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -614,9 +492,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ubfd4\uc18c\ub77c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -624,9 +500,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc0b4\uc624\uc9d5\uc5b4",
-            "mean": "\uc5d0\uae45",
-            "celMin": 12,
-            "celMax": 19
+            "mean": "\uc5d0\uae45"
         }
     },
     {
@@ -634,9 +508,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc0bc",
-            "mean": "",
-            "celMin": "",
-            "celMax": ""
+            "mean": ""
         }
     },
     {
@@ -644,9 +516,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc0bc\uce58",
-            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c",
-            "celMin": 18,
-            "celMax": 21
+            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c"
         }
     },
     {
@@ -654,9 +524,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc11c\ub300",
-            "mean": "\uc6d0\ud22c,\ub8e8\uc5b4",
-            "celMin": 8,
-            "celMax": 10
+            "mean": "\uc6d0\ud22c,\ub8e8\uc5b4"
         }
     },
     {
@@ -664,9 +532,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc131\uac8c",
-            "mean": "\uc7a0\uc218",
-            "celMin": 6,
-            "celMax": 8
+            "mean": "\uc7a0\uc218"
         }
     },
     {
@@ -674,9 +540,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc18c\ub77c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -684,9 +548,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc22d\uc5b4",
-            "mean": "\ub9b4\ucc0c,\uc7a5\ub300,\ud6cc\uce58\uae30",
-            "celMin": 14,
-            "celMax": 16
+            "mean": "\ub9b4\ucc0c,\uc7a5\ub300,\ud6cc\uce58\uae30"
         }
     },
     {
@@ -694,9 +556,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc3d9",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -704,9 +564,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc3e8\ubc45\uc774",
-            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c",
-            "celMin": 17,
-            "celMax": 23
+            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c"
         }
     },
     {
@@ -714,9 +572,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc591\ud0dc",
-            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c",
-            "celMin": 21,
-            "celMax": 23
+            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c"
         }
     },
     {
@@ -724,9 +580,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc5f4\uae30",
-            "mean": "\uc678\uc904",
-            "celMin": 12,
-            "celMax": 14
+            "mean": "\uc678\uc904"
         }
     },
     {
@@ -734,9 +588,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc6b0\ub7ed",
-            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c,\ub8e8\uc5b4",
-            "celMin": 12,
-            "celMax": 16
+            "mean": "\ub9b4\ucc0c,\uc6d0\ud22c,\ub8e8\uc5b4"
         }
     },
     {
@@ -744,9 +596,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc6b0\ub7ed\uc870\uac1c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -754,9 +604,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc790\ub9ac\ub3d4",
-            "mean": "\uc7a5\ub300,\uce74\ub4dc",
-            "celMin": 17,
-            "celMax": 18
+            "mean": "\uc7a5\ub300,\uce74\ub4dc"
         }
     },
     {
@@ -764,9 +612,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc7a5\uc5b4",
-            "mean": "\uc6d0\ud22c",
-            "celMin": 26,
-            "celMax": 27
+            "mean": "\uc6d0\ud22c"
         }
     },
     {
@@ -774,9 +620,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc804\uac31\uc774",
-            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c,\uc7a5\ub300",
-            "celMin": 15,
-            "celMax": 20
+            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c,\uc7a5\ub300"
         }
     },
     {
@@ -784,9 +628,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc804\ubcf5",
-            "mean": "\uc7a0\uc218,\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\uc7a0\uc218,\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -794,19 +636,15 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc804\uc5b4",
-            "mean": "\uc7a5\ub300",
-            "celMin": 16,
-            "celMax": 17
+            "mean": "\uc7a5\ub300"
         }
     },
-    {
+    { 
         "pk": "81",
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc8fc\uafb8\ubbf8",
-            "mean": "\ub8e8\uc5b4",
-            "celMin": 16,
-            "celMax": 20
+            "mean": "\ub8e8\uc5b4"
         }
     },
     {
@@ -814,9 +652,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc950\ub178\ub798\ubbf8",
-            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c,\uc7a5\ub300,\uc6d0\ud22c",
-            "celMin": 12,
-            "celMax": 20
+            "mean": "\ub8e8\uc5b4,\ub9b4\ucc0c,\uc7a5\ub300,\uc6d0\ud22c"
         }
     },
     {
@@ -824,9 +660,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc950\uce58",
-            "mean": "\uce74\ub4dc,\ud6cc\uce58\uae30",
-            "celMin": 14,
-            "celMax": 16
+            "mean": "\uce74\ub4dc,\ud6cc\uce58\uae30"
         }
     },
     {
@@ -834,9 +668,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc9c4\uace0\ub465",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -844,9 +676,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\uc9f1\ub6b1\uc5b4",
-            "mean": "\ud640\uce58\uae30",
-            "celMin": 16,
-            "celMax": 18
+            "mean": "\ud640\uce58\uae30"
         }
     },
     {
@@ -854,9 +684,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ucc38\ub3d4",
-            "mean": "\ubd80\ub825,\uc7a0\uc218",
-            "celMin": 18,
-            "celMax": 20
+            "mean": "\ubd80\ub825,\uc7a0\uc218"
         }
     },
     {
@@ -864,9 +692,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ud0a4\uc870\uac1c",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -874,9 +700,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ud559\uacf5\uce58",
-            "mean": "\ub9b4\ucc0c,\uc7a5\ub300",
-            "celMin": 17,
-            "celMax": 19
+            "mean": "\ub9b4\ucc0c,\uc7a5\ub300"
         }
     },
     {
@@ -884,9 +708,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ud559\uaf41\uce58",
-            "mean": "\ub9b4\ucc0c,\uc7a5\ub300",
-            "celMin": 17,
-            "celMax": 19
+            "mean": "\ub9b4\ucc0c,\uc7a5\ub300"
         }
     },
     {
@@ -894,9 +716,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ud55c\uce58",
-            "mean": "\ub8e8\uc5b4,\uc6d0\ud22c",
-            "celMin": 20,
-            "celMax": 24
+            "mean": "\ub8e8\uc5b4,\uc6d0\ud22c"
         }
     },
     {
@@ -904,9 +724,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ud574\uc0bc",
-            "mean": "\ud574\ub8e8\uc9c8",
-            "celMin": "",
-            "celMax": ""
+            "mean": "\ud574\ub8e8\uc9c8"
         }
     },
     {
@@ -914,9 +732,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ud638\ub798\uae30",
-            "mean": "\uc5d0\uae45, \ub8e8\uc5b4",
-            "celMin": 9,
-            "celMax": 11
+            "mean": "\uc5d0\uae45, \ub8e8\uc5b4"
         }
     },
     {
@@ -924,9 +740,7 @@
         "model": "fishing.fish",
         "fields": {
             "spec": "\ud669\uc5b4",
-            "mean": "\ub8e8\uc5b4,\uc2a4\uc719",
-            "celMin": 17,
-            "celMax": 18
+            "mean": "\ub8e8\uc5b4,\uc2a4\uc719"
         }
     }
 ]

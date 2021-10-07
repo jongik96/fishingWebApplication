@@ -7,12 +7,27 @@ import categoryData from "../dummy/json/categoryDump.json";
 import MediumCard from "../components/MediumCard";
 import LargeCard from "../components/LargeCard";
 import Footer from "../components/Footer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
+import axios from "axios";
 
 export default function Home() {
-  useEffect(() => {
+  const [location, setLocation] = useState({
+    longitude: "128.4231535",
+    latitude: "36.1109667",
+  });
+  const [locData, setLocData] = useState([]);
+
+  const { longitude, latitude } = location;
+
+  useEffect(async () => {
+    const response = await axios.get(
+      "http://j5d204.p.ssafy.io:8000/fishing/near/" + longitude + "/" + latitude
+    );
+    console.log(response);
+    setLocData(response.data);
+
     navigator.geolocation.getCurrentPosition(function (position) {
       console.log("lat : ", position.coords.latitude);
       console.log("long : ", position.coords.longitude);
@@ -39,8 +54,8 @@ export default function Home() {
           <h2 className="text-2xl font-semibold pb-5">가까운 낚시터 둘러보기</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {exploreData?.map(({ img, distance, location }) => (
-              <SmallCard key={img} img={img} location={location} distance={distance} />
+            {locData?.map(({ id, distance, address, pointName }) => (
+              <SmallCard key={id} address={address} distance={distance} name={pointName} />
             ))}
           </div>
         </section>

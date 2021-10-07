@@ -1,5 +1,12 @@
 FROM python:3.8.7
 
+RUN echo 'deb http://deb.debian.org/debian bullseye main' > /etc/apt/sources.list.d/bullseye.list \
+    && apt-get update -y \
+    && apt-get purge default-libmysqlclient-dev -y \
+    && apt autoremove -y \
+    && apt-get install default-libmysqlclient-dev/bullseye -y
+
+
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /requirements.txt
