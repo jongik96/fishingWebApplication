@@ -3,57 +3,10 @@ import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import * as userAction from "../store/modules/user";
 const ModifyUser = () => {
-  const [inputs, setInputs] = useState({
-    Email: "",
-    Password: "",
-    Nickname: "",
-    Address: "",
-    PhoneNumber: "",
-    PasswordConfirm: "",
-    introduce: "",
-    profileImg: "",
-  });
   const [isNicknameRight, setIsNicknameRight] = useState(false);
-  const {
-    Email,
-    Password,
-    PasswordConfirm,
-    Nickname,
-    Address,
-    PhoneNumber,
-    introduce,
-    profileImg,
-  } = inputs; // 비구조화 할당을 통해 값 추출
-
-  const onChange = (e) => {
-    const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
-    setInputs({
-      ...inputs, // 기존의 input 객체를 복사한 뒤
-      [name]: value, // name 키를 가진 값을 value 로 설정
-    });
-  };
-
-  // Nickname 유효성검사 특수문자 불가
-  const isNickname = (Nickname) => {
-    const nicknameRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-    return nicknameRegex.test(Nickname);
-  };
-
-  const em = useSelector((state) => state.user.username);
-  const nn = useSelector((state) => state.user.nickname);
-  const ad = useSelector((state) => state.user.address);
-  const pn = useSelector((state) => state.user.phonenumber);
-  const it = useSelector((state) => state.user.introduce);
-
-  // 미리정보받아오기
-  useEffect(() => {
-    inputs.Email = em;
-    inputs.Address = ad;
-    inputs.Nickname = nn;
-    inputs.PhoneNumber = pn;
-    inputs.introduce = it;
-  }, [em, ad, nn, pn, it]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("is_login");
@@ -68,30 +21,24 @@ const ModifyUser = () => {
       });
   });
 
+  const em = useSelector((state) => state.user.username);
+  const nn = useSelector((state) => state.user.nickname);
+  const it = useSelector((state) => state.user.introduce);
+
   const [isRight, setIsRight] = useState(false);
-  useEffect(() => {
-    {
-      (Password.length >= 10 || Password.length < 21) &&
-      Nickname.length >= 2 &&
-      Nickname.length < 11 &&
-      Password == PasswordConfirm &&
-      !isNickname(Nickname)
-        ? setIsRight(true)
-        : setIsRight(false);
-    }
-  }, [inputs, isRight]);
-  // nickname 유효성검사
-  useEffect(() => {
-    isNickname(Nickname) || (Nickname.length >= 2 && Nickname.length < 11)
-      ? setIsNicknameRight(true)
-      : setIsNicknameRight(false);
-  });
+
+  // Nickname 유효성검사 특수문자 불가
+  const isNickname = (Nickname) => {
+    const nicknameRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+    return nicknameRegex.test(Nickname);
+  };
+
   const checkNickname = () => {
     axios({
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/nickname/uniquecheck",
       data: {
-        nickname: inputs.Nickname,
+        nickname: userInfo.nickname,
       },
     })
       .then(() => {
@@ -102,28 +49,103 @@ const ModifyUser = () => {
         console.log(err);
       });
   };
+
+  // image 넣기
+  const { user } = useSelector((state) => ({ user: state.user }));
+  const [userInfo, SetUserInfo] = useState({
+    nickname: "",
+    password: "",
+    passwordcheck: "",
+    introduce: "",
+    profileImg: "",
+  });
+
+  useEffect(() => {
+    {
+      (userInfo.password.length >= 10 || userInfo.password.length < 21) &&
+      userInfo.nickname.length >= 2 &&
+      userInfo.nickname.length < 11 &&
+      userInfo.password == userInfo.passwordcheck &&
+      !isNickname(userInfo.nickname)
+        ? setIsRight(true)
+        : setIsRight(false);
+    }
+  }, [userInfo, isRight]);
+  // nickname 유효성검사
+  useEffect(() => {
+    isNickname(userInfo.nickname) ||
+    (userInfo.nickname.length >= 2 && userInfo.nickname.length < 11)
+      ? setIsNicknameRight(true)
+      : setIsNicknameRight(false);
+  });
+  const [file, setFile] = useState("");
+
+  const onNameChange = (e) => {
+    let newUserInfo = Object.assign({}, userInfo);
+    newUserInfo.nickname = e.target.value;
+    SetUserInfo(newUserInfo);
+  };
+
+  const onIntroChange = (e) => {
+    let newUserInfo = Object.assign({}, userInfo);
+    newUserInfo.introduce = e.target.value;
+    SetUserInfo(newUserInfo);
+  };
+
+  const onPwChange = (e) => {
+    let newUserInfo = Object.assign({}, userInfo);
+    newUserInfo.password = e.target.value;
+    SetUserInfo(newUserInfo);
+  };
+  const onCheckChange = (e) => {
+    let newUserInfo = Object.assign({}, userInfo);
+    newUserInfo.passwordcheck = e.target.value;
+    SetUserInfo(newUserInfo);
+  };
+
+  const handleImageUpload = (e) => {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      // 백엔드에 넘겨주는 실제파일
+      setFile(file);
+      // 임시로 담고있는 유저정보의 image 수정
+      let newUserInfo = Object.assign({}, userInfo);
+      newUserInfo.profileImg = file;
+      SetUserInfo(newUserInfo);
+    };
+    reader.readAsDataURL(file);
+  };
+
   // modify Request
   const Modify = () => {
     let result = confirm("회원정보를 변경하시겠습니까?");
     if (result == true) {
       const token = sessionStorage.getItem("is_login");
       const id = sessionStorage.getItem("id");
+
+      const formData = new FormData();
+
+      formData.append("profileimg", userInfo.profileImg);
+      formData.append("password", userInfo.password);
+      formData.append("nickname", userInfo.nickname);
+      formData.append("introduce", userInfo.introduce);
+
+      for (const element of formData) {
+        console.log(element);
+      }
       axios({
         method: "put",
         url: "http://j5d204.p.ssafy.io:8000/user/modify/" + id,
         headers: {
-          Authorization: `JWT ${token}`,
+          "Content-Type": "multipart/form-data",
+          // "Authorization": `JWT ${token}`,
+          Authorization: "JWT " + token,
         },
-        data: {
-          password: inputs.Password,
-          nickname: inputs.Nickname,
-          address: inputs.Address,
-          phoneNumber: inputs.PhoneNumber,
-          introduce: inputs.introduce,
-        },
+        data: formData,
       })
         .then(() => {
-          sessionStorage.removeItem("pw");
           router.push({
             pathname: "/",
           });
@@ -133,8 +155,6 @@ const ModifyUser = () => {
         });
     }
   };
-
-  // delete User
   const Delete = () => {
     let result = confirm("회원정보를 삭제하시겠습니까?");
     if (result == true) {
@@ -143,9 +163,9 @@ const ModifyUser = () => {
       axios({
         method: "delete",
         url: "http://j5d204.p.ssafy.io:8000/user/delete/" + id,
-        // headers: {
-        //     Authorization: `Bearer ${token}`
-        // },
+        headers: {
+          Authorization: `JWT ${token}`,
+        },
       })
         .then(() => {
           sessionStorage.removeItem("is_login");
@@ -153,9 +173,7 @@ const ModifyUser = () => {
           sessionStorage.removeItem("pw");
           alert("삭제가 완료되었습니다.");
 
-          router.push({
-            pathname: "/",
-          });
+          location.href("/");
         })
         .catch(() => {});
     }
@@ -184,42 +202,43 @@ const ModifyUser = () => {
             <div className="relative p-6 flex-auto">
               {/*profileImage*/}
               <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Profile Image</p>
-              <input type="file" name="profileImg" id="profileImg" className="" />
+              <input
+                type="file"
+                name="profileimg"
+                id="profileimg"
+                className=""
+                accept="image/jpg,image/png,image/jpeg,image/gif"
+                onChange={handleImageUpload}
+              />
               {/*Email*/}
               <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">E-mail</p>
-              <input
-                type="text"
-                name="Email"
-                disabled
-                onChange={onChange}
-                placeholder={Email}
-                className="text-lg w-full rounded-lg border-2 border-gray-400"
-              />
-
+              {/* <input type="text" name="Email" disabled onChange={onEmailChange}  className="text-lg w-full rounded-lg border-2 border-gray-400" /> */}
+              <p>{em}</p>
               {/*Password*/}
               <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Password</p>
               <input
                 type="password"
                 name="Password"
-                onChange={onChange}
+                onChange={onPwChange}
                 placeholder=""
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {Password.length != 0 && (Password.length < 10 || Password.length > 20) && (
-                <p className="text-gray-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
-              )}
+              {userInfo.password.length != 0 &&
+                (userInfo.password.length < 10 || userInfo.password.length > 20) && (
+                  <p className="text-gray-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
+                )}
               {/*Confirm Password*/}
               <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
                 Check Password
               </p>
               <input
                 type="password"
-                name="PasswordConfirm"
-                onChange={onChange}
+                name="passwordcheck"
+                onChange={onCheckChange}
                 placeholder=" Password"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {Password != PasswordConfirm && (
+              {userInfo.password != userInfo.passwordcheck && (
                 <p className="text-red-500">비밀번호와 동일하게 입력해주세요.</p>
               )}
               {/*Nickname*/}
@@ -227,15 +246,14 @@ const ModifyUser = () => {
               <input
                 type="text"
                 name="Nickname"
-                value={Nickname}
-                onChange={onChange}
-                placeholder=""
+                onChange={onNameChange}
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {Nickname.length != 0 && (Nickname.length < 2 || Nickname.length > 10) && (
-                <p className="text-gray-500">Nickname은 2자이상 10자 이하여야합니다</p>
-              )}
-              {isNickname(Nickname) && (
+              {userInfo.nickname.length != 0 &&
+                (userInfo.nickname.length < 2 || userInfo.nickname.length > 10) && (
+                  <p className="text-gray-500">Nickname은 2자이상 10자 이하여야합니다</p>
+                )}
+              {isNickname(userInfo.nickname) && (
                 <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
               )}
               <button
@@ -251,9 +269,7 @@ const ModifyUser = () => {
               <input
                 type="text"
                 name="introduce"
-                value={introduce}
-                onChange={onChange}
-                placeholder=""
+                onChange={onIntroChange}
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
             </div>

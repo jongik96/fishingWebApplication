@@ -46,6 +46,7 @@ const Login = () => {
     axios({
         method: "post",
         url: 'http://j5d204.p.ssafy.io:8000/user/login',
+        //url: 'http://127.0.0.1:8000/user/login',
         data: {
             username: inputs.Email,
             password : inputs.Password,

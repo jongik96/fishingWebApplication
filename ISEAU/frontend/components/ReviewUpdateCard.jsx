@@ -119,7 +119,6 @@ const ReviewUpdateCard = () => {
     })
       .then(async (response) => {
         // 내가 쓴 글이 있는지 체크
-        let check = true;
         if (response.status === 204) {
           // 리뷰가 없을 때
           setReview({
@@ -171,6 +170,7 @@ const ReviewUpdateCard = () => {
         rating={review.rating}
         date={review.createdAt}
         desc={review.reviewContent}
+        img={review.profileimg}
       />
 
       <div className=" w-full text-right space-x-2">
@@ -191,7 +191,8 @@ const ReviewUpdateCard = () => {
   ) : (
     <div className="my-2  p-2  ">
       <div className="flex flex-row  w-[350px]">
-        <Avatar className="post-avatar" /> {/* 로그인한 사용자 이미지로 수정필요 */}
+        <Avatar className="post-avatar" src={review.profileimg} />
+        {/* 로그인한 사용자 이미지로 수정필요 */}
         <p className="grid-rows-2">
           <p className="pl-2 text-sm ">{user.nickname}</p>
           <p className="pl-2 text-sm ">

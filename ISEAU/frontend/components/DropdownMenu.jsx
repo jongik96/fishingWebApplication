@@ -33,7 +33,7 @@ const DropdownMenu = () => {
   const Logout = () => {
     sessionStorage.removeItem("is_login");
     sessionStorage.removeItem("id");
-    document.location.href = "/";
+    document.location.href = "/Login";
   };
   const scrapList = () => {
     router.push({
