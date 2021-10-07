@@ -14,5 +14,5 @@ urlpatterns = [
     path("search/fish/<str:fish>", searchFish.as_view()),
     path("search/auto/<str:location>", autoLoc.as_view()),
     path("search/auto/fish/<str:fish>", autoFish.as_view()),
-    path("near", nearFishing.as_view()),
+    path("near/<str:longitude>/<str:latitude>", nearFishing.as_view()),
 ]

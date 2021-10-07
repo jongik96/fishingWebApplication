@@ -9,7 +9,7 @@ from django.http.response import JsonResponse
 from rest_framework.response import Response
 from .models import Fishing, Scrap, Review
 from user.models import User
-from .serializers import FishingSerializer, ReviewUpdateSerializer, ReviewSerializer, CategorySerializer, ReviewCreateSerializer, NearInputSerializer, FishingNearSerializer
+from .serializers import FishingSerializer, ReviewUpdateSerializer, FishingScrapSerializer, ReviewSerializer, CategorySerializer, ReviewCreateSerializer, NearInputSerializer, FishingNearSerializer
 from django.db.models import Avg, Q, Sum, Count
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
@@ -63,7 +63,8 @@ class ScrapList(APIView):
         fishings = Fishing.objects.filter(id__in=fishing_ids)
         print(fishings)
         if fishings:
-            serializered_data = FishingSerializer(fishings, many=True).data
+            serializered_data = FishingScrapSerializer(
+                fishings, many=True).data
             for index, data in enumerate(serializered_data):
                 reviewSum = Review.objects.filter(
                     fishing_id=data['id']).aggregate(Sum('rating'))
@@ -90,7 +91,7 @@ class fishingDetail(APIView):
             fishing_id=fishingId).aggregate(Sum('rating'))
         fishing = Fishing.objects.filter(id=fishingId)
 
-        serializer = FishingSerializer(fishing, many=True)
+        serializer = FishingScrapSerializer(fishing, many=True)
 
         if Review.objects.filter(fishing_id=fishingId).count():
             reviewCnt = Review.objects.filter(fishing_id=fishingId).count()
@@ -234,9 +235,11 @@ class nearFishing(APIView):
     permission_classes = (permissions.AllowAny,)
 
     @swagger_auto_schema(request_body=NearInputSerializer)
-    def get(self, request):
-        lon = float(request.data['longitude'])
-        lat = float(request.data['latitude'])
+    def get(self, request, longitude, latitude):
+        # lon = float(request.data['longitude'])
+        # lat = float(request.data['latitude'])
+        lon = float(longitude)
+        lat = float(latitude)
 
         me = (lat, lon)
 

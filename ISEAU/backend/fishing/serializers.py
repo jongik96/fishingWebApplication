@@ -87,3 +87,12 @@ class FishingNearSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fishing
         fields = "__all__"
+
+
+class FishingScrapSerializer(serializers.ModelSerializer):
+    reviewCnt = serializers.IntegerField(default=0)
+    rating = serializers.FloatField(default=0)
+
+    class Meta:
+        model = Fishing
+        fields = "__all__"
