@@ -121,7 +121,6 @@ const ReviewUpdateCard = () => {
         // console.log(response.data);
         let check = true;
         // 내가 쓴 글이 있는지 체크
-        let check = true;
         if (response.data.length === 0) {
           if (check) {
             setReview({
