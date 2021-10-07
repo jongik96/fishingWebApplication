@@ -177,6 +177,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media') #사용자가 업로드한 파일 �
 
 AUTH_USER_MODEL = 'user.User'
 
-# CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 
-# SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = False
