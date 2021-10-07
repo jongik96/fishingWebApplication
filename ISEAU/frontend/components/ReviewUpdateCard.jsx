@@ -117,7 +117,7 @@ const ReviewUpdateCard = () => {
       method: "GET",
     })
       .then(async (response) => {
-        console.log(response.data);
+        // console.log(response.data);
         let check = true;
         // 내가 쓴 글이 있는지 체크
         response.data.forEach((element) => {

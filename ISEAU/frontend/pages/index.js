@@ -25,13 +25,13 @@ export default function Home() {
     const response = await axios.get(
       "http://j5d204.p.ssafy.io:8000/fishing/near/" + longitude + "/" + latitude
     );
-    console.log(response);
+    // console.log(response);
     setLocData(response.data);
 
-    navigator.geolocation.getCurrentPosition(function (position) {
-      console.log("lat : ", position.coords.latitude);
-      console.log("long : ", position.coords.longitude);
-    });
+    // navigator.geolocation.getCurrentPosition(function (position) {
+    //   console.log("lat : ", position.coords.latitude);
+    //   console.log("long : ", position.coords.longitude);
+    // });
     Aos.init({ duration: 2000 });
   }, []);
   return (

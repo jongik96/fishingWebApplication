@@ -83,7 +83,7 @@ const ReviewWriteCard = () => {
       method: "GET",
     })
       .then(async (response) => {
-        console.log(response.data);
+        // console.log(response.data);
         // 내가 쓴 글이 있는지 체크
         response.data.forEach((element) => {
           if (element.username === user.username) {

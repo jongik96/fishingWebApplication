@@ -47,7 +47,7 @@ const RecommendCategory = () => {
       .get("http://j5d204.p.ssafy.io:8000/recommend/category/" + uid + "/" + cateParse)
       .then((res) => {
         let response = res.data;
-        console.log(response);
+        // console.log(response);
         setResult(response.slice(0, 21));
         response = response.slice(21);
         setItem(response);
@@ -90,7 +90,7 @@ const RecommendCategory = () => {
     });
   };
   const HandlerSelected = (value) => {
-    console.log(value);
+    // console.log(value);
     setCateParse(value);
     getFetchData();
 
@@ -145,7 +145,7 @@ const RecommendCategory = () => {
         </section>
         <section className="pt-5">
           <div className="flex flex-wrap -mx-1 overflow-hidden md:-mx-2 lg:-mx-4 xl:-mx-2">
-            {result.map(({ id, fishingimg, pointName, address, rating, category }) => (
+            {result.map(({ id, fishingImg, pointName, address, rating, category }) => (
               <div
                 className="my-5 px-9 w-full overflow-hidden md:my-2 md:px-2 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2 xl:my-2 xl:px-2 xl:w-1/3"
                 onClick={() => {
@@ -155,7 +155,7 @@ const RecommendCategory = () => {
                 <RecommendCard
                   key={id}
                   id={id}
-                  fishingimg={fishingimg}
+                  fishingimg={fishingImg}
                   pointName={pointName}
                   address={address}
                   rating={rating}

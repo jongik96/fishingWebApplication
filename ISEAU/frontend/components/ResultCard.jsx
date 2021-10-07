@@ -13,13 +13,15 @@ import "aos/dist/aos.css";
 const ResultCard = ({ id }) => {
   const [resultObj, setResultObj] = useState(null);
 
-  console.log(id);
+  // console.log(id);
   const router = useRouter();
 
   useEffect(async () => {
     Aos.init({ duration: 2000 });
     const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
+    // console.log(response);
     setResultObj(response.data[0]);
+    // console.log("ㅁㅁㅁㅁㅁ", resultObj);
     // axios({
     //   url: "http://j5d204.p.ssafy.io:8000/fishing/" + id,
     //   method: "GET",
@@ -58,7 +60,12 @@ const ResultCard = ({ id }) => {
     >
       {/* 사진 부분 */}
       <div className="relative h-24 w-40 md:h-52 md:w-80 flex-shrink-0">
-        <Image src={notimg} layout="fill" objectFit="cover" className="rounded-2xl" />
+        <Image
+          src={`/assets/img/${resultObj && resultObj.fishingImg.slice(7)}`}
+          layout="fill"
+          objectFit="cover"
+          className="rounded-2xl"
+        />
       </div>
       {/* 설명 부분 */}
       <div className="flex flex-col flex-grow pl-5">
@@ -66,7 +73,7 @@ const ResultCard = ({ id }) => {
           <p>
             [{resultObj && resultObj.name}] {resultObj && resultObj.address}
           </p>
-          <HeartIcon className="h-7 cursor-pointer" />
+          {/* <HeartIcon className="h-7 cursor-pointer" /> */}
         </div>
         <h4 className="text-xl">
           {resultObj && resultObj.pointName} ({resultObj && resultObj.category === 0 ? "⛵️" : "🪨"})

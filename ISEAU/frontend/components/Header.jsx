@@ -69,7 +69,7 @@ const Header = ({ placeholder }) => {
     console.log(id);
     const getData = async () => {
       const res = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
-      console.log(res.data[0]);
+      // console.log(res.data[0]);
       setDetailPoint(res.data[0]);
     };
     getData();

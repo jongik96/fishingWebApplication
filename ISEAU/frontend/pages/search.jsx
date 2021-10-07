@@ -14,7 +14,7 @@ const Search = () => {
   const router = useRouter();
 
   const { location } = router.query;
-  console.log(location);
+  // console.log(location);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +22,7 @@ const Search = () => {
       setSearchData({
         point: response.data,
       });
-      console.log("response : ", response);
+      // console.log("response : ", response);
     };
     fetchData();
   }, []);

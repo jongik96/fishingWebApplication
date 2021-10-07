@@ -103,8 +103,8 @@ const DetailPoint = () => {
       method: "GET",
     })
       .then((response) => {
-        console.log("in getIsScraped");
-        console.log(response);
+        // console.log("in getIsScraped");
+        // console.log(response);
         let check = false;
         response.data.forEach((element) => {
           if (element.id === point.id) {
@@ -128,7 +128,7 @@ const DetailPoint = () => {
       method: "GET",
     })
       .then(async (response) => {
-        console.log(response.data);
+        // console.log(response.data);
         // 내가 쓴 글이 있는지 체크
         let check = true;
         response.data.forEach((element) => {
@@ -170,7 +170,7 @@ const DetailPoint = () => {
       },
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -204,7 +204,7 @@ const DetailPoint = () => {
       method: "get",
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         temp = response.data.result.data.filter((value) => {
           return point.nearPointName == value.name;
         });
