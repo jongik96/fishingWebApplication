@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ScrapList, fishingScrap, fishingDetail, reviewCreate, reviewCRUD, reviewFishingIdList, searchLoc, autoLoc, searchFish, autoFish, nearFishing
+from .views import *
 
 
 urlpatterns = [

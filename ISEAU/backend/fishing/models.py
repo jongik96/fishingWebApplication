@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from imagekit.models import ProcessedImageField
 
 # Create your models here.
 
@@ -8,8 +7,6 @@ from imagekit.models import ProcessedImageField
 class Fish(models.Model):
     spec = models.CharField(max_length=100)
     mean = models.CharField(max_length=100)
-    # celMin = models.CharField(max_length=100, blank=True, null=True)
-    # celMax = models.CharField(max_length=100, blank=True, null=True)
 
 
 class Fishing(models.Model):

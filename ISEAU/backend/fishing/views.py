@@ -1,6 +1,5 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-# import json
 from django.http import Http404, HttpResponse
 from rest_framework import status
 from json.decoder import JSONDecodeError
@@ -8,23 +7,15 @@ from rest_framework import permissions
 from django.http.response import JsonResponse
 from rest_framework.response import Response
 from .models import Fishing, Scrap, Review
-from user.models import User
-from .serializers import FishingSerializer, ReviewUpdateSerializer, FishingScrapSerializer, ReviewSerializer, CategorySerializer, ReviewCreateSerializer, NearInputSerializer, FishingNearSerializer
-from django.db.models import Avg, Q, Sum, Count
-from rest_framework.decorators import authentication_classes, permission_classes
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
+from .serializers import *
+from django.db.models import Avg, Sum, Count
 from drf_yasg.utils import swagger_auto_schema
 from haversine import haversine
-
-
 #  Create your views here.
-# @authentication_classes([JSONWebTokenAuthentication])
-class fishingScrap(APIView):
-    # authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = (permissions.AllowAny,)
 
+
+class fishingScrap(APIView):
+    permission_classes = (permissions.AllowAny,)
     def post(self, request, fishingId):
         try:
             user = request.user
@@ -61,7 +52,6 @@ class ScrapList(APIView):
             fishing_ids.append(i["fishing_id"])
 
         fishings = Fishing.objects.filter(id__in=fishing_ids)
-        print(fishings)
         if fishings:
             serializered_data = FishingScrapSerializer(
                 fishings, many=True).data
@@ -124,7 +114,6 @@ class reviewCreate(APIView):
 
             serializer = ReviewSerializer(data=request.data)
 
-            # print(request.user)
             if serializer.is_valid(raise_exception=True):  # 유효성 검사
                 serializer.save(fishing=fishing, user=request.user)  # 저장
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -235,8 +224,6 @@ class nearFishing(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get(self, request, longitude, latitude):
-        # lon = float(request.data['longitude'])
-        # lat = float(request.data['latitude'])
         lon = float(longitude)
         lat = float(latitude)
 
@@ -273,22 +260,3 @@ class nearFishing(APIView):
             serializered_data, key=lambda x: x['distance'])
 
         return Response(serializered_data, status=200)
-
-
-# class CategoryList(APIView):
-#     permission_classes = (permissions.AllowAny,)
-
-#     def get(self, request, categoryId, format=None):
-#         if categoryId == 2:
-#             scrapQuery = Fishing.objects.all().annotate(reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
-#         else:
-#             scrapQuery = Fishing.objects.filter(category=categoryId).annotate(
-#                 reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
-
-
-#         if scrapQuery:
-#             serializered_data = CategorySerializer(scrapQuery, many=True).data
-
-#             return Response(serializered_data)
-#         else:
-#             return Response({'message': '해당 카테고리의 낚시터가 없습니다.'}, status=204)

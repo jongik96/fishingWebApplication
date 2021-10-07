@@ -1,7 +1,5 @@
 from rest_framework import serializers
-from .models import Fishing, Review, Fish
-from django.db import models
-# from django.db.models import fields
+from .models import Fishing, Review
 
 # 낚시터 상세 목록
 

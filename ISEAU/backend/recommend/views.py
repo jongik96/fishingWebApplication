@@ -1,19 +1,13 @@
-from django.http.response import JsonResponse
-from django.shortcuts import render
-# Create your views here.
-import sqlite3
-import os
 from rest_framework.response import Response
 import numpy as np
 import pandas as pd
 from rest_framework.views import APIView
 from fishing.models import Review, Fishing
 from rest_framework import permissions
-from fishing.serializers import FishingSerializer, ReviewSerializer, NearInputSerializer, FishingNearSerializer
+from fishing.serializers import *
 from .serializers import RecommendSerializer
-from django.db.models import Q, Sum, Avg, Count
-from drf_yasg.utils import swagger_auto_schema
-from haversine import haversine
+from django.db.models import Avg, Count
+# Create your views here.
 
 
 class recommendList(APIView):
@@ -120,7 +114,7 @@ class recommendList(APIView):
             else:
                 finaldata = Fishing.objects.filter(id__in=fishing_list).annotate(
                     reviewCnt=Count('review__fishing_id')).annotate(rating=Avg('review__rating'))
-            print('aaaaaaaaaaa', len(finaldata))
+                    
             serializer_data = RecommendSerializer(finaldata, many=True).data
 
             # sort_datas
