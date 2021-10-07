@@ -11,12 +11,12 @@ import DatePicker from "react-datepicker";
 import { StarIcon } from "@heroicons/react/solid";
 import { HeartIcon } from "@heroicons/react/outline";
 import "react-datepicker/dist/react-datepicker.css";
-import fisherman from "../img/fisherman.jpg";
 import ReviewWriteCard from "../components/ReviewWriteCard";
 import ReviewUpdateCard from "../components/ReviewUpdateCard";
 import { useSelector, useDispatch } from "react-redux";
 import * as reviewActions from "../store/modules/review";
 import * as reviewArrActions from "../store/modules/reviewArr";
+
 const DetailPoint = () => {
   const [tideArr, setTideArr] = useState();
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -145,9 +145,10 @@ const DetailPoint = () => {
               nickname: null,
               username: null,
             });
+            setReviewArr([]);
           }
         });
-        await setReviewArr(response.data);
+        if (!check) await setReviewArr(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -350,10 +351,10 @@ const DetailPoint = () => {
 
         {/* 지역소개 */}
         <section className="flex-grow pt-14 px-6">
-          <h3 className="text-2xl font-semibold mt-2 mb-6">지역소개</h3>
+          <h3 className="text-2xl font-semibold mt-2 mb-3">지역소개</h3>
           {/* 지역 정보*/}
           <div className=" justify-around pt-5">{point.locInfo}</div>
-          <h3 className="text-2xl font-semibold mt-2 mb-6">주의사항</h3>
+          <h3 className="text-2xl font-semibold mt-10">주의사항</h3>
           {/* 지역 정보*/}
           <div className=" justify-around pt-5">{point.caution}</div>
           <hr />
