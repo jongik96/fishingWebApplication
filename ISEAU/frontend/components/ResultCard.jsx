@@ -12,28 +12,14 @@ import "aos/dist/aos.css";
 
 const ResultCard = ({ id }) => {
   const [resultObj, setResultObj] = useState(null);
-  console.log("ㅁㅁㅁㅁㅁ", resultObj);
 
-  // console.log(id);
   const router = useRouter();
 
   useEffect(async () => {
     Aos.init({ duration: 2000 });
     const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
-    // console.log(response);
-    setResultObj(response.data[0]);
 
-    // axios({
-    //   url: "http://j5d204.p.ssafy.io:8000/fishing/" + id,
-    //   method: "GET",
-    // })
-    //   .then((response) => {
-    //     setResultObj(response.data);
-    //     console.log(resultObj);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    setResultObj(response.data[0]);
   }, []);
 
   const detailPoint = () => {
@@ -85,10 +71,10 @@ const ResultCard = ({ id }) => {
           {resultObj && resultObj.pointName} ({resultObj && resultObj.category === 0 ? "⛵️" : "🪨"})
         </h4>
         <div className="border-b w-10 pt-2" />
-        {/* <p className="pt-2 text-sm text-gray-500 flex-grow">어종 : {fish}</p> */}
-        <p className="pt-2 text-sm text-gray-500 flex-grow">
+        <p className="pt-5 text-sm text-gray-500 flex-grow">어종 : {resultObj && resultObj.fish}</p>
+        {/* <p className="pt-2 text-sm text-gray-500 flex-grow">
           적정 물때 : {resultObj && resultObj.tide}
-        </p>
+        </p> */}
         <p className="pt-2 text-sm text-gray-500 flex-grow">
           수심 : {resultObj && resultObj.dpwt}m / 지면 : {resultObj && resultObj.material}
         </p>

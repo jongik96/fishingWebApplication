@@ -3,8 +3,6 @@ import Image from "next/image";
 import { StarIcon } from "@heroicons/react/solid";
 import img from "../img/loc.jpeg";
 const RecommendCard = ({ id, fishingimg, pointName, address, rating, category }) => {
-  console.log(fishingimg);
-  console.log(id);
   return (
     <div className="sm:w-[372px] cursor-pointer hover:opacity-70 hover:shadow-lg transition duration-300 ease-out">
       <div className="relative h-80 w-[372px]">
@@ -20,7 +18,7 @@ const RecommendCard = ({ id, fishingimg, pointName, address, rating, category })
         />
       </div>
       <div className="mt-2">
-        <p className="text-sm font-bold text-blue-500 ">[{category === 0 ? "갯바위" : "선상"}]</p>
+        <p className="text-sm font-bold text-blue-500 ">[{category === 0 ? "선상" : "갯바위"}]</p>
       </div>
       <div className="flex justify-between mt-1">
         <h3 className="text-1xl font-bold">

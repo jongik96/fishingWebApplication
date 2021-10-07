@@ -4,7 +4,6 @@ import { getCenter } from "geolib";
 
 const Map = ({ searchData }) => {
   const [clickedLocation, setClickedLocation] = useState({});
-  console.log("맵 데이터들 : ", searchData);
 
   // 검색된 위치의 결과 객체를 {위도: ~~~ , 경도 : ~~~ } 처럼 바꾸는 작업
 

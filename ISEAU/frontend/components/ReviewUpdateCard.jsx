@@ -118,13 +118,6 @@ const ReviewUpdateCard = () => {
       method: "GET",
     })
       .then(async (response) => {
-<<<<<<< HEAD
-        // console.log(response.data);
-        // let check = true;
-=======
-        console.log("dd");
-        console.log(response);
->>>>>>> 4021820c8066cf71e08a9234e8eb31e29b6c2c64
         // 내가 쓴 글이 있는지 체크
         let check = true;
         if (response.status === 204) {

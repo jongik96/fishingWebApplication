@@ -76,7 +76,7 @@ const Signup = () => {
     axios({
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/signup",
-      // url: 'http://127.0.0.1:8000/user/signup',
+
       data: {
         username: inputs.Email,
         email: inputs.Email,
@@ -87,7 +87,6 @@ const Signup = () => {
       },
     })
       .then(() => {
-        // console.log(inputs.Address, inputs.PhoneNumber)
         alert("회원가입 완료!");
         document.location.href = "/Login";
       })

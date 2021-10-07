@@ -47,7 +47,6 @@ const RecommendCategory = () => {
       .get("http://j5d204.p.ssafy.io:8000/recommend/category/" + uid + "/" + cateParse)
       .then((res) => {
         let response = res.data;
-        // console.log(response);
         setResult(response.slice(0, 21));
         response = response.slice(21);
         setItem(response);
@@ -61,20 +60,8 @@ const RecommendCategory = () => {
   useEffect(async () => {
     setCateParse(Number(category));
     setUserId(uid);
-    // 무한스크롤 전 api 호출방식
-    // const response = await axios.get(
-    //   "http://j5d204.p.ssafy.io:8000/recommend/category/" + uid + "/" + cateParse
-    // );
-
-    // console.log(response.data);
-    // setRecommData(response.data);
-
-    // console.log(cateParse + " " + typeof cateParse);
-  }, [cateParse, userId, category]);
-
-  useEffect(() => {
-    getFetchData();
-  }, []);
+    await getFetchData();
+  }, [category]);
 
   useEffect(() => {
     window.addEventListener("scroll", _infiniteScroll, true);
@@ -89,10 +76,9 @@ const RecommendCategory = () => {
       },
     });
   };
-  const HandlerSelected = (value) => {
-    // console.log(value);
+  const HandlerSelected = async (value) => {
     setCateParse(value);
-    getFetchData();
+    await getFetchData();
 
     Routing(value);
   };

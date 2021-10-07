@@ -62,9 +62,7 @@ const ModifyUser = () => {
       url: "http://j5d204.p.ssafy.io:8000/user/current",
       headers: `JWT ${token}`,
     })
-      .then((res) => {
-        // console.log(res.data)
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });

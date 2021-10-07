@@ -14,7 +14,6 @@ const Search = () => {
   const router = useRouter();
 
   const { location } = router.query;
-  // console.log(location);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +21,6 @@ const Search = () => {
       setSearchData({
         point: response.data,
       });
-      // console.log("response : ", response);
     };
     fetchData();
   }, []);
@@ -35,9 +33,9 @@ const Search = () => {
         <section className="flex-grow pt-14 px-6">
           <h1 className="text-3xl font-semibold mt-2 mb-6">{location}의 검색 결과</h1>
           <div className="hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap">
-            <p className="button">어종</p>
+            {/* <p className="button">어종</p>
             <p className="button">도구</p>
-            <p className="button">물때</p>
+            <p className="button">물때</p> */}
           </div>
 
           <div className="flex flex-col">
