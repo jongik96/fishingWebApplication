@@ -5,7 +5,7 @@
 
 ## How to Run
 
-### Sub1
+### ISEAU
 
 ```sh
 cd backend
