@@ -17,7 +17,6 @@ import ReviewUpdateCard from "../components/ReviewUpdateCard";
 import { useSelector, useDispatch } from "react-redux";
 import * as reviewActions from "../store/modules/review";
 import * as reviewArrActions from "../store/modules/reviewArr";
-
 const DetailPoint = () => {
   const [tideArr, setTideArr] = useState();
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -25,6 +24,7 @@ const DetailPoint = () => {
   const [isReviewed, setIsReviewed] = useState(false);
   const [topReviewArr, setTopReviewArr] = useState();
   const [isOpen, setIsOpen] = useState(false);
+  const [fishArr, setFishArr] = useState([]);
   const point = useSelector(({ detailPoint }) => detailPoint);
   const user = useSelector(({ user }) => user);
   const review = useSelector(({ review }) => review);
@@ -197,16 +197,67 @@ const DetailPoint = () => {
     return result;
   };
   const getFishData = () => {
+    let temp = [];
     axios({
       url: "http://www.khoa.go.kr/oceangrid/grid/api/fcIndexOfType/search.do?ServiceKey=XRsWF0UdqsOAqAZVJgqPOw==&Type=SF&ResultType=json",
       method: "get",
     })
       .then((response) => {
         console.log(response);
+        temp = response.data.result.data.filter((value) => {
+          return point.nearPointName == value.name;
+        });
+        setFishArr(temp);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+  // 물고기 렌더링
+  const fishRendering = (index) => {
+    if (fishArr.length == 0) return;
+    const result = [];
+    const size = fishArr.length / 3;
+    result.push(<p className="mb-5 font-semibold">{fishArr[size * index].date}</p>);
+    for (let i = size * index; i < size * (index + 1); i++) {
+      result.push(
+        <div className="shadow-md grid grid-cols-2 ">
+          <div>
+            <p className="flex items-center justify-center h-full w-full font-bold ">
+              🐟 {fishArr[i].fish_name}
+            </p>
+          </div>
+          <div>
+            <p>🌡 {fishArr[i].air_temp}</p>
+            <p>💧 {fishArr[i].water_temp}</p>
+            <p
+              className={
+                fishArr[i].tide_time_score === "좋음"
+                  ? "text-green-600"
+                  : fishArr[i].tide_time_score === "보통"
+                  ? "text-blue-600"
+                  : "text-red-600"
+              }
+            >
+              🌊 {fishArr[i].tide_time_score}
+            </p>
+            <p
+              className={
+                fishArr[i].total_score === "좋음"
+                  ? "text-green-600"
+                  : fishArr[i].total_score === "보통"
+                  ? "text-blue-600"
+                  : "text-red-600"
+              }
+            >
+              💯 {fishArr[i].total_score}
+            </p>
+          </div>
+        </div>
+      );
+      result.push(<br />);
+    }
+    return result;
   };
   return (
     <div>
@@ -236,34 +287,13 @@ const DetailPoint = () => {
           {/* 사진 부분 */}
           <div className="flex lg:flex-row flex-col">
             <div className="flex flex-row lg:w-2/5 space-x-1 mb-1 h-[500px] lg:h-auto">
-              <div className="relative w-2/3 flex-shrink-0 ">
+              <div className="relative w-full flex-shrink-0 ">
                 <Image
-                  // src={point.fishingimg}
-                  src={fisherman}
+                  src={`/assets/img/${point.fishingImg.slice(7)}`}
                   layout="fill"
                   objectFit="cover"
                   className="rounded-2xl"
                 />
-              </div>
-              <div className="grid-rows-2 w-1/3 h-max ">
-                <div className="relative w-full h-1/2 ">
-                  <Image
-                    // src={point.fishingimg}
-                    src={fisherman}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-2xl scale-y-99"
-                  />
-                </div>
-                <div className="relative w-full h-1/2">
-                  <Image
-                    // src={point.fishingimg}
-                    src={fisherman}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-2xl scale-y-99 "
-                  />
-                </div>
               </div>
             </div>
             {/* 조위 예측 부분 */}
@@ -301,24 +331,31 @@ const DetailPoint = () => {
         </section>
         {/* tide */}
         <section className="flex-grow pt-14 px-6">
-          <h3 className="text-2xl font-semibold mt-2 mb-6">{point.tide}</h3>
+          <h3 className="text-2xl font-semibold mt-2 mb-6">물고기 정보</h3>
+          <h3 className="text-lg font-semibold mt-2 mb-6">🌡기온 💧수온 🌊물때 💯종합</h3>
+
           {/* 물고기 정보*/}
-          <div className="grid grid-flow-row grid-cols-2 justify-around pt-5">
-            {/* {fishArr.map((value, index) => (
-              <p className="flex items-center " key={index}>
-                <HeartIcon className="h-4 text-red-400" />
-                {value}
-              </p>
-            ))} */}
+          <div className="flex lg:flex-row flex-col">
+            <div className="w-full  text-center items-center text-lg  mt-3 lg:w-1/3">
+              {fishRendering(0)}
+            </div>
+            <div className="w-full  text-center items-center text-lg  mt-3 lg:w-1/3">
+              {fishRendering(1)}
+            </div>
+            <div className="w-full  text-center items-center text-lg  mt-3 lg:w-1/3 ">
+              {fishRendering(2)}
+            </div>
           </div>
-          <hr />
         </section>
 
         {/* 지역소개 */}
         <section className="flex-grow pt-14 px-6">
           <h3 className="text-2xl font-semibold mt-2 mb-6">지역소개</h3>
           {/* 지역 정보*/}
-          <div className=" justify-around pt-5">지역소개입니다.</div>
+          <div className=" justify-around pt-5">{point.locInfo}</div>
+          <h3 className="text-2xl font-semibold mt-2 mb-6">주의사항</h3>
+          {/* 지역 정보*/}
+          <div className=" justify-around pt-5">{point.caution}</div>
           <hr />
         </section>
 

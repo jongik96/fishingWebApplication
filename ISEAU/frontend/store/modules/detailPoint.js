@@ -1,20 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  id: 25,
-  reviewCnt: 4,
-  rating: 2.8,
-  name: "백아도·굴업도",
-  pointName: "백아도 오도 부근",
-  address: "인천광역시 옹진군",
-  category: 0,
-  longitude: "125.9461389",
-  latitude: "37.06466667",
-  tide: "",
-  dpwt: "6.2~10",
-  material: "펄",
-  fishingimg: "/media/fishingdefault.png",
-  obsCode: "IE_0062",
-  obsPostId: "웅진소청초",
+  id: null,
+  reviewCnt: null,
+  rating: null,
+  name: null,
+  pointName: null,
+  address: null,
+  category: null,
+  longitude: null,
+  latitude: null,
+  tide: null,
+  dpwt: null,
+  material: null,
+  fishingImg: null,
+  obsCode: null,
+  obsPostId: null,
+  caution: null,
+  locInfo: null,
+  nearPointName: null,
+  fish: null,
 }; // 초기 상태 정의
 const detailPointSlice = createSlice({
   name: "detailPoint",
@@ -34,9 +38,13 @@ const detailPointSlice = createSlice({
         tide,
         dpwt,
         material,
-        fishingimg,
+        fishingImg,
         obsCode,
         obsPostId,
+        caution,
+        locInfo,
+        nearPointName,
+        fish,
       } = action.payload;
       state.id = id;
       state.reviewCnt = reviewCnt;
@@ -50,11 +58,14 @@ const detailPointSlice = createSlice({
       state.tide = tide;
       state.dpwt = dpwt;
       state.material = material;
-      state.fishingimg = fishingimg;
+      state.fishingImg = fishingImg;
       state.obsCode = obsCode;
       state.obsPostId = obsPostId;
+      state.caution = caution;
+      state.locInfo = locInfo;
+      state.nearPointName = nearPointName;
+      state.fish = fish;
     },
-
   },
 });
 export const { setDetailPoint } = detailPointSlice.actions; // 액션 생성함수
