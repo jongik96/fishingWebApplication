@@ -131,7 +131,21 @@ const DetailPoint = () => {
         console.log(response.data);
         // 내가 쓴 글이 있는지 체크
         let check = true;
-        response.data.forEach((element) => {
+        if (response.data.length === 0) {
+          if (check) {
+            setReview({
+              createdAt: null,
+              id: null,
+              rating: null,
+              reviewContent: null,
+              nickname: null,
+              username: null,
+            });
+            setReviewArr([]);
+          }
+          return;
+        }
+        response.data?.forEach((element) => {
           if (element.username === user.username) {
             setReview(element);
             check = false;

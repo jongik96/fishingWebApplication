@@ -76,6 +76,7 @@ const ReviewWriteCard = () => {
       });
   };
 
+  //현재 포인트의 리뷰 받아오기
   const getReview = async () => {
     await axios({
       url: "http://j5d204.p.ssafy.io:8000/fishing/" + point.id + "/review",
@@ -85,12 +86,39 @@ const ReviewWriteCard = () => {
       .then(async (response) => {
         console.log(response.data);
         // 내가 쓴 글이 있는지 체크
-        response.data.forEach((element) => {
+        let check = true;
+        if (response.data.length === 0) {
+          if (check) {
+            setReview({
+              createdAt: null,
+              id: null,
+              rating: null,
+              reviewContent: null,
+              nickname: null,
+              username: null,
+            });
+            setReviewArr([]);
+          }
+          return;
+        }
+        response.data?.forEach((element) => {
           if (element.username === user.username) {
             setReview(element);
+            check = false;
+          }
+          if (check) {
+            setReview({
+              createdAt: null,
+              id: null,
+              rating: null,
+              reviewContent: null,
+              nickname: null,
+              username: null,
+            });
+            setReviewArr([]);
           }
         });
-        await setReviewArr(response.data);
+        if (!check) await setReviewArr(response.data);
       })
       .catch((error) => {
         console.log(error);
