@@ -73,6 +73,7 @@ const Header = ({ placeholder }) => {
       setDetailPoint(res.data[0]);
     };
     getData();
+    setSearchInput("");
 
     router.push({
       pathname: "/DetailPoint",
