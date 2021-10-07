@@ -1,13 +1,43 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Image from "next/image";
 // import imgs from "../dummy/img/거제.jpg";
 import img from "../img/loc.jpeg";
+import { useRouter } from "next/dist/client/router";
+import * as detailPointActions from "../store/modules/detailPoint";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+
 const SmallCard = ({ id, distance, address, name }) => {
-  console.log({ address });
+  // console.log({ id });
+  const router = useRouter();
+
+  const goDetail = (id) => {
+    // console.log(id);
+    const getData = async () => {
+      const res = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
+      // console.log(res.data[0]);
+      setDetailPoint(res.data[0]);
+    };
+    getData();
+
+    router.push({
+      pathname: "/DetailPoint",
+    });
+  };
+
+  const dispatch = useDispatch();
+  const setDetailPoint = useCallback(
+    (value) => {
+      dispatch(detailPointActions.setDetailPoint(value));
+    },
+    [dispatch]
+  );
+
   return (
     <div
       className="flex items-center m-2 mt-5 space-x-4 rounded-xl
     cursor-pointer hover:bg-gray-100 hover:scale-105 transition-transform duration-200 ease-out"
+      onClick={() => goDetail(id)}
     >
       {/* 왼쪽 사진부분 */}
       <div className="relative h-16 w-16">

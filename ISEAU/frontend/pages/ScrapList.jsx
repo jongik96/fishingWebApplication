@@ -18,7 +18,7 @@ const ScrapList = () => {
       .then((response) => {
         if (response.data === "") return;
         setScrapList(response.data);
-        console.log(response);
+        // console.log(response);
       })
       .catch((error) => {
         console.log(error);
