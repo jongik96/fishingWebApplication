@@ -17,7 +17,7 @@ export default function Home() {
     longitude: "128.4231535",
     latitude: "36.1109667",
   });
-  const [locData, setLocData] = useState([]);
+  const [locData, setLocData] = useState(null);
 
   const { longitude, latitude } = location;
 
@@ -25,13 +25,13 @@ export default function Home() {
     const response = await axios.get(
       "http://j5d204.p.ssafy.io:8000/fishing/near/" + longitude + "/" + latitude
     );
-    console.log(response);
+    // console.log(response);
     setLocData(response.data);
 
-    navigator.geolocation.getCurrentPosition(function (position) {
-      console.log("lat : ", position.coords.latitude);
-      console.log("long : ", position.coords.longitude);
-    });
+    // navigator.geolocation.getCurrentPosition(function (position) {
+    //   console.log("lat : ", position.coords.latitude);
+    //   console.log("long : ", position.coords.longitude);
+    // });
     Aos.init({ duration: 2000 });
   }, []);
   return (
@@ -55,7 +55,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {locData?.map(({ id, distance, address, pointName }) => (
-              <SmallCard key={id} address={address} distance={distance} name={pointName} />
+              <SmallCard key={id} id={id} address={address} distance={distance} name={pointName} />
             ))}
           </div>
         </section>

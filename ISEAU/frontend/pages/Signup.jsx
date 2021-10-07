@@ -41,9 +41,8 @@ const Signup = () => {
   // Nickname 유효성검사 특수문자 불가
   const isNickname = (Nickname) => {
     const nicknameRegex = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-    return nicknameRegex.test(Nickname)
-
-  }
+    return nicknameRegex.test(Nickname);
+  };
 
   // 주소 유효성검사 특수문자 안되게
   // const isAddress = (Address) => {
@@ -51,20 +50,22 @@ const Signup = () => {
   //   return addressRegex.test(Address)
   // }
 
-  useEffect(()=>{
-    isNickname(Nickname) || (Nickname.length >= 2 && Nickname.length < 11) ? setIsNicknameRight(true) :
-    setIsNicknameRight(false);
-  })
-  useEffect(()=>{
+  useEffect(() => {
+    isNickname(Nickname) || (Nickname.length >= 2 && Nickname.length < 11)
+      ? setIsNicknameRight(true)
+      : setIsNicknameRight(false);
+  });
+  useEffect(() => {
     isEmail(Email) ? setIsEmailRight(true) : setIsEmailRight(false);
-  })
+  });
   useEffect(() => {
     {
       isEmail(Email) &&
       (Password.length >= 10 || Password.length < 21) &&
-      (Password == PasswordConfirm) &&
-      (Nickname.length >= 2 && Nickname.length < 11) &&
-      !isNickname(Nickname) 
+      Password == PasswordConfirm &&
+      Nickname.length >= 2 &&
+      Nickname.length < 11 &&
+      !isNickname(Nickname)
         ? setIsRight(true)
         : setIsRight(false);
     }
@@ -86,43 +87,44 @@ const Signup = () => {
       },
     })
       .then(() => {
-        console.log(inputs.Address, inputs.PhoneNumber)
+        // console.log(inputs.Address, inputs.PhoneNumber)
         alert("회원가입 완료!");
         document.location.href = "/Login";
       })
-      .catch(() => {
-      });
+      .catch(() => {});
   };
   // email 유효성검사
   const checkEmail = () => {
     axios({
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/email/uniquecheck",
-      data:{
-        email:inputs.Email,
-        
-      }
-    }).then(()=>{
-      alert("사용가능한 Email입니다.")
-    }).catch(()=>{
-      alert("이미 사용중인 Email 입니다.")
+      data: {
+        email: inputs.Email,
+      },
     })
-  }
+      .then(() => {
+        alert("사용가능한 Email입니다.");
+      })
+      .catch(() => {
+        alert("이미 사용중인 Email 입니다.");
+      });
+  };
   // nickname 유효성검사
   const checkNickname = () => {
     axios({
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/nickname/uniquecheck",
-      data:{
-        nickname:inputs.Nickname,
-        
-      }
-    }).then(()=>{
-      alert("사용가능한 Nickname입니다.")
-    }).catch(()=>{
-      alert("이미 사용중인 Nickname입니다.")
+      data: {
+        nickname: inputs.Nickname,
+      },
     })
-  }
+      .then(() => {
+        alert("사용가능한 Nickname입니다.");
+      })
+      .catch(() => {
+        alert("이미 사용중인 Nickname입니다.");
+      });
+  };
   // 로그인페이지로 이동
 
   const Login = () => {
@@ -156,12 +158,12 @@ const Signup = () => {
                 <p className="text-red-500">잘못된 이메일 형식입니다.</p>
               )}
               <button
-                  className={isEmailRight ? `checkbutton_active` : `checkbutton_unactive`}
-                  type="button"
-                  onClick={checkEmail}
-                >
-                  중복검사
-                </button>
+                className={isEmailRight ? `checkbutton_active` : `checkbutton_unactive`}
+                type="button"
+                onClick={checkEmail}
+              >
+                중복검사
+              </button>
               {/*Password*/}
               <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Password</p>
               <input
@@ -175,7 +177,9 @@ const Signup = () => {
                 <p className="text-red-500">비밀번호는 10자 이상 20자 이하여야 합니다.</p>
               )}
               {/*Confirm Password*/}
-              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">Confirm Password</p>
+              <p className="my-2 text-black-900 font-bold text-lg leading-relaxed">
+                Confirm Password
+              </p>
               <input
                 type="password"
                 name="PasswordConfirm"
@@ -196,20 +200,19 @@ const Signup = () => {
                 placeholder=" Nickname"
                 className="text-lg w-full rounded-lg border-2 border-gray-400"
               />
-              {(Nickname.length != 0 && (Nickname.length < 2 || Nickname.length > 11)) && (
+              {Nickname.length != 0 && (Nickname.length < 2 || Nickname.length > 11) && (
                 <p className="text-red-500">Nickname은 2자이상 10자 이하여야합니다</p>
               )}
-              { isNickname(Nickname) && (
+              {isNickname(Nickname) && (
                 <p className="text-red-500">Nickname은 특수문자를 포함할 수 없습니다.</p>
               )}
               <button
-                  className={isNicknameRight ? `checkbutton_active` : `checkbutton_unactive`}
-                  type="button"
-                  onClick={checkNickname}
-                >
-                  중복검사
-                </button>
-
+                className={isNicknameRight ? `checkbutton_active` : `checkbutton_unactive`}
+                type="button"
+                onClick={checkNickname}
+              >
+                중복검사
+              </button>
             </div>
             {/*footer*/}
             <div className="rounded-lg flex flex-col items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
