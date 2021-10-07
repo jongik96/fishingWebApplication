@@ -111,6 +111,11 @@ const Header = ({ placeholder }) => {
           type="text"
           placeholder={placeholder || "검색을 시작해볼까요 ?"}
           onChange={inputHandler}
+          onKeyPress={(e) => {
+            if (e.key == "Enter") {
+              search();
+            }
+          }}
         />
         <SearchIcon
           className="hidden md:inline-flex h-8 text-white bg-blue-300

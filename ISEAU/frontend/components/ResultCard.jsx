@@ -69,7 +69,7 @@ const ResultCard = ({ id }) => {
           <HeartIcon className="h-7 cursor-pointer" />
         </div>
         <h4 className="text-xl">
-          {resultObj && resultObj.pointName} ({resultObj && resultObj.category})
+          {resultObj && resultObj.pointName} ({resultObj && resultObj.category === 0 ? "⛵️" : "🪨"})
         </h4>
         <div className="border-b w-10 pt-2" />
         {/* <p className="pt-2 text-sm text-gray-500 flex-grow">어종 : {fish}</p> */}

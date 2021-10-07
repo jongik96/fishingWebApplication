@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import RecommendCard from "../components/RecommendCard";
+import * as detailPointActions from "../store/modules/detailPoint";
 import fishingData from "../dummy/json/fishingDump.json";
 
 const RecommendCategory = () => {
@@ -46,6 +47,7 @@ const RecommendCategory = () => {
       .get("http://j5d204.p.ssafy.io:8000/recommend/category/" + uid + "/" + cateParse)
       .then((res) => {
         let response = res.data;
+        console.log(response);
         setResult(response.slice(0, 21));
         response = response.slice(21);
         setItem(response);
@@ -68,7 +70,7 @@ const RecommendCategory = () => {
     // setRecommData(response.data);
 
     // console.log(cateParse + " " + typeof cateParse);
-  }, [cateParse, userId]);
+  }, [cateParse, userId, category]);
 
   useEffect(() => {
     getFetchData();
@@ -88,7 +90,10 @@ const RecommendCategory = () => {
     });
   };
   const HandlerSelected = (value) => {
+    console.log(value);
     setCateParse(value);
+    getFetchData();
+
     Routing(value);
   };
 
@@ -140,7 +145,7 @@ const RecommendCategory = () => {
         </section>
         <section className="pt-5">
           <div className="flex flex-wrap -mx-1 overflow-hidden md:-mx-2 lg:-mx-4 xl:-mx-2">
-            {result.map(({ id, fishingimg, pointname, address, rating, category }) => (
+            {result.map(({ id, fishingimg, pointName, address, rating, category }) => (
               <div
                 className="my-5 px-9 w-full overflow-hidden md:my-2 md:px-2 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2 xl:my-2 xl:px-2 xl:w-1/3"
                 onClick={() => {
@@ -151,7 +156,7 @@ const RecommendCategory = () => {
                   key={id}
                   id={id}
                   fishingimg={fishingimg}
-                  pointname={pointname}
+                  pointName={pointName}
                   address={address}
                   rating={rating}
                   category={category}

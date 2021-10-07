@@ -17,7 +17,7 @@ export default function Home() {
     longitude: "128.4231535",
     latitude: "36.1109667",
   });
-  const [locData, setLocData] = useState([]);
+  const [locData, setLocData] = useState(null);
 
   const { longitude, latitude } = location;
 
@@ -55,7 +55,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {locData?.map(({ id, distance, address, pointName }) => (
-              <SmallCard key={id} address={address} distance={distance} name={pointName} />
+              <SmallCard key={id} id={id} address={address} distance={distance} name={pointName} />
             ))}
           </div>
         </section>
