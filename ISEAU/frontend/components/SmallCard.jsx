@@ -1,7 +1,9 @@
 import React from "react";
 import Image from "next/image";
 // import imgs from "../dummy/img/거제.jpg";
-const SmallCard = ({ img, location, distance }) => {
+import img from "../img/loc.jpeg";
+const SmallCard = ({ id, distance, address, name }) => {
+  console.log({ address });
   return (
     <div
       className="flex items-center m-2 mt-5 space-x-4 rounded-xl
@@ -14,8 +16,9 @@ const SmallCard = ({ img, location, distance }) => {
 
       {/* 우측 거리 및 지역 */}
       <div>
-        <h2>{location}</h2>
-        <h3 className="text-gray-500">{distance}</h3>
+        <h2>[{address}]</h2>
+        <h2 className="text-gray-500 text-[11px]">{name}</h2>
+        <h3 className="text-gray-500">{distance}km</h3>
       </div>
     </div>
   );
