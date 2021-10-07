@@ -10,7 +10,7 @@ WORKDIR /backend
 COPY . /backend
 
 # CMD ["python", "manage.py", "migrate"]
-# CMD ["python3", "manage.py", "runserver", "0:8000"]
-CMD ["python3", "manage.py", "runsslserver", "0:8000"]
+CMD ["python3", "manage.py", "runserver", "0:8000"]
+# CMD ["python3", "manage.py", "runsslserver", "0:8000"]
 
 EXPOSE 8000

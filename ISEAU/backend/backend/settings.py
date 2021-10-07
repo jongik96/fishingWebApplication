@@ -27,14 +27,14 @@ SECRET_KEY = 'django-insecure-*16^cyn%(un@^g3=w&w4e-h)0*u&vv01v%mx!_lk-v6aq5#*#7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['52.78.112.199', 'j5d204.p.ssafy.io', 'localhost:3000', '127.0.0.1']
+ALLOWED_HOSTS = ['j5d204.p.ssafy.io', 'localhost:3000', '127.0.0.1']
 
 APPEND_SLASH = False # 추가 안해줄시 기본값이 True인데 그 경우 urls.py에서 경로설정시 주소 끝에 /를 붙이고 
 #해당경로로 /를 붙이지 않고 접속시 페이지를 찾을 수 없기때문에 리다이렉트를 시켜 자동으로 /를 붙여서 경로를 찾는다.
 #이 경우 문제가 될 수 있기때문에 false로 값을 지정해줬다.
 
 # 아까 설치한 corsheaders로 해당 서버와 연결할 서버의 url을 작성해준모습
-CORS_ORIGIN_WHITELIST = ['https://52.78.112.199', 'https://j5d204.p.ssafy.io', 'https://localhost:3000', 'https://127.0.0.1']
+CORS_ORIGIN_WHITELIST = ['http://j5d204.p.ssafy.io', 'http://localhost:3000', 'http://127.0.0.1']
 
 # Application definition
 
@@ -69,7 +69,6 @@ INSTALLED_APPS = [
     'rest_framework_jwt', # 추가
     'corsheaders', # 추가
     'drf_yasg', # 추가
-    'sslserver', # 추가
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -188,9 +187,3 @@ EMAIL_HOST = my_settings.EMAIL['EMAIL_HOST']
 EMAIL_HOST_USER = my_settings.EMAIL['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = my_settings.EMAIL['EMAIL_HOST_PASSWORD']
 SERVER_EMAIL = my_settings.EMAIL['SERVER_EMAIL']
-
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
