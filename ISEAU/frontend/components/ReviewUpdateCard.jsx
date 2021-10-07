@@ -190,7 +190,8 @@ const ReviewUpdateCard = () => {
   ) : (
     <div className="my-2  p-2  ">
       <div className="flex flex-row  w-[350px]">
-        <Avatar className="post-avatar" /> {/* 로그인한 사용자 이미지로 수정필요 */}
+        <Avatar className="post-avatar" src={review.profileimg} />
+        {/* 로그인한 사용자 이미지로 수정필요 */}
         <p className="grid-rows-2">
           <p className="pl-2 text-sm ">{user.nickname}</p>
           <p className="pl-2 text-sm ">

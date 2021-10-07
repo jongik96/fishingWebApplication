@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/dist/client/router";
+import axios from "axios";
+
 import Image from "next/image";
 import { StarIcon } from "@heroicons/react/solid";
 import img from "../img/loc.jpeg";
+import * as detailPointActions from "../store/modules/detailPoint";
+
 const RecommendCard = ({ id, fishingimg, pointName, address, rating, category }) => {
   console.log(fishingimg);
   console.log(id);
+  const router = useRouter();
+  const detailPoint = async () => {
+    const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
+    setDetailPoint(response.data[0]);
+    router.push({
+      pathname: "/DetailPoint",
+    });
+  };
+  // id값으로 detailpoint 상태값 저장
+  const dispatch = useDispatch();
+  const setDetailPoint = useCallback(
+    (value) => {
+      dispatch(detailPointActions.setDetailPoint(value));
+    },
+    [dispatch]
+  );
   return (
-    <div className="sm:w-[372px] cursor-pointer hover:opacity-70 hover:shadow-lg transition duration-300 ease-out">
+    <div
+      className="sm:w-[372px] cursor-pointer hover:opacity-70 hover:shadow-lg transition duration-300 ease-out"
+      onClick={detailPoint}
+    >
       <div className="relative h-80 w-[372px]">
         <Image
           // fishingimg === 낫파운드면, 낫파운드 이미지 보여주고, 그게 아닐경우에 fhishingimg === REF!면

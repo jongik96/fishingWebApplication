@@ -131,7 +131,7 @@ const ReviewWriteCard = () => {
   return (
     <div className="my-2  p-2  ">
       <div className="flex flex-row  w-[350px]">
-        <Avatar className="post-avatar" />
+        <Avatar className="post-avatar" src={review.profileimg} />
         <p className="grid-rows-2">
           <p className="pl-2 text-sm ">{user.nickname}</p>
           {/* 로그인한 사용자 닉네임으로 수정필요 */}
