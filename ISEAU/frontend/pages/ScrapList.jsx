@@ -40,6 +40,7 @@ const ScrapList = () => {
                   <div className="my-5 px-9 w-full overflow-hidden md:my-2 md:px-2 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/2 xl:my-2 xl:px-2 xl:w-1/3">
                     <RecommendCard
                       key={id}
+                      id={id}
                       fishingimg={fishingImg}
                       pointname={pointname}
                       address={address}

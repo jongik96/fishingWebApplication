@@ -307,7 +307,11 @@ const DetailPoint = () => {
             <div className="flex flex-row lg:w-2/5 space-x-1 mb-1 h-[500px] lg:h-auto">
               <div className="relative w-full flex-shrink-0 ">
                 <Image
-                  src={`/assets/img/${point.fishingImg?.slice(7)}`}
+                  src={
+                    point && point.fishingImg === "../img/imgnotfound.png"
+                      ? `/assets/img/imgnotfound.png`
+                      : `/assets/img/${point && point.id}.png`
+                  }
                   layout="fill"
                   objectFit="cover"
                   className="rounded-2xl"
