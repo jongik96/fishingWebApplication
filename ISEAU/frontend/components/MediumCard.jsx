@@ -9,7 +9,7 @@ const MediumCard = ({ img, title }) => {
   const [titleCategory, setTitleCategory] = useState(4);
   const uid = useSelector((state) => state.user.id);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (title === "모두 보기") setTitleCategory(2);
     if (title === "갯바위 낚시") setTitleCategory(1);
     if (title === "선상 낚시") setTitleCategory(0);

@@ -9,8 +9,6 @@ import img from "../img/loc.jpeg";
 import * as detailPointActions from "../store/modules/detailPoint";
 
 const RecommendCard = ({ id, fishingimg, pointName, address, rating, category }) => {
-  console.log(fishingimg);
-  console.log(id);
   const router = useRouter();
   const detailPoint = async () => {
     const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
@@ -45,7 +43,7 @@ const RecommendCard = ({ id, fishingimg, pointName, address, rating, category })
         />
       </div>
       <div className="mt-2">
-        <p className="text-sm font-bold text-blue-500 ">[{category === 0 ? "갯바위" : "선상"}]</p>
+        <p className="text-sm font-bold text-blue-500 ">[{category === 0 ? "선상" : "갯바위"}]</p>
       </div>
       <div className="flex justify-between mt-1">
         <h3 className="text-1xl font-bold">

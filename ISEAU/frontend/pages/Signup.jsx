@@ -76,7 +76,6 @@ const Signup = () => {
     axios({
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/signup",
-      //url: 'http://127.0.0.1:8000/user/signup',
       data: {
         username: inputs.Email,
         email: inputs.Email,
@@ -87,7 +86,6 @@ const Signup = () => {
       },
     })
       .then(() => {
-        // console.log(inputs.Address, inputs.PhoneNumber)
         alert("회원가입 완료!");
         document.location.href = "/Login";
       })
@@ -99,16 +97,16 @@ const Signup = () => {
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/email/uniquecheck",
       //url: 'http://127.0.0.1:8000/user/email/uniquecheck',
-      data:{
-        email:inputs.Email,
-        
-      }
-    }).then(()=>{
-      alert("사용가능한 Email입니다.")
-    }).catch(()=>{
-      alert("이미 사용중인 Email 입니다.")
+      data: {
+        email: inputs.Email,
+      },
     })
-
+      .then(() => {
+        alert("사용가능한 Email입니다.");
+      })
+      .catch(() => {
+        alert("이미 사용중인 Email 입니다.");
+      });
   };
   // nickname 유효성검사
   const checkNickname = () => {
@@ -116,16 +114,16 @@ const Signup = () => {
       method: "post",
       url: "http://j5d204.p.ssafy.io:8000/user/nickname/uniquecheck",
       //url: 'http://127.0.0.1:8000/user/nickname/uniquecheck',
-      data:{
-        nickname:inputs.Nickname,
-        
-      }
-    }).then(()=>{
-      alert("사용가능한 Nickname입니다.")
-    }).catch(()=>{
-      alert("이미 사용중인 Nickname입니다.")
+      data: {
+        nickname: inputs.Nickname,
+      },
     })
-
+      .then(() => {
+        alert("사용가능한 Nickname입니다.");
+      })
+      .catch(() => {
+        alert("이미 사용중인 Nickname입니다.");
+      });
   };
   // 로그인페이지로 이동
 

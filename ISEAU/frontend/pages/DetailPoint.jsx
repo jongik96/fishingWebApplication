@@ -103,8 +103,6 @@ const DetailPoint = () => {
       method: "GET",
     })
       .then((response) => {
-        // console.log("in getIsScraped");
-        // console.log(response);
         let check = false;
         response.data.forEach((element) => {
           if (element.id === point.id) {
@@ -129,8 +127,6 @@ const DetailPoint = () => {
       method: "GET",
     })
       .then(async (response) => {
-        console.log("dd");
-        console.log(response);
         // 내가 쓴 글이 있는지 체크
         let check = true;
         if (response.status === 204) {
@@ -185,9 +181,7 @@ const DetailPoint = () => {
         Authorization: `JWT ${token}`,
       },
     })
-      .then((response) => {
-        // console.log(response);
-      })
+      .then((response) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -196,7 +190,6 @@ const DetailPoint = () => {
   // 리뷰 5개 렌더링
   const rendering = () => {
     const result = [];
-    console.log(reviewArr);
     if (reviewArr[0] === undefined) return;
     const size = Math.min(5, reviewArr[0].length);
     for (let i = 0; i < size; i++) {
@@ -221,7 +214,6 @@ const DetailPoint = () => {
       method: "get",
     })
       .then((response) => {
-        // console.log(response);
         temp = response.data.result.data.filter((value) => {
           return point.nearPointName == value.name;
         });
