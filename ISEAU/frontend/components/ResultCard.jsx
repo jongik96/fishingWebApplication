@@ -12,6 +12,7 @@ import "aos/dist/aos.css";
 
 const ResultCard = ({ id }) => {
   const [resultObj, setResultObj] = useState(null);
+  console.log("ㅁㅁㅁㅁㅁ", resultObj);
 
   // console.log(id);
   const router = useRouter();
@@ -21,7 +22,7 @@ const ResultCard = ({ id }) => {
     const response = await axios.get("http://j5d204.p.ssafy.io:8000/fishing/" + id);
     // console.log(response);
     setResultObj(response.data[0]);
-    // console.log("ㅁㅁㅁㅁㅁ", resultObj);
+
     // axios({
     //   url: "http://j5d204.p.ssafy.io:8000/fishing/" + id,
     //   method: "GET",
@@ -61,7 +62,12 @@ const ResultCard = ({ id }) => {
       {/* 사진 부분 */}
       <div className="relative h-24 w-40 md:h-52 md:w-80 flex-shrink-0">
         <Image
-          src={`/assets/img/${resultObj && resultObj.fishingImg.slice(7)}`}
+          src={
+            resultObj && resultObj.fishingImg === "../img/imgnotfound.png"
+              ? `/assets/img/imgnotfound.png`
+              : `/assets/img/${resultObj && resultObj.id}.png`
+          }
+          // src={notimg}
           layout="fill"
           objectFit="cover"
           className="rounded-2xl"

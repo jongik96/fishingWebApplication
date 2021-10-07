@@ -4,7 +4,7 @@ import { getCenter } from "geolib";
 
 const Map = ({ searchData }) => {
   const [clickedLocation, setClickedLocation] = useState({});
-  // console.log("맵 데이터들 : ", searchData);
+  console.log("맵 데이터들 : ", searchData);
 
   // 검색된 위치의 결과 객체를 {위도: ~~~ , 경도 : ~~~ } 처럼 바꾸는 작업
 
@@ -16,13 +16,14 @@ const Map = ({ searchData }) => {
   //   지도 중심부위 (처음 보여주는 곳) {위도, 경도} 객체로 변환
   //   지도 중심부위는 해당 지역의 모든 포인트들의 중심부라고 생각하면 됨.
   const center = getCenter(changing);
-
+  // 35.059143477969535, 127.77133763985432
   const [viewport, setViewport] = useState({
     width: "110%",
-    height: "1500px",
-    latitude: center.latitude,
-    longitude: center.longitude,
-    zoom: 7,
+    height: "1300px",
+    longitude: 127.77133763985432,
+    latitude: 35.059143477969535,
+
+    zoom: 6,
   });
   return (
     <ReactMapGL
