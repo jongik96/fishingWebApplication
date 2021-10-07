@@ -11,9 +11,9 @@ const RecommendCard = ({ id, fishingimg, pointName, address, rating, category })
         <Image
           // fishingimg === 낫파운드면, 낫파운드 이미지 보여주고, 그게 아닐경우에 fhishingimg === REF!면
           src={
-            fishingimg !== "../img/imgnotfound.png" || fishingimg === "#REF!"
-              ? `/assets/img/${id}.png`
-              : `/assets/img/imgnotfound.png`
+            fishingimg === "../img/imgnotfound.png"
+              ? `/assets/img/imgnotfound.png`
+              : `/assets/img/${id}.png`
           }
           layout="fill"
           className="rounded-xl"
