@@ -36,24 +36,4 @@ npm install
 npm run serve
 ```
 
-### data file
 
-- 기본 제공 데이터: 맛집 데이터
-
-  - 스켈레톤 폴더 내 포함
-
-- 추가 제공 데이터: 카드사 데이터
-
-  - 다운로드 링크: https://lab.ssafy.com/s05-bigdata-rec/card-data/-/blob/master/card-data.zip
-
-- ** SSAFY에서 제공하는 기업 데이터는 다른 목적으로 사용할 수 없으며, 데이터 원본의 외부 반출을 금합니다.**
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-### Jonghan
-=======
-..
->>>>>>> ebc897003ca9a62d9e4b48d71f67158306cf1509
-=======
-  ..
->>>>>>> 5cba485b218227db439a813c84d462eeb50913e2
